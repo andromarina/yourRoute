@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">transport</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_hint">Номер маршрута/улица</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    
+
+</resources>
