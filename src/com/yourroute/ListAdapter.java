@@ -26,7 +26,7 @@ public class ListAdapter extends ArrayAdapter<CarData> {
 		
 		if (item == null) {
 			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			item = inflater.inflate(R.layout.item, null);
+			item = inflater.inflate(R.layout.list_item, null);
 		}
 		CarData car = this.objects.get(position);
 		TextView name = (TextView) item.findViewById(R.id.name);

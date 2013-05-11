@@ -3,63 +3,45 @@ package com.yourroute;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 	private SearchView searchView;
+    private ArrayList<City> cities;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+        Preferences.initialize(getBaseContext(), this);
 
+        getActionBar().setDisplayShowTitleEnabled(false);
 		searchView = (SearchView) findViewById(R.id.searchView);
 		searchView.setIconifiedByDefault(false);
 
         Repository repository = new Repository(getContentResolver());
-        ArrayList<City> cities = repository.getCities();
+        this.cities = repository.getCities();
 
-        for (City city : cities) {
-            Log.i("Test", city.toString());
-        }
 
 //		ListView listViewMain = (ListView) findViewById(R.id.listViewMain);
 //
 //		ArrayList<CarData> data = loadData();
-//		ListAdapter adapterList = new ListAdapter(this, R.layout.item, data);
+//		ListAdapter adapterList = new ListAdapter(this, R.layout.list_item, data);
 //
 //		listViewMain.setAdapter(adapterList);
-//
-		
-//		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//
-//		ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
-//
-//			@Override
-//			public boolean onNavigationItemSelected(int itemPosition,
-//					long itemId) {
-//				Toast.makeText(getBaseContext(),
-//						"You selected : " + cities[itemPosition],
-//						Toast.LENGTH_SHORT).show();
-//				return false;
-//			}
-//		};
 
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-//
-//		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(getBaseContext(),
-//				R.layout.spinner,cities);
-//
-//		getActionBar().setListNavigationCallbacks(adapterSpinner, navigationListener);
+		SpinnerListener spinnerListener = new SpinnerListener(cities);
+
+		SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getBaseContext(), R.id.spinnerItem, cities);
+
+		getActionBar().setListNavigationCallbacks(spinnerAdapter, spinnerListener);
 	}
 
 //	protected ArrayList<CarData> loadData() {

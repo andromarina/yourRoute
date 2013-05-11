@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:id="@android:id/text1"
+    android:id="@+id/spinnerItem"
     android:singleLine="true"
     android:textColor="@android:color/white"
     android:textSize="20sp"
@@ -8,4 +8,5 @@
     android:layout_height="40dp"
     android:paddingLeft="5dp"
     android:paddingTop="4dp"
-    android:layout_marginTop="10dp"/>
+    android:paddingBottom="4dp"
+    />
