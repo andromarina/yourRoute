@@ -3,6 +3,7 @@ package com.yourroute;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -30,14 +31,14 @@ public class Preferences {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("CityId", cityId);
         ed.commit();
-        Toast.makeText(context, "City id saved", Toast.LENGTH_SHORT).show();
+        Log.i("Test", cityId + "City id saved");
     }
 
-    public static int loadCityId() {
+    public static int getSavedCityId() {
 
         sPref = activity.getPreferences(context.MODE_PRIVATE);
-        int savedCityId = sPref.getInt("CityId", 0);
-        Toast.makeText(context, "City id loaded", Toast.LENGTH_SHORT).show();
+        int savedCityId = sPref.getInt("CityId", 1);
+        Log.i("Test", savedCityId + "City id loaded");
         return savedCityId;
     }
 }
