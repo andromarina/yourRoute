@@ -19,11 +19,11 @@ import java.util.ArrayList;
  */
 public class SpinnerAdapter extends ArrayAdapter<City> {
 
-    private Repository repository;
+    private CitiesRepository citiesRepository;
 
-    public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<City> cities, Repository repository) {
+    public SpinnerAdapter(Context context, int textViewResourceId, ArrayList<City> cities, CitiesRepository citiesRepository) {
         super(context, textViewResourceId, cities);
-        this.repository = repository;
+        this.citiesRepository = citiesRepository;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SpinnerAdapter extends ArrayAdapter<City> {
             spinnerItem = inflater.inflate(R.layout.spinner_item, null);
         }
         int savedCityId = Preferences.getSavedCityId();
-        String cityName = repository.getCity(savedCityId).getName();
+        String cityName = citiesRepository.getCity(savedCityId).getName();
         Log.i("Test", "getView: cityName: " + cityName + ", position " + position);
         TextView spinnerItemText = (TextView) spinnerItem.findViewById(R.id.spinnerItem);
         spinnerItemText.setText(cityName);

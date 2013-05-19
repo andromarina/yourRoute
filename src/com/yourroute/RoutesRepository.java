@@ -10,33 +10,35 @@ import java.util.ArrayList;
 /**
  * Created with IntelliJ IDEA.
  * User: mara
- * Date: 5/6/13
- * Time: 5:02 PM
+ * Date: 5/19/13
+ * Time: 7:05 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Repository {
+public class RoutesRepository {
 
-    private final Uri CITIES_URI = Uri.parse("content://your.route.CitiesDB/Cities");
+    private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
     private final ContentResolver contentResolver;
 
-    public Repository(ContentResolver contentResolver) {
+    public RoutesRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 
 
-    public ArrayList<City> getCities() {
-        ArrayList<City> cities = new ArrayList<City>();
-        Cursor cursor = this.contentResolver.query(CITIES_URI, null, null, null, null);
+    public ArrayList<Route> getRoutes() {
+        ArrayList<Route> routes = new ArrayList<Route>();
+        Cursor cursor = this.contentResolver.query(ROUTES_URI, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            City city = new City(id, name);
-            cities.add(city);
+            int id = cursor.getInt(11);
+            String name = cursor.getString(9);
+            String startEnd = cursor.getString(5);
+            String type = cursor.getString(8);
+            Route route = new Route(id, name, type, startEnd);
+            routes.add(route);
             cursor.moveToNext();
         }
         cursor.close();
-        return cities;
+        return routes;
     }
 
     public City getCity(int cityId) {
@@ -50,3 +52,5 @@ public class Repository {
         return city;
     }
 }
+
+

@@ -16,14 +16,14 @@ public class MainActivity extends FragmentActivity {
 	private SearchView searchView;
     private ArrayList<City> cities;
     private TextView cityNameSettled;
-    private Repository repository;
+    private CitiesRepository citiesRepository;
 
     @Override
     protected void onStart() {
         super.onStart();
         this.cityNameSettled = (TextView) findViewById(R.id.city_name_settled);
         int savedCityId = Preferences.getSavedCityId();
-        String savedCityName = repository.getCity(savedCityId).getName();
+        String savedCityName = citiesRepository.getCity(savedCityId).getName();
         cityNameSettled.setText(savedCityName);
     }
 
@@ -35,8 +35,8 @@ public class MainActivity extends FragmentActivity {
 
         getActionBar().setDisplayShowTitleEnabled(false);
 
-        this.repository = new Repository(getContentResolver());
-        this.cities = repository.getCities();
+        this.citiesRepository = new CitiesRepository(getContentResolver());
+        this.cities = citiesRepository.getCities();
 
 //		ListView listViewMain = (ListView) findViewById(R.id.listViewMain);
 //
