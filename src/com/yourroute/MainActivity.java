@@ -34,9 +34,6 @@ public class MainActivity extends FragmentActivity {
         Preferences.initialize(getBaseContext(), this);
 
         getActionBar().setDisplayShowTitleEnabled(false);
-		searchView = (SearchView) findViewById(R.id.searchView);
-		searchView.setIconifiedByDefault(false);
-        searchView.setFocusable(false);
 
         this.repository = new Repository(getContentResolver());
         this.cities = repository.getCities();
