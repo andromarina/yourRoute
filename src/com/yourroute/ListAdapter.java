@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ListAdapter extends ArrayAdapter<CarData> {
-    private List<CarData> objects;
+public class ListAdapter extends ArrayAdapter<Route> {
+    private List<Route> objects;
 	
-	public ListAdapter(Context context, int textViewResourceId, List<CarData> objects) {		
+	public ListAdapter(Context context, int textViewResourceId, List<Route> objects) {
 		super(context, textViewResourceId, objects);
 		this.objects = objects;
 	}
@@ -28,13 +29,32 @@ public class ListAdapter extends ArrayAdapter<CarData> {
 			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			item = inflater.inflate(R.layout.list_item, null);
 		}
-		CarData car = this.objects.get(position);
+		Route route = this.objects.get(position);
 		TextView name = (TextView) item.findViewById(R.id.name);
-		name.setText(car.Name);
-		TextView carType = (TextView) item.findViewById(R.id.carType);
-		carType.setText(car.CarType);
+		name.setText(route.getName());
 		TextView startEnd = (TextView) item.findViewById(R.id.startEnd);
-		startEnd.setText(car.StartEnd);		
+		startEnd.setText(route.getStartEnd());
+        ImageView carType = (ImageView) item.findViewById(R.id.carTypeImage);
+        int carTypeId = route.getType().getId();
+        switch (carTypeId) {
+            case 1:
+                carType.setImageResource(R.drawable.ic_bus);
+                break;
+            case 2:
+               carType.setImageResource(R.drawable.ic_trolley);
+                break;
+            case 3:
+               carType.setImageResource(R.drawable.ic_tram);
+                break;
+            case 4:
+                carType.setImageResource(R.drawable.ic_minibus);
+                break;
+            case 5:
+                carType.setImageResource(R.drawable.ic_bus);
+                break;
+        }
+
+
 		item.setBackgroundColor(colors[position % 2]);
 		
 		return item;

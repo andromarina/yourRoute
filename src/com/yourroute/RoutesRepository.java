@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class RoutesRepository {
 
     private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
+    private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
 
     public RoutesRepository(ContentResolver contentResolver) {
@@ -26,31 +27,52 @@ public class RoutesRepository {
 
     public ArrayList<Route> getRoutes() {
         ArrayList<Route> routes = new ArrayList<Route>();
-        Cursor cursor = this.contentResolver.query(ROUTES_URI, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int id = cursor.getInt(11);
-            String name = cursor.getString(9);
-            String startEnd = cursor.getString(5);
-            String type = cursor.getString(8);
+        Cursor routesCursor = this.contentResolver.query(ROUTES_URI, null, null, null, null);
+        routesCursor.moveToFirst();
+        while (!routesCursor.isAfterLast()) {
+            int id = routesCursor.getInt(11);
+            String name = routesCursor.getString(9);
+            String startEnd = routesCursor.getString(5);
+            int carTypeId = routesCursor.getInt(8);
+
+            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId) ;
+            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
+            carTypesCursor.moveToFirst();
+            String carTypeName = carTypesCursor.getString(0);
+            CarType type = new CarType(carTypeId, carTypeName);
+
             Route route = new Route(id, name, type, startEnd);
             routes.add(route);
-            cursor.moveToNext();
+            routesCursor.moveToNext();
+            carTypesCursor.close();
         }
-        cursor.close();
+
+        routesCursor.close();
         return routes;
     }
 
-    public City getCity(int cityId) {
-        String query = String.format("%s/%d", CITIES_URI.toString(), cityId);
-        Log.i("Test", "getCity query" + query);
-        Cursor cursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
-        cursor.moveToFirst();
-        String name = cursor.getString(1);
-        City city = new City(cityId, name);
-        cursor.close();
-        return city;
+    public Route getRoute(int routeId) {
+        String query = String.format("%s/%d", ROUTES_URI.toString(), routeId);
+        Log.i("Test", "getRoute query" + query);
+        Cursor routesCursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
+        routesCursor.moveToFirst();
+        int id = routesCursor.getInt(11);
+        String name = routesCursor.getString(9);
+        String startEnd = routesCursor.getString(5);
+        int carTypeId = routesCursor.getInt(8);
+
+        String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId) ;
+        Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
+        carTypesCursor.moveToFirst();
+        String carTypeName = carTypesCursor.getString(0);
+        CarType type = new CarType(carTypeId, carTypeName);
+
+        Route route = new Route(id, name, type, startEnd);
+        carTypesCursor.close();
+        routesCursor.close();
+        return route;
     }
+
 }
 
 

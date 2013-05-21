@@ -4,9 +4,11 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<City> cities;
     private TextView cityNameSettled;
     private CitiesRepository citiesRepository;
+    private RoutesRepository routesRepository;
 
     @Override
     protected void onStart() {
@@ -29,21 +32,32 @@ public class MainActivity extends FragmentActivity {
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
         Preferences.initialize(getBaseContext(), this);
+
+        this.routesRepository = new RoutesRepository(getContentResolver());
+        ArrayList<Route> routes =  this.routesRepository.getRoutes();
+        for (int i = 0; i < routes.size(); ++i) {
+            Log.i("Test", "i = " + i + " " + routes.get(i).toString());
+        }
+
 
         getActionBar().setDisplayShowTitleEnabled(false);
 
         this.citiesRepository = new CitiesRepository(getContentResolver());
         this.cities = citiesRepository.getCities();
 
-//		ListView listViewMain = (ListView) findViewById(R.id.listViewMain);
-//
-//		ArrayList<CarData> data = loadData();
-//		ListAdapter adapterList = new ListAdapter(this, R.layout.list_item, data);
-//
-//		listViewMain.setAdapter(adapterList);
+		ListView listViewMain = (ListView) findViewById(R.id.listViewMain);
+
+		ListAdapter adapterList = new ListAdapter(this, R.layout.list_item, routes);
+
+		listViewMain.setAdapter(adapterList);
         getActionBar().setCustomView(R.layout.city_name_indicator);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);

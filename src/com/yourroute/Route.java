@@ -12,39 +12,14 @@ package com.yourroute;
 public class Route {
     private final int id;
     private final String name;
-    private final carType type;
+    private final CarType type;
     private final String startEnd;
 
-    public Route (int id, String name, carType type, String startEnd ) {
+    public Route (int id, String name, CarType type, String startEnd ) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.startEnd = startEnd;
-    }
-
-    public enum carType {
-        BUS (1),
-        TROLLEYBUS {
-            public String toString() {
-               return "Троллейбус";
-            }
-        },
-        TRAM {
-            public String toString() {
-                return "Трамвай";
-            }
-        },
-        MINIBUS {
-             public String toString() {
-                 return "Маршрутка";
-             }
-        },
-        SHUTTLEBUS {
-             public String toString() {
-                 return "Пригородный";
-             }
-        }
-
     }
 
     public int getId() {
@@ -55,7 +30,7 @@ public class Route {
         return this.name;
     }
 
-    public carType getType() {
+    public CarType getType() {
         return this.type;
     }
 
@@ -63,11 +38,10 @@ public class Route {
         return this.startEnd;
     }
 
-    public carType stringToCarType(String s) {
-        if (s == "Автобус") {
-           return carType.BUS;
-        }
-
-
+    @Override
+    public String toString() {
+        return String.format("[%d] %s %s %s", this.id, this.name, this.getType().toString(), this.startEnd);
     }
+
+
 }
