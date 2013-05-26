@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
 
-    <ListView
-            android:id="@+id/listViewMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-    </ListView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-</LinearLayout>
+        <ListView
+                android:id="@+id/listViewMain"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent" android:layout_alignParentBottom="true"
+                android:layout_marginTop="50dp">
+        </ListView>
+
+
+    <LinearLayout
+            android:id="@+id/filtersPanel"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top|left"
+            android:background="#404040" android:orientation="horizontal"
+            android:layout_alignParentTop="true">
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:hint="Street name"
+                android:id="@+id/streetNameFilter"
+                android:layout_marginLeft="5dp" android:layout_marginTop="5dp"
+                android:textColorHint="@android:color/white" android:textColor="@android:color/white"
+                android:singleLine="true" android:inputType="text" android:shadowColor="@android:color/white"
+                android:focusable="true" android:enabled="true"/>
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_weight="3"
+                android:hint="№"
+                android:id="@+id/routeNumber"
+                android:layout_marginLeft="5dp" android:layout_marginBottom="5dp" android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp" android:textColorHint="@android:color/white"
+                android:textColorHighlight="@android:color/white" android:textColor="@android:color/white"
+                android:singleLine="true" android:maxLength="7" android:inputType="text"/>
+    </LinearLayout>
+
+</RelativeLayout>

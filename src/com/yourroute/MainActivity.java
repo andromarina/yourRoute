@@ -19,26 +19,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
-    private ArrayList<City> cities;
     private Button cityNameButton;
-    private CitiesRepository citiesRepository;
+    private ListView listViewMain;
+    private MainActivityController mainActivityController;
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        this.cityNameButton = (Button) findViewById(R.id.city_name_button);
-        int savedCityId = Preferences.getSavedCityId();
-        String savedCityName = citiesRepository.getCity(savedCityId).getName();
-        cityNameButton.setText(savedCityName);
-        View.OnClickListener oclCityNameBtn = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCityChoiceDialog();
-            }
-        };
-        cityNameButton.setOnClickListener(oclCityNameBtn);
-
+        this.mainActivityController.initialize();
     }
 
     @Override
@@ -46,32 +35,26 @@ public class MainActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Preferences.initialize(getBaseContext(), this);
-
-        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        int savedCityId = Preferences.getSavedCityId();
-        ArrayList<Route> routes = routesRepository.getRoutesByCityID(savedCityId);
 
         getActionBar().setDisplayShowTitleEnabled(false);
-
-        this.citiesRepository = new CitiesRepository(getContentResolver());
-        this.cities = citiesRepository.getCities();
-
-        ListView listViewMain = (ListView) findViewById(R.id.listViewMain);
-
-        ListAdapter adapterList = new ListAdapter(this, R.layout.list_item, routes);
-
-        listViewMain.setAdapter(adapterList);
         getActionBar().setCustomView(R.layout.city_name_indicator);
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-                | ActionBar.DISPLAY_SHOW_HOME);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
+        this.cityNameButton = (Button) findViewById(R.id.city_name_button);
+        this.listViewMain = (ListView) findViewById(R.id.listViewMain);
+
+        CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
+        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
+        this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository);
     }
 
-    protected void showCityChoiceDialog() {
-
-        FragmentManager fm = getSupportFragmentManager();
-        CitiesChoiceDialog cityChoiceDialog = new CitiesChoiceDialog(this, this.cities, this.cityNameButton);
-        cityChoiceDialog.show(fm, "CityChoiceDialog");
+    public Button getCityNameButton() {
+        return this.cityNameButton;
     }
+
+    public ListView getRoutesListView() {
+        return this.listViewMain;
+    }
+
+
 }

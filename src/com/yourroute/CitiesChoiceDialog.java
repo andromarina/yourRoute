@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +28,13 @@ public class CitiesChoiceDialog extends DialogFragment {
 
     private Context context;
     private ArrayList<City> cities;
-    private TextView textView;
+    private DialogInterface.OnClickListener listener;
 
-    public CitiesChoiceDialog(Context context, ArrayList<City> cities, TextView textView) {
+    public CitiesChoiceDialog(Context context, ArrayList<City> cities, DialogInterface.OnClickListener listener) {
 
         this.context = context;
         this.cities = cities;
-        this.textView = textView;
+        this.listener = listener;
     }
 
     @Override
@@ -42,10 +43,13 @@ public class CitiesChoiceDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         builder.setTitle(com.yourroute.R.string.select_city_list_title);
         CityListAdapter adapter = new CityListAdapter(context, com.yourroute.R.id.city_name, this.cities);
-        CitiesListListener listener = new CitiesListListener(cities, textView);
+
         builder.setSingleChoiceItems(adapter, -1,listener);
 
       return builder.create();
      }
+
+
+
 
 }
