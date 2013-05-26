@@ -41,7 +41,7 @@ public class CitiesChoiceDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         builder.setTitle(com.yourroute.R.string.select_city_list_title);
-        CityListAdapter adapter = new CityListAdapter(context, com.yourroute.R.id.city_name, cities);
+        CityListAdapter adapter = new CityListAdapter(context, com.yourroute.R.id.city_name, this.cities);
         CitiesListListener listener = new CitiesListListener(cities, textView);
         builder.setSingleChoiceItems(adapter, -1,listener);
 

@@ -22,7 +22,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<City> cities;
     private Button cityNameButton;
     private CitiesRepository citiesRepository;
-    private RoutesRepository routesRepository;
+
 
     @Override
     protected void onStart() {
@@ -48,9 +48,9 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         Preferences.initialize(getBaseContext(), this);
 
-        this.routesRepository = new RoutesRepository(getContentResolver());
-        ArrayList<Route> routes = this.routesRepository.getRoutes();
-
+        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
+        int savedCityId = Preferences.getSavedCityId();
+        ArrayList<Route> routes = routesRepository.getRoutesByCityID(savedCityId);
 
         getActionBar().setDisplayShowTitleEnabled(false);
 
@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
     protected void showCityChoiceDialog() {
 
         FragmentManager fm = getSupportFragmentManager();
-        CitiesChoiceDialog cityChoiceDialog = new CitiesChoiceDialog(this, cities, this.cityNameButton);
+        CitiesChoiceDialog cityChoiceDialog = new CitiesChoiceDialog(this, this.cities, this.cityNameButton);
         cityChoiceDialog.show(fm, "CityChoiceDialog");
     }
 }

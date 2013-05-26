@@ -33,5 +33,6 @@ public class CitiesListListener implements DialogInterface.OnClickListener {
         int cityId = cities.get(which).getId();
         Preferences.saveCityId(cityId);
         dialog.dismiss();
+
     }
 }
