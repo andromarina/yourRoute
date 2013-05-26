@@ -1,6 +1,5 @@
 package com.yourroute;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import com.yourroute.model.CitiesRepository;
+import com.yourroute.model.City;
+import com.yourroute.model.Route;
+import com.yourroute.model.RoutesRepository;
 
 import java.util.ArrayList;
 
@@ -39,13 +42,13 @@ public class MainActivityController {
         int savedCityId = Preferences.getSavedCityId();
 
         initializeCityNameButton(savedCityId);
-        initializeRoutesListView(savedCityId);
+        refreshRouteListView(savedCityId);
     }
 
     private void showCityChoiceDialog() {
 
         FragmentManager fm = this.activity.getSupportFragmentManager();
-        cities = citiesRepository.getCities();
+        this.cities = this.citiesRepository.getCities();
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -66,13 +69,16 @@ public class MainActivityController {
         activity.getCityNameButton().setText(name);
         int cityId = cities.get(which).getId();
         Preferences.saveCityId(cityId);
+        this.refreshRouteListView(cityId);
     }
 
-    private void initializeRoutesListView(int savedCityId) {
+    private void refreshRouteListView(int savedCityId) {
 
         ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
-        ListView listViewMain = activity.getRoutesListView();
-        ListAdapter adapterList = new ListAdapter(context, R.layout.list_item, routes);
+        ListView listViewMain = activity.getRouteListView();
+        RouteListAdapter adapterList = new RouteListAdapter(context, R.layout.route_list_item, routes);
+        FilterTextWatcher filterTextWatcher = new FilterTextWatcher(adapterList);
+        activity.getRouteFilterEdit().addTextChangedListener(filterTextWatcher);
         listViewMain.setAdapter(adapterList);
     }
 

@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.yourroute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;

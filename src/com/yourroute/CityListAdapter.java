@@ -2,12 +2,12 @@ package com.yourroute;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.yourroute.model.City;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class CityListAdapter extends ArrayAdapter<City> {
 
         if (item == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            item = inflater.inflate(R.layout.city_item, null);
+            item = inflater.inflate(R.layout.city_list_item, null);
         }
         City city = this.objects.get(position);
         TextView name = (TextView) item.findViewById(R.id.city_name);

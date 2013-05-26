@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.yourroute.model;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,26 +1,19 @@
 package com.yourroute;
 
 import android.app.ActionBar;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+import com.yourroute.model.CitiesRepository;
+import com.yourroute.model.RoutesRepository;
 
 public class MainActivity extends FragmentActivity {
 
     private Button cityNameButton;
     private ListView listViewMain;
+    private EditText routeFilterEdit;
     private MainActivityController mainActivityController;
 
 
@@ -37,11 +30,12 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setCustomView(R.layout.city_name_indicator);
+        getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
         this.listViewMain = (ListView) findViewById(R.id.listViewMain);
+        this.routeFilterEdit = (EditText) findViewById(R.id.routeNumber);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
@@ -52,8 +46,12 @@ public class MainActivity extends FragmentActivity {
         return this.cityNameButton;
     }
 
-    public ListView getRoutesListView() {
+    public ListView getRouteListView() {
         return this.listViewMain;
+    }
+
+    public EditText getRouteFilterEdit() {
+        return this.routeFilterEdit;
     }
 
 

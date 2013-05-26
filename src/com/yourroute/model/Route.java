@@ -1,4 +1,6 @@
-package com.yourroute;
+package com.yourroute.model;
+
+import com.yourroute.model.CarType;
 
 /**
  * Created with IntelliJ IDEA.

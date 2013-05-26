@@ -1,9 +1,11 @@
-package com.yourroute;
+package com.yourroute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import com.yourroute.model.CarType;
+import com.yourroute.model.Route;
 
 import java.util.ArrayList;
 
