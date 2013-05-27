@@ -1,11 +1,7 @@
 package com.yourroute;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.yourroute.model.Route;
 
+import java.util.ArrayList;
+
 public class RouteListAdapter extends ArrayAdapter<Route> {
     private ArrayList<Route> routes;
     private String LOG_TAG = "RouteListAdapter";
+    private RoutesFilter filter;
 
     public RouteListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes) {
         super(context, textViewResourceId, routes);
@@ -65,8 +64,11 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
         return item;
     }
 
+    @Override
     public Filter getFilter() {
-        RoutesFilter filter = new RoutesFilter(this);
+        if (this.filter == null) {
+            this.filter = new RoutesFilter(this);
+        }
         return filter;
     }
 

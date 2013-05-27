@@ -19,11 +19,10 @@ public class RoutesFilter extends Filter {
     private String LOG_TAG = "RoutesFilter";
     private final static Object lockObj = new Object();
 
-    public RoutesFilter (RouteListAdapter adapter) {
+    public RoutesFilter(RouteListAdapter adapter) {
 
         this.adapter = adapter;
     }
-
 
     @SuppressWarnings("unchecked")
     @Override
