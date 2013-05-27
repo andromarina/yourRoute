@@ -1,6 +1,5 @@
 package com.yourroute;
 
-import android.util.Log;
 import android.widget.Filter;
 import com.yourroute.model.Route;
 
@@ -29,24 +28,19 @@ public class RoutesFilter extends Filter {
     @SuppressWarnings("unchecked")
     @Override
     protected void publishResults(CharSequence constraint, FilterResults toReturn) {
-
-        adapter.filteredRoutesArray = (ArrayList<Route>) toReturn.values;
+        ArrayList<Route> temp = (ArrayList<Route>) toReturn.values;
 
         adapter.notifyDataSetChanged();
         adapter.clear();
-        for (int i = 0, l = adapter.filteredRoutesArray.size(); i < l; i++) {
-            adapter.add(adapter.filteredRoutesArray.get(i));
-        }
+        adapter.addAll(temp);
         adapter.notifyDataSetInvalidated();
     }
 
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
-        Log.i(LOG_TAG, "routes before filtering " + this.adapter.getCount());
         FilterResults toReturn = new FilterResults();
         synchronized (lockObj) {
             if (constraint != null && constraint.toString().length() > 0) {
-                Log.i(LOG_TAG, "constraint is " + constraint);
                 ArrayList<Route> filteredItems = new ArrayList<Route>();
 
                 for (int i = 0, l = this.allRoutes.size(); i < l; i++) {
@@ -55,13 +49,11 @@ public class RoutesFilter extends Filter {
                         filteredItems.add(r);
                 }
                 toReturn.count = filteredItems.size();
-                Log.i(LOG_TAG, "to return matched " + filteredItems.size());
                 toReturn.values = filteredItems;
             } else {
 
                 toReturn.values = this.allRoutes;
                 toReturn.count = this.allRoutes.size();
-                Log.i(LOG_TAG, "to return string empty " + toReturn.count);
             }
         }
         return toReturn;

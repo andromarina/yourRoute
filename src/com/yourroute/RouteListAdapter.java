@@ -17,13 +17,10 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
 
     private String LOG_TAG = "RouteListAdapter";
     private RoutesFilter filter;
-    protected ArrayList<Route> filteredRoutesArray;
-
 
     public RouteListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes) {
         super(context, textViewResourceId, routes);
-        this.filteredRoutesArray = new ArrayList<Route>();
-        filteredRoutesArray.addAll(routes);
+
         this.filter = new RoutesFilter(this, routes);
     }
 
@@ -37,7 +34,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(R.layout.route_list_item, null);
         }
-        Route route = this.filteredRoutesArray.get(position);
+        Route route = super.getItem(position);
         TextView name = (TextView) item.findViewById(R.id.name);
         name.setText(route.getName());
         TextView startEnd = (TextView) item.findViewById(R.id.startEnd);
