@@ -14,13 +14,17 @@ import com.yourroute.model.Route;
 import java.util.ArrayList;
 
 public class RouteListAdapter extends ArrayAdapter<Route> {
-    private ArrayList<Route> routes;
+
     private String LOG_TAG = "RouteListAdapter";
     private RoutesFilter filter;
+    protected ArrayList<Route> filteredRoutesArray;
+
 
     public RouteListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes) {
         super(context, textViewResourceId, routes);
-        this.routes = routes;
+        this.filteredRoutesArray = new ArrayList<Route>();
+        filteredRoutesArray.addAll(routes);
+        this.filter = new RoutesFilter(this, routes);
     }
 
     @Override
@@ -33,7 +37,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(R.layout.route_list_item, null);
         }
-        Route route = this.routes.get(position);
+        Route route = this.filteredRoutesArray.get(position);
         TextView name = (TextView) item.findViewById(R.id.name);
         name.setText(route.getName());
         TextView startEnd = (TextView) item.findViewById(R.id.startEnd);
@@ -57,8 +61,6 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
                 carType.setImageResource(R.drawable.ic_bus);
                 break;
         }
-
-
         item.setBackgroundColor(colors[position % 2]);
 
         return item;
@@ -66,13 +68,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
 
     @Override
     public Filter getFilter() {
-        if (this.filter == null) {
-            this.filter = new RoutesFilter(this);
-        }
         return filter;
     }
 
-    public ArrayList<Route> getRoutes() {
-        return this.routes;
-    }
 }

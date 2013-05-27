@@ -15,12 +15,14 @@ import java.util.ArrayList;
  */
 public class RoutesFilter extends Filter {
 
-    private RouteListAdapter adapter;
+    private final RouteListAdapter adapter;
     private String LOG_TAG = "RoutesFilter";
     private final static Object lockObj = new Object();
+    private ArrayList<Route> allRoutes;
 
-    public RoutesFilter(RouteListAdapter adapter) {
-
+    public RoutesFilter(RouteListAdapter adapter, ArrayList<Route> routes) {
+        this.allRoutes = new ArrayList<Route>();
+        this.allRoutes.addAll(routes);
         this.adapter = adapter;
     }
 
@@ -28,12 +30,12 @@ public class RoutesFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint, FilterResults toReturn) {
 
-        ArrayList<Route> filteredRoutesArray = (ArrayList<Route>) toReturn.values;
+        adapter.filteredRoutesArray = (ArrayList<Route>) toReturn.values;
 
         adapter.notifyDataSetChanged();
         adapter.clear();
-        for (int i = 0, l = filteredRoutesArray.size(); i < l; i++) {
-            adapter.add(filteredRoutesArray.get(i));
+        for (int i = 0, l = adapter.filteredRoutesArray.size(); i < l; i++) {
+            adapter.add(adapter.filteredRoutesArray.get(i));
         }
         adapter.notifyDataSetInvalidated();
     }
@@ -41,23 +43,25 @@ public class RoutesFilter extends Filter {
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         Log.i(LOG_TAG, "routes before filtering " + this.adapter.getCount());
-        final FilterResults toReturn = new FilterResults();
+        FilterResults toReturn = new FilterResults();
         synchronized (lockObj) {
             if (constraint != null && constraint.toString().length() > 0) {
                 Log.i(LOG_TAG, "constraint is " + constraint);
                 ArrayList<Route> filteredItems = new ArrayList<Route>();
 
-                for (int i = 0, l = this.adapter.getCount(); i < l; i++) {
-                    Route r = this.adapter.getItem(i);
+                for (int i = 0, l = this.allRoutes.size(); i < l; i++) {
+                    Route r = this.allRoutes.get(i);
                     if (r.getName().toLowerCase().contains(constraint))
                         filteredItems.add(r);
                 }
                 toReturn.count = filteredItems.size();
+                Log.i(LOG_TAG, "to return matched " + filteredItems.size());
                 toReturn.values = filteredItems;
             } else {
 
-                toReturn.values = this.adapter.getRoutes();
-                toReturn.count = this.adapter.getCount();
+                toReturn.values = this.allRoutes;
+                toReturn.count = this.allRoutes.size();
+                Log.i(LOG_TAG, "to return string empty " + toReturn.count);
             }
         }
         return toReturn;
