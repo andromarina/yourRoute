@@ -3,9 +3,11 @@ package com.yourroute;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.City;
@@ -28,6 +30,7 @@ public class MainActivityController {
     private CitiesRepository citiesRepository;
     private RoutesRepository routesRepository;
     private ArrayList<City> cities;
+    RouteListAdapter adapter;
 
     public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository, RoutesRepository routesRepository) {
         this.context = context;
@@ -43,6 +46,11 @@ public class MainActivityController {
 
         initializeCityNameButton(savedCityId);
         refreshRouteListView(savedCityId);
+    }
+
+    public void restoreActions(EditText editText) {
+        Editable savedFilterValue = editText.getEditableText();
+        adapter.getFilter().filter(savedFilterValue);
     }
 
     private void showCityChoiceDialog() {
@@ -76,10 +84,10 @@ public class MainActivityController {
 
         ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
         ListView listViewMain = activity.getRouteListView();
-        RouteListAdapter adapterList = new RouteListAdapter(context, R.layout.route_list_item, routes);
-        FilterTextWatcher filterTextWatcher = new FilterTextWatcher(adapterList);
-        activity.getRouteFilterEdit().addTextChangedListener(filterTextWatcher);
-        listViewMain.setAdapter(adapterList);
+        adapter = new RouteListAdapter(context, R.layout.route_list_item, routes);
+        RouteTextWatcher routeTextWatcher = new RouteTextWatcher(adapter);
+        activity.getRouteFilterEdit().addTextChangedListener(routeTextWatcher);
+        listViewMain.setAdapter(adapter);
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -96,5 +104,6 @@ public class MainActivityController {
         };
         cityNameButton.setOnClickListener(oclCityNameBtn);
     }
+
 
 }

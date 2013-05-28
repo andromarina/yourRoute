@@ -1,5 +1,6 @@
 package com.yourroute;
 
+import android.util.Log;
 import android.widget.Filter;
 import com.yourroute.model.Route;
 
@@ -33,7 +34,8 @@ public class RoutesFilter extends Filter {
         adapter.notifyDataSetChanged();
         adapter.clear();
         adapter.addAll(temp);
-        adapter.notifyDataSetInvalidated();
+        //   adapter.notifyDataSetInvalidated();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -41,11 +43,12 @@ public class RoutesFilter extends Filter {
         FilterResults toReturn = new FilterResults();
         synchronized (lockObj) {
             if (constraint != null && constraint.toString().length() > 0) {
+                Log.i(LOG_TAG, "constraint: " + constraint);
                 ArrayList<Route> filteredItems = new ArrayList<Route>();
 
                 for (int i = 0, l = this.allRoutes.size(); i < l; i++) {
                     Route r = this.allRoutes.get(i);
-                    if (r.getName().toLowerCase().contains(constraint))
+                    if (r.getName().toLowerCase().contains(constraint.toString().toLowerCase()))
                         filteredItems.add(r);
                 }
                 toReturn.count = filteredItems.size();

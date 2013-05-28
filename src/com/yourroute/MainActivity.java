@@ -50,6 +50,12 @@ public class MainActivity extends FragmentActivity {
         return this.listViewMain;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainActivityController.restoreActions(routeFilterEdit);
+    }
+
     public EditText getRouteFilterEdit() {
         return this.routeFilterEdit;
     }

@@ -1,8 +1,6 @@
 package com.yourroute;
 
 import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.ArrayAdapter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,15 +9,15 @@ import android.widget.ArrayAdapter;
  * Time: 3:35 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FilterTextWatcher implements TextWatcher {
+public class RouteTextWatcher implements android.text.TextWatcher {
     public RouteListAdapter adapter;
 
-    public FilterTextWatcher(RouteListAdapter adapter) {
+    public RouteTextWatcher(RouteListAdapter adapter) {
         this.adapter = adapter;
     }
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-       // adapter.getFilter().filter(s);
+        // adapter.getFilter().filter(s);
     }
 
     @Override
