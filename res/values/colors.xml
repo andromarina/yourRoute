@@ -1,0 +1,7 @@
+<resources>
+
+    <!--MainActivity-->
+    <color name="filters_panel_background">#040012</color>
+    <color name="list_light">#F5F5F5</color>
+    <color name="list_grey">#E8E8E8</color>
+</resources>

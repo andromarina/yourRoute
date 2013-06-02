@@ -1,20 +1,23 @@
 <resources>
-
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <style name="customTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabBar">
+        <item name="android:tabStripLeft">@null</item>
+        <item name="android:tabStripRight">@null</item>
+        <item name="android:tabStripEnabled">false</item>
+        <item name="android:showDividers">none</item>
+        <item name="android:measureWithLargestChild">true</item>
+        <item name="android:background">@drawable/tab_line</item>
+        <item name="android:gravity">center</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="customTabBar" parent="@android:style/Widget.Holo">
+        <item name="android:showDividers">middle</item>
+        <item name="android:divider">@drawable/divider2</item>
+        <item name="android:dividerPadding">0dp</item>
+    </style>
+
+    <style name="LightThemeSelector" parent="android:Theme.Holo.Light">
+        <item name="android:actionBarTabStyle">@style/customTabStyle</item>
+        <item name="android:actionBarTabBarStyle">@style/customTabBar</item>
     </style>
 
 </resources>

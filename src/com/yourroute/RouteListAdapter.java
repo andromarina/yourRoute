@@ -37,7 +37,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
         Route route = super.getItem(position);
         TextView name = (TextView) item.findViewById(R.id.name);
         name.setText(route.getName());
-        TextView startEnd = (TextView) item.findViewById(R.id.startEnd);
+        TextView startEnd = (TextView) item.findViewById(R.id.start_end);
         startEnd.setText(route.getStartEnd());
         ImageView carType = (ImageView) item.findViewById(R.id.carTypeImage);
         int carTypeId = route.getType().getId();

@@ -5,41 +5,47 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-        <ListView
-                android:id="@+id/listViewMain"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent" android:layout_alignParentBottom="true"
-                android:layout_marginTop="50dp">
-        </ListView>
+    <ListView
+            android:id="@+id/listViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/filters_panel_height">
+    </ListView>
 
 
     <LinearLayout
             android:id="@+id/filtersPanel"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/filters_panel_height"
             android:layout_gravity="top|left"
-            android:background="#404040" android:orientation="horizontal"
+            android:background="@color/filters_panel_background"
+            android:orientation="horizontal"
             android:layout_alignParentTop="true">
         <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/edit_text_height"
                 android:layout_weight="1"
-                android:hint="Street name"
-                android:id="@+id/streetNameFilter"
-                android:layout_marginLeft="5dp" android:layout_marginTop="5dp"
-                android:textColorHint="@android:color/white" android:textColor="@android:color/white"
-                android:singleLine="true" android:inputType="text" android:shadowColor="@android:color/white"
-                android:focusable="true" android:enabled="true"/>
+                android:hint="@string/street_name_hint"
+                android:id="@+id/street_name_filter"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColorHint="@android:color/secondary_text_dark"
+                android:textColor="@android:color/white"
+                android:singleLine="true"
+                android:inputType="text"
+                android:focusable="true"
+                android:enabled="true" android:textStyle="italic"/>
         <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/edit_text_height"
                 android:layout_weight="3"
                 android:hint="№"
-                android:id="@+id/routeNumber"
+                android:id="@+id/route_number"
                 android:layout_marginLeft="5dp" android:layout_marginBottom="5dp" android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp" android:textColorHint="@android:color/white"
-                android:textColorHighlight="@android:color/white" android:textColor="@android:color/white"
-                android:singleLine="true" android:maxLength="7" android:inputType="text"/>
+                android:layout_marginRight="5dp" android:textColorHint="@android:color/secondary_text_dark"
+                android:textColor="@android:color/white"
+                android:singleLine="true" android:maxLength="7" android:inputType="text" android:textStyle="italic"/>
     </LinearLayout>
 
 </RelativeLayout>

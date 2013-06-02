@@ -1,47 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:orientation="horizontal" >
-
-   <LinearLayout
-       android:layout_width="80dp"
-       android:layout_height="match_parent"
-       android:layout_margin="5dp"
-       android:orientation="vertical">
-
-       <ImageView
-           android:id="@+id/carTypeImage"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center"
-
-            />
-
-   </LinearLayout>
-    
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/cell_height"
+              android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"        
-		android:layout_margin="5dp"  >
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/carTypeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:text="Автобус"
-            android:textSize="20sp" >
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/font_size">
 
         </TextView>
 
         <TextView
-            android:id="@+id/startEnd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"      
-            android:text="Петровка - ул.Александра Сабурова" >
+                android:id="@+id/start_end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
         </TextView>
     </LinearLayout>
 

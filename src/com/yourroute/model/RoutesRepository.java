@@ -4,8 +4,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import com.yourroute.model.CarType;
-import com.yourroute.model.Route;
 
 import java.util.ArrayList;
 
@@ -21,10 +19,16 @@ public class RoutesRepository {
     private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
     private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
-    private final static int CAR_TYPE_ID_COLUMN_INDEX = 8;
-    private final static int ROUTE_ID_COLUMN_INDEX = 11;
-    private final static int ROUTE_NAME_COLUMN_INDEX = 9;
+    private final static int ROUTE_DURATION_COLUMN_INDEX = 0;
+    private final static int ROUTE_LENGTH_COLUMN_INDEX = 1;
+    private final static int ROUTE_INTERVAL_COLUMN_INDEX = 2;
+    private final static int ROUTE_END_TIME_COLUMN_INDEX = 3;
+    private final static int ROUTE_START_TIME_COLUMN_INDEX = 4;
     private final static int START_END_COLUMN_NAME = 5;
+    private final static int CAR_TYPE_ID_COLUMN_INDEX = 8;
+    private final static int ROUTE_NAME_COLUMN_INDEX = 9;
+    private final static int ROUTE_ID_COLUMN_INDEX = 11;
+
     private final static int CAR_TYPE_NAME_COLUMN_INDEX = 0;
     private final static String CITY_ID_COLUMN_NAME = "CityId";
 
@@ -39,7 +43,7 @@ public class RoutesRepository {
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
             int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId) ;
+            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
             Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
             carTypesCursor.moveToFirst();
             Route route = createRoute(routesCursor, carTypesCursor);
@@ -58,7 +62,7 @@ public class RoutesRepository {
         routesCursor.moveToFirst();
         int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
 
-        String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId) ;
+        String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
         Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
         carTypesCursor.moveToFirst();
         Route route = createRoute(routesCursor, carTypesCursor);
@@ -74,7 +78,7 @@ public class RoutesRepository {
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
             int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId) ;
+            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
             Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
             carTypesCursor.moveToFirst();
             Route route = createRoute(routesCursor, carTypesCursor);
@@ -92,11 +96,16 @@ public class RoutesRepository {
         String name = routesCursor.getString(ROUTE_NAME_COLUMN_INDEX);
         String startEnd = routesCursor.getString(START_END_COLUMN_NAME);
         int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
+        String duration = routesCursor.getString(ROUTE_DURATION_COLUMN_INDEX);
+        String length = routesCursor.getString(ROUTE_LENGTH_COLUMN_INDEX);
+        String interval = routesCursor.getString(ROUTE_INTERVAL_COLUMN_INDEX);
+        String startTime = routesCursor.getString(ROUTE_START_TIME_COLUMN_INDEX);
+        String endTime = routesCursor.getString(ROUTE_END_TIME_COLUMN_INDEX);
 
         String carTypeName = carTypesCursor.getString(CAR_TYPE_NAME_COLUMN_INDEX);
         CarType type = new CarType(carTypeId, carTypeName);
 
-        Route route = new Route(id, name, type, startEnd);
+        Route route = new Route(id, name, type, startEnd, duration, length, interval, startTime, endTime);
         return route;
     }
 

@@ -1,7 +1,5 @@
 package com.yourroute.model;
 
-import com.yourroute.model.CarType;
-
 /**
  * Created with IntelliJ IDEA.
  * User: mara
@@ -16,12 +14,24 @@ public class Route {
     private final String name;
     private final CarType type;
     private final String startEnd;
+    private final String duration;
+    private final String length;
+    private final String interval;
+    private final String startTime;
+    private final String endTime;
 
-    public Route (int id, String name, CarType type, String startEnd ) {
+
+    public Route(int id, String name, CarType type, String startEnd, String duration,
+                 String length, String interval, String startTime, String endTime) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.startEnd = startEnd;
+        this.duration = duration;
+        this.length = length;
+        this.interval = interval;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getId() {
@@ -38,6 +48,26 @@ public class Route {
 
     public String getStartEnd() {
         return this.startEnd;
+    }
+
+    public String getDuration() {
+        return this.duration;
+    }
+
+    public String getLength() {
+        return this.length;
+    }
+
+    public String getInterval() {
+        return this.interval;
+    }
+
+    public String getStartTime() {
+        return this.startTime;
+    }
+
+    public String getEndTime() {
+        return this.endTime;
     }
 
     @Override

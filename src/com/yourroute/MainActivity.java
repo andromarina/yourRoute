@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity {
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
         this.listViewMain = (ListView) findViewById(R.id.listViewMain);
-        this.routeFilterEdit = (EditText) findViewById(R.id.routeNumber);
+        this.routeFilterEdit = (EditText) findViewById(R.id.route_number);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mainActivityController.restoreActions(routeFilterEdit);
+        mainActivityController.restoreActions();
     }
 
     public EditText getRouteFilterEdit() {

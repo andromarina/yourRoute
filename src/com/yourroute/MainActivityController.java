@@ -2,12 +2,13 @@ package com.yourroute;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.City;
@@ -41,16 +42,16 @@ public class MainActivityController {
 
     public void initialize() {
 
-        Preferences.initialize(context, activity);
+        Preferences.initialize(this.context, this.activity);
         int savedCityId = Preferences.getSavedCityId();
 
         initializeCityNameButton(savedCityId);
         refreshRouteListView(savedCityId);
     }
 
-    public void restoreActions(EditText editText) {
-        Editable savedFilterValue = editText.getEditableText();
-        adapter.getFilter().filter(savedFilterValue);
+    public void restoreActions() {
+        Editable savedFilterValue = this.activity.getRouteFilterEdit().getEditableText();
+        this.adapter.getFilter().filter(savedFilterValue);
     }
 
     private void showCityChoiceDialog() {
@@ -65,36 +66,46 @@ public class MainActivityController {
                 dialog.dismiss();
             }
         };
-        CitiesChoiceDialog cityChoiceDialog = new CitiesChoiceDialog(context, cities, listener);
+        CitiesChoiceDialog cityChoiceDialog = new CitiesChoiceDialog(this.context, this.cities, listener);
         cityChoiceDialog.show(fm, "CityChoiceDialog");
     }
 
     private void onCityChanged(int which) {
 
-        Log.i("Test", cities.get(which).getName() + " was selected");
-        String name = cities.get(which).getName();
+        Log.i("Test", this.cities.get(which).getName() + " was selected");
+        String name = this.cities.get(which).getName();
         Log.i("Test", "chosen city " + name);
         activity.getCityNameButton().setText(name);
-        int cityId = cities.get(which).getId();
+        int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
         this.refreshRouteListView(cityId);
     }
 
     private void refreshRouteListView(int savedCityId) {
 
-        ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
-        ListView listViewMain = activity.getRouteListView();
-        adapter = new RouteListAdapter(context, R.layout.route_list_item, routes);
-        RouteTextWatcher routeTextWatcher = new RouteTextWatcher(adapter);
-        activity.getRouteFilterEdit().addTextChangedListener(routeTextWatcher);
-        listViewMain.setAdapter(adapter);
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
+        ListView listViewMain = this.activity.getRouteListView();
+        this.adapter = new RouteListAdapter(this.context, R.layout.route_list_item, routes);
+        RouteTextWatcher routeTextWatcher = new RouteTextWatcher(this.adapter);
+        this.activity.getRouteFilterEdit().addTextChangedListener(routeTextWatcher);
+        listViewMain.setAdapter(this.adapter);
+
+        listViewMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, RouteDetailsActivity.class);
+                int routeID = routes.get(position).getId();
+                intent.putExtra("routeID", routeID);
+                activity.startActivity(intent);
+            }
+        });
     }
 
     private void initializeCityNameButton(int savedCityId) {
 
         String savedCityName = this.citiesRepository.getCity(savedCityId).getName();
 
-        Button cityNameButton = activity.getCityNameButton();
+        Button cityNameButton = this.activity.getCityNameButton();
         cityNameButton.setText(savedCityName);
         View.OnClickListener oclCityNameBtn = new View.OnClickListener() {
             @Override
