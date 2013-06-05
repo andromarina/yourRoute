@@ -9,7 +9,7 @@
     <TabHost
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/direction_tabhost">
+            android:id="@+id/direction_tabhost" style="@style/AppBaseTheme">
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -23,7 +23,10 @@
                         android:layout_height="@dimen/tabhost_height"
                         android:tabStripEnabled="true"
                         android:baselineAligned="false" android:background="@android:color/holo_blue_dark"
-                        android:showDividers="middle" style="@android:style/Theme.Holo.Light">
+                        android:showDividers="middle"
+                        android:divider="@drawable/divider" android:dividerPadding="4dp"
+                        android:focusable="false" android:tabStripLeft="@drawable/tab_line"
+                        android:tabStripRight="@drawable/tab_unselected">
                 </TabWidget>
                 <ImageView
                         android:layout_width="fill_parent"

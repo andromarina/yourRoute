@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.RoutesRepository;
+import com.yourroute.model.Stop;
+import com.yourroute.model.StopsRepository;
+
+import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
@@ -40,6 +44,10 @@ public class MainActivity extends FragmentActivity {
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
         this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository);
+
+        StopsRepository stopsRepository = new StopsRepository(getContentResolver());
+        ArrayList<Stop> stops = stopsRepository.getStopsByCityId(1);
+
     }
 
     public Button getCityNameButton() {

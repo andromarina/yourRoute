@@ -1,77 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/info_panel"
-              android:background="@color/filters_panel_background"
-              android:minHeight="45dp"
-              android:padding="@dimen/page_margin" android:orientation="vertical">
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ул. ПРИВОКЗАЛЬНАЯ - БОРТНИЧИ"
-            android:id="@+id/start_end"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textSize="20dp" android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal" android:textColor="@android:color/holo_blue_dark"/>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content"
+             android:layout_width="match_parent">
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/operation_time_layout"
-            android:layout_marginTop="5dp">
+            android:id="@+id/info_panel"
+            android:background="@drawable/tiled_background2"
+            android:minHeight="45dp"
+            android:padding="@dimen/page_margin" android:orientation="vertical">
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/operation_time"
-                android:layout_gravity="left" android:textSize="16dp"
-                android:textColor="@android:color/darker_gray"/>
-        <TextView
+                android:text="ул. ПРИВОКЗАЛЬНАЯ - БОРТНИЧИ"
+                android:id="@+id/start_end"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textSize="20dp" android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal" android:textColor="@android:color/holo_blue_dark"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 06:00 - 00:00"
-                android:id="@+id/operation_time"
-                android:textSize="16dp" android:textColor="@android:color/darker_gray"/>
+                android:id="@+id/operation_time_layout"
+                android:layout_marginTop="5dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/operation_time"
+                    android:layout_gravity="left" android:textSize="16dp"
+                    android:textColor="@android:color/white"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 06:00 - 00:00"
+                    android:id="@+id/operation_time"
+                    android:textSize="16dp" android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/interval_layout">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interval" android:textSize="16dp"
+                    android:textColor="@android:color/white"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 10 мин"
+                    android:id="@+id/interval" android:textSize="16dp"
+                    android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/length_layout">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/length" android:textSize="16dp"
+                    android:textColor="@android:color/white"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/length"
+                    android:text=" 13 км/ 00:35 мин" android:textSize="16dp"
+                    android:textColor="@android:color/white"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/interval_layout">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/interval" android:textSize="16dp" android:textColor="@android:color/darker_gray"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 10 мин"
-                android:id="@+id/interval" android:textSize="16dp"
-                android:textColor="@android:color/darker_gray"/>
-    </LinearLayout>
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/length_layout">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/length" android:textSize="16dp" android:textColor="@android:color/darker_gray"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/length"
-                android:text=" 13 км/ 00:35 мин" android:textSize="16dp"
-                android:textColor="@android:color/darker_gray"/>
-    </LinearLayout>
-
-</LinearLayout>
-
+</FrameLayout>

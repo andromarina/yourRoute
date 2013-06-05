@@ -36,25 +36,6 @@ public class RoutesRepository {
         this.contentResolver = contentResolver;
     }
 
-
-    public ArrayList<Route> getRoutes() {
-        ArrayList<Route> routes = new ArrayList<Route>();
-        Cursor routesCursor = this.contentResolver.query(ROUTES_URI, null, null, null, null);
-        routesCursor.moveToFirst();
-        while (!routesCursor.isAfterLast()) {
-            int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
-            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
-            carTypesCursor.moveToFirst();
-            Route route = createRoute(routesCursor, carTypesCursor);
-            routes.add(route);
-            routesCursor.moveToNext();
-            carTypesCursor.close();
-        }
-        routesCursor.close();
-        return routes;
-    }
-
     public Route getRoute(int routeId) {
         String query = String.format("%s/%d", ROUTES_URI.toString(), routeId);
         Log.i("Test", "getRoute query" + query);
