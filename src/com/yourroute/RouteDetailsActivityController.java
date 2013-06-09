@@ -3,35 +3,44 @@ package com.yourroute;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.yourroute.model.Route;
 import com.yourroute.model.RoutesRepository;
+import com.yourroute.model.Stop;
+import com.yourroute.model.StopsRepository;
+
+import java.util.ArrayList;
 
 
 public class RouteDetailsActivityController {
     private RouteDetailsActivity activity;
     private RoutesRepository routesRepository;
+    private StopsRepository stopsRepository;
     private Route route;
+    private int routeId;
 
-    public RouteDetailsActivityController(RouteDetailsActivity activity, RoutesRepository routesRepository) {
+    public RouteDetailsActivityController(RouteDetailsActivity activity, RoutesRepository routesRepository,
+                                          StopsRepository stopsRepository) {
         this.activity = activity;
         this.routesRepository = routesRepository;
+        this.stopsRepository = stopsRepository;
     }
 
     public void initialize() {
         initializeRouteDetailsFragment();
         initializeRoute();
-    }
-
-    public void setValues() {
         setRouteName();
         setStartEnd();
         setOperationHours();
         setInterval();
         setLength();
+        setStopsList(this.routeId);
+
     }
 
     private void initializeRouteDetailsFragment() {
@@ -49,15 +58,16 @@ public class RouteDetailsActivityController {
         direction_tabhost.setup();
         String forward = activity.getResources().getString(R.string.forward);
         String backward = activity.getResources().getString(R.string.backward);
-        direction_tabhost.addTab(direction_tabhost.newTabSpec("ForwardTab").setIndicator(forward).setContent(R.id.textView));
-        direction_tabhost.addTab(direction_tabhost.newTabSpec("BackwardTab").setIndicator(backward).setContent(R.id.textView1));
+        direction_tabhost.addTab(direction_tabhost.newTabSpec("ForwardTab").setIndicator(forward).setContent(R.id.forward_stops_list));
+        direction_tabhost.addTab(direction_tabhost.newTabSpec("BackwardTab").setIndicator(backward).setContent(R.id.backward_stops_list));
     }
 
-    private Route initializeRoute() {
+    private void initializeRoute() {
         Intent intent = this.activity.getIntent();
-        int routeID = intent.getIntExtra("routeID", 1);
-        this.route = this.routesRepository.getRoute(routeID);
-        return route;
+        this.routeId = intent.getIntExtra("routeID", 1);
+        this.route = this.routesRepository.getRoute(this.routeId);
+        ArrayList<Stop> stops = this.stopsRepository.getStopsByRouteId(this.routeId);
+        this.route.initializeStops(stops);
     }
 
     private void setRouteName() {
@@ -82,17 +92,10 @@ public class RouteDetailsActivityController {
 
         TextView operationHoursView = this.activity.getOperationHoursView();
         LinearLayout operationalHoursLayout = this.activity.getOperationHoursLayout();
-        String startTime = this.route.getStartTime();
-        String endTime = this.route.getEndTime();
-        if (startTime == null && endTime == null) {
+        if (this.route.getOperationalHours().isEmpty()) {
             operationalHoursLayout.setVisibility(View.GONE);
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(startTime);
-            sb.append(" - ");
-            sb.append(endTime);
-            String composedString = sb.toString();
-            operationHoursView.setText(composedString);
+            operationHoursView.setText(route.getOperationalHours());
         }
     }
 
@@ -100,7 +103,7 @@ public class RouteDetailsActivityController {
         TextView intervalView = this.activity.getIntervalView();
         LinearLayout intervalLayout = this.activity.getIntervalLayout();
         String interval = this.route.getInterval();
-        if (interval == null) {
+        if (interval.isEmpty()) {
             intervalLayout.setVisibility(View.GONE);
         } else {
             intervalView.setText(interval);
@@ -110,38 +113,26 @@ public class RouteDetailsActivityController {
     private void setLength() {
         TextView lengthView = this.activity.getLengthView();
         LinearLayout lengthLayout = this.activity.getLengthLayout();
-        String length = this.route.getLength();
-        String km = this.activity.getResources().getString(R.string.km);
-        String duration = this.route.getDuration();
-        String min = this.activity.getResources().getString(R.string.min);
 
-        if (length == null && duration == null) {
+        if (route.getLengthAndDuration().isEmpty()) {
             lengthLayout.setVisibility(View.GONE);
-        } else if (length == null && duration != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(duration);
-            sb.append(" ");
-            sb.append(min);
-            String composedString = sb.toString();
-            lengthView.setText(composedString);
-        } else if (duration == null && length != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(length);
-            sb.append(" ");
-            sb.append(km);
-            String composedString = sb.toString();
-            lengthView.setText(composedString);
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(length);
-            sb.append(" ");
-            sb.append(km);
-            sb.append("/");
-            sb.append(duration);
-            sb.append(" ");
-            sb.append(min);
-            String composedString = sb.toString();
-            lengthView.setText(composedString);
+            lengthView.setText(this.route.getLengthAndDuration());
         }
+    }
+
+    private void setStopsList(int routeId) {
+
+        final ArrayList<Stop> stops = this.stopsRepository.getStopsByRouteId(routeId);
+        for (Stop stop : stops) {
+            Log.i("Test", "stop name: " + stop.getName().toString() + "stopIndex: " + stop.getStopIndex());
+        }
+        ListView forwardStopsList = this.activity.getForwardStopsList();
+        StopsListAdapter adapterForward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, this.route.getForwardStops());
+        forwardStopsList.setAdapter(adapterForward);
+
+        StopsListAdapter adapterBackward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, this.route.getBackwardStops());
+        ListView backwardStopsList = this.activity.getBackwardStopsList();
+        backwardStopsList.setAdapter(adapterBackward);
     }
 }

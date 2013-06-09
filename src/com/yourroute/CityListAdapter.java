@@ -20,12 +20,10 @@ import java.util.List;
  */
 public class CityListAdapter extends ArrayAdapter<City> {
     private List<City> objects;
-    private Context context;
 
-    public CityListAdapter(Context context, int textViewResourceId ,List<City> objects) {
+    public CityListAdapter(Context context, int textViewResourceId, List<City> objects) {
         super(context, textViewResourceId, objects);
         this.objects = objects;
-        this.context = context;
 
     }
 

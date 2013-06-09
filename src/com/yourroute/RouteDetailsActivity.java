@@ -4,9 +4,11 @@ import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.yourroute.model.RoutesRepository;
+import com.yourroute.model.StopsRepository;
 
 
 public class RouteDetailsActivity extends FragmentActivity {
@@ -19,20 +21,17 @@ public class RouteDetailsActivity extends FragmentActivity {
     private LinearLayout intervalLayout;
     private TextView lengthView;
     private LinearLayout lengthLayout;
+    private ListView forwardStopsList;
+    private ListView backwardStopsList;
     private RouteDetailsActivityController controller;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        this.controller.setValues();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_card);
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        this.controller = new RouteDetailsActivityController(this, routesRepository);
+        StopsRepository stopsRepository = new StopsRepository(getContentResolver());
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.route_name_view);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
@@ -46,7 +45,10 @@ public class RouteDetailsActivity extends FragmentActivity {
         this.intervalLayout = (LinearLayout) findViewById(R.id.interval_layout);
         this.lengthView = (TextView) findViewById(R.id.length);
         this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
+        this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
+        this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
 
+        this.controller = new RouteDetailsActivityController(this, routesRepository, stopsRepository);
         this.controller.initialize();
     }
 
@@ -84,6 +86,14 @@ public class RouteDetailsActivity extends FragmentActivity {
 
     public LinearLayout getLengthLayout() {
         return this.lengthLayout;
+    }
+
+    public ListView getForwardStopsList() {
+        return this.forwardStopsList;
+    }
+
+    public ListView getBackwardStopsList() {
+        return this.backwardStopsList;
     }
 
 }

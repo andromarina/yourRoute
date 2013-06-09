@@ -39,7 +39,7 @@
                 android:singleLine="true"
                 android:inputType="text"
                 android:focusable="true"
-                android:enabled="true" android:textStyle="italic"/>
+                android:enabled="true"/>
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -49,7 +49,7 @@
                 android:layout_marginLeft="5dp" android:layout_marginBottom="5dp" android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp" android:textColorHint="@android:color/secondary_text_dark"
                 android:textColor="@android:color/white"
-                android:singleLine="true" android:maxLength="7" android:inputType="text" android:textStyle="italic"/>
+                android:singleLine="true" android:maxLength="7" android:inputType="text"/>
     </LinearLayout>
 
 </RelativeLayout>

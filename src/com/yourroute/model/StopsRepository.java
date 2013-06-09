@@ -20,9 +20,9 @@ public class StopsRepository {
     private final Uri STOPS_URI = Uri.parse("content://your.route.DB/Stops");
     private final static String CITY_ID_COLUMN_NAME = "CityId";
     private final static int STOP_ID_COLUMN_INDEX = 1;
-    private final static int CITY_ID_COLUMN_INDEX = 0;
     private final static int STOP_NAME_COLUMN_INDEX = 2;
     private final static String STOP_INDEX_COLUMN_NAME = "StopIndex";
+    private final static String ROUTE_ID_COLUMN_NAME = "RouteId";
 
 
     public StopsRepository(ContentResolver contentResolver) {
@@ -33,6 +33,20 @@ public class StopsRepository {
     public ArrayList<Stop> getStopsByCityId(int cityId) {
         ArrayList<Stop> stops = new ArrayList<Stop>();
         String selection = CITY_ID_COLUMN_NAME + "=" + cityId;
+        Cursor stopsCursor = this.contentResolver.query(STOPS_URI, null, selection, null, null);
+        stopsCursor.moveToFirst();
+        while (!stopsCursor.isAfterLast()) {
+            Stop stop = createStop(stopsCursor);
+            stops.add(stop);
+            stopsCursor.moveToNext();
+        }
+        stopsCursor.close();
+        return stops;
+    }
+
+    public ArrayList<Stop> getStopsByRouteId(int routeId) {
+        ArrayList<Stop> stops = new ArrayList<Stop>();
+        String selection = ROUTE_ID_COLUMN_NAME + "=" + routeId;
         Cursor stopsCursor = this.contentResolver.query(STOPS_URI, null, selection, null, null);
         stopsCursor.moveToFirst();
         while (!stopsCursor.isAfterLast()) {

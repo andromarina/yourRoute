@@ -25,8 +25,8 @@ public class RouteDetailsFragment extends Fragment {
         if (container == null) {
             this.direction_tabhost = (TabHost) rootView.findViewById(R.id.direction_tabhost);
             direction_tabhost.setup();
-            direction_tabhost.addTab(direction_tabhost.newTabSpec("ForwardTab").setIndicator(getResources().getString(R.string.forward)).setContent(R.id.textView));
-            direction_tabhost.addTab(direction_tabhost.newTabSpec("BackwardTab").setIndicator(getResources().getString(R.string.backward)).setContent(R.id.textView1));
+            direction_tabhost.addTab(direction_tabhost.newTabSpec("ForwardTab").setIndicator(getResources().getString(R.string.forward)).setContent(R.id.forward_stops_list));
+            direction_tabhost.addTab(direction_tabhost.newTabSpec("BackwardTab").setIndicator(getResources().getString(R.string.backward)).setContent(R.id.backward_stops_list));
 
         }
 
