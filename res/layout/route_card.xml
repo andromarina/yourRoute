@@ -20,7 +20,8 @@
                     android:layout_height="@dimen/tabhost_height"
                     android:showDividers="middle"
                     android:dividerPadding="3dp"
-                    android:background="@drawable/tiled_background3">
+                    android:background="@drawable/tiled_background3"
+                    android:clickable="true">
             </TabWidget>
             <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -33,7 +34,7 @@
                 <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:id="@+id/forward_stops_list"/>
+                        android:id="@+id/forward_stops_list" android:focusable="false"/>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

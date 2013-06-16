@@ -17,20 +17,22 @@ import java.util.ArrayList;
 public class RoutesRepository {
 
     private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
+    private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://your.route.DB/RouteByStopName");
     private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
-    private final static int ROUTE_DURATION_COLUMN_INDEX = 0;
-    private final static int ROUTE_LENGTH_COLUMN_INDEX = 1;
-    private final static int ROUTE_INTERVAL_COLUMN_INDEX = 2;
-    private final static int ROUTE_END_TIME_COLUMN_INDEX = 3;
-    private final static int ROUTE_START_TIME_COLUMN_INDEX = 4;
-    private final static int START_END_COLUMN_NAME = 5;
-    private final static int CAR_TYPE_ID_COLUMN_INDEX = 8;
-    private final static int ROUTE_NAME_COLUMN_INDEX = 9;
-    private final static int ROUTE_ID_COLUMN_INDEX = 11;
+    private final static String ROUTE_DURATION_COLUMN_NAME = "Duration";
+    private final static String ROUTE_LENGTH_COLUMN_NAME = "Length";
+    private final static String ROUTE_INTERVAL_COLUMN_NAME = "Interval";
+    private final static String ROUTE_END_TIME_COLUMN_NAME = "EndTime";
+    private final static String ROUTE_START_TIME_COLUMN_NAME = "StartTime";
+    private final static String START_END_COLUMN_NAME = "StartEnd";
+    private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
+    private final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
+    private final static String STOP_NAME_COLUMN_NAME = "StopName";
+    private final static String ROUTE_ID_COLUMN_NAME = "_id";
 
     private final static int CAR_TYPE_NAME_COLUMN_INDEX = 0;
-    private final static String CITY_ID_COLUMN_NAME = "CityId";
+    private final static String CITY_ID_COLUMN_NAME = "Routes.CityId";
 
     public RoutesRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
@@ -41,7 +43,8 @@ public class RoutesRepository {
         Log.i("Test", "getRoute query" + query);
         Cursor routesCursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
         routesCursor.moveToFirst();
-        int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
+        int carTypeIdColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
+        int carTypeId = routesCursor.getInt(carTypeIdColumnIndex);
 
         String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
         Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
@@ -58,7 +61,8 @@ public class RoutesRepository {
         Cursor routesCursor = this.contentResolver.query(ROUTES_URI, null, selection, null, null);
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
-            int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
+            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
+            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
             String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
             Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
             carTypesCursor.moveToFirst();
@@ -71,17 +75,56 @@ public class RoutesRepository {
         return routes;
     }
 
+    public ArrayList<Route> getRoutesByStopName(String query) {
+        ArrayList<Route> routes = new ArrayList<Route>();
+        String selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'";
+
+        Cursor routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
+        routesCursor.moveToFirst();
+        while (!routesCursor.isAfterLast()) {
+            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
+            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
+            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
+            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
+            carTypesCursor.moveToFirst();
+            Route route = createRoute(routesCursor, carTypesCursor);
+            routes.add(route);
+            routesCursor.moveToNext();
+            carTypesCursor.close();
+        }
+        routesCursor.close();
+        return routes;
+    }
+
+
     private Route createRoute(Cursor routesCursor, Cursor carTypesCursor) {
 
-        int id = routesCursor.getInt(ROUTE_ID_COLUMN_INDEX);
-        String name = routesCursor.getString(ROUTE_NAME_COLUMN_INDEX);
-        String startEnd = routesCursor.getString(START_END_COLUMN_NAME);
-        int carTypeId = routesCursor.getInt(CAR_TYPE_ID_COLUMN_INDEX);
-        String duration = routesCursor.getString(ROUTE_DURATION_COLUMN_INDEX);
-        String length = routesCursor.getString(ROUTE_LENGTH_COLUMN_INDEX);
-        String interval = routesCursor.getString(ROUTE_INTERVAL_COLUMN_INDEX);
-        String startTime = routesCursor.getString(ROUTE_START_TIME_COLUMN_INDEX);
-        String endTime = routesCursor.getString(ROUTE_END_TIME_COLUMN_INDEX);
+        int routeIdColumnIndex = routesCursor.getColumnIndex(ROUTE_ID_COLUMN_NAME);
+
+        int id = routesCursor.getInt(routeIdColumnIndex);
+        int routeNameColumnIndex = routesCursor.getColumnIndex(ROUTE_NAME_COLUMN_NAME);
+        String name = routesCursor.getString(routeNameColumnIndex);
+
+        int startEndColumnIndex = routesCursor.getColumnIndex(START_END_COLUMN_NAME);
+        String startEnd = routesCursor.getString(startEndColumnIndex);
+
+        int carTypeIdColumnName = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
+        int carTypeId = routesCursor.getInt(carTypeIdColumnName);
+
+        int durationColumnIndex = routesCursor.getColumnIndex(ROUTE_DURATION_COLUMN_NAME);
+        String duration = routesCursor.getString(durationColumnIndex);
+
+        int lengthColumnIndex = routesCursor.getColumnIndex(ROUTE_LENGTH_COLUMN_NAME);
+        String length = routesCursor.getString(lengthColumnIndex);
+
+        int intervalColumnIndex = routesCursor.getColumnIndex(ROUTE_INTERVAL_COLUMN_NAME);
+        String interval = routesCursor.getString(intervalColumnIndex);
+
+        int startTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_START_TIME_COLUMN_NAME);
+        String startTime = routesCursor.getString(startTimeColumnIndex);
+
+        int endTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_END_TIME_COLUMN_NAME);
+        String endTime = routesCursor.getString(endTimeColumnIndex);
 
         String carTypeName = carTypesCursor.getString(CAR_TYPE_NAME_COLUMN_INDEX);
         CarType type = new CarType(carTypeId, carTypeName);

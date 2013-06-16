@@ -17,7 +17,6 @@ public class RouteTextWatcher implements android.text.TextWatcher {
     }
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // adapter.getFilter().filter(s);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.yourroute;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,7 +47,8 @@ public class MainActivityController {
         int savedCityId = Preferences.getSavedCityId();
 
         initializeCityNameButton(savedCityId);
-        refreshRouteListView(savedCityId);
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
+        refreshRouteListView(routes);
     }
 
     public void restoreActions() {
@@ -78,12 +80,12 @@ public class MainActivityController {
         activity.getCityNameButton().setText(name);
         int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
-        this.refreshRouteListView(cityId);
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(cityId);
+        this.refreshRouteListView(routes);
     }
 
-    private void refreshRouteListView(int savedCityId) {
+    private void refreshRouteListView(final ArrayList<Route> routes) {
 
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(savedCityId);
         ListView listViewMain = this.activity.getRouteListView();
         this.adapter = new RouteListAdapter(this.context, R.layout.route_list_item, routes);
         RouteTextWatcher routeTextWatcher = new RouteTextWatcher(this.adapter);
@@ -99,6 +101,20 @@ public class MainActivityController {
                 activity.startActivity(intent);
             }
         });
+    }
+
+    public void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doSearch(query);
+        }
+    }
+
+    private void doSearch(String queryStr) {
+
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr);
+        refreshRouteListView(routes);
     }
 
     private void initializeCityNameButton(int savedCityId) {

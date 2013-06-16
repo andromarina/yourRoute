@@ -9,7 +9,8 @@
             android:id="@+id/info_panel"
             android:background="@drawable/tiled_background2"
             android:minHeight="45dp"
-            android:padding="@dimen/page_margin" android:orientation="vertical">
+            android:orientation="vertical" android:paddingLeft="@dimen/page_margin"
+            android:paddingRight="@dimen/page_margin" android:paddingBottom="2dp">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -26,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/operation_time_layout"
-                android:layout_marginTop="5dp">
+                >
 
             <TextView
                     android:layout_width="wrap_content"
@@ -75,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/length"
                     android:text=" 13 км/ 00:35 мин" android:textSize="16dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" android:singleLine="true"/>
         </LinearLayout>
 
     </LinearLayout>
