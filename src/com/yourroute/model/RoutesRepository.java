@@ -75,11 +75,18 @@ public class RoutesRepository {
         return routes;
     }
 
-    public ArrayList<Route> getRoutesByStopName(String query) {
+    public ArrayList<Route> getRoutesByStopName(String query, int cityId) {
         ArrayList<Route> routes = new ArrayList<Route>();
-        String selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'";
+        Cursor routesCursor;
+        String selection;
 
-        Cursor routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
+        if (query.isEmpty()) {
+            selection = CITY_ID_COLUMN_NAME + "=" + cityId;
+            routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
+        } else {
+            selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'" + " AND Routes.CityId=" + cityId;
+            routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
+        }
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
             int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);

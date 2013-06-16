@@ -1,13 +1,9 @@
 package com.yourroute;
 
 import android.app.ActionBar;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.*;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.RoutesRepository;
@@ -17,6 +13,8 @@ public class MainActivity extends FragmentActivity {
     private Button cityNameButton;
     private ListView listViewMain;
     private EditText routeFilterEdit;
+    private SearchView searchView1;
+    private AutoCompleteTextView searchText1;
     private MainActivityController mainActivityController;
 
 
@@ -24,18 +22,6 @@ public class MainActivity extends FragmentActivity {
     protected void onStart() {
         super.onStart();
         this.mainActivityController.initialize();
-    }
-
-    @Override
-    public boolean onSearchRequested() {
-        Log.i("Test", "onSearchRequested");
-        return super.onSearchRequested();
-    }
-
-    @Override
-    public void startSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData, boolean globalSearch) {
-        super.startSearch(initialQuery, selectInitialQuery, appSearchData, globalSearch);
-        Log.i("Test", "startSearch");
     }
 
     @Override
@@ -63,11 +49,9 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
-        SearchView searchView = (SearchView) findViewById(R.id.searchView);
-        AutoCompleteTextView search_text = (AutoCompleteTextView) searchView.findViewById(searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
-        search_text.setTextColor(Color.WHITE);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        this.searchView1 = (SearchView) findViewById(R.id.searchView1);
+        this.searchText1 = (AutoCompleteTextView) searchView1.findViewById(searchView1.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
+
     }
 
     @Override
@@ -85,6 +69,10 @@ public class MainActivity extends FragmentActivity {
         return this.listViewMain;
     }
 
+    public SearchView getSearchView1() {
+        return this.searchView1;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -93,6 +81,10 @@ public class MainActivity extends FragmentActivity {
 
     public EditText getRouteFilterEdit() {
         return this.routeFilterEdit;
+    }
+
+    public AutoCompleteTextView getSearchText1() {
+        return this.searchText1;
     }
 
 

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  */
 public class MainActivityController {
 
+    private final String LOG_TAG = "MainActivityController";
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
@@ -43,6 +45,7 @@ public class MainActivityController {
 
     public void initialize() {
 
+        initializeSearchManager();
         Preferences.initialize(this.context, this.activity);
         int savedCityId = Preferences.getSavedCityId();
 
@@ -54,6 +57,7 @@ public class MainActivityController {
     public void restoreActions() {
         Editable savedFilterValue = this.activity.getRouteFilterEdit().getEditableText();
         this.adapter.getFilter().filter(savedFilterValue);
+        handleIntent(this.activity.getIntent());
     }
 
     private void showCityChoiceDialog() {
@@ -82,6 +86,8 @@ public class MainActivityController {
         Preferences.saveCityId(cityId);
         final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(cityId);
         this.refreshRouteListView(routes);
+        this.activity.getRouteFilterEdit().setText("");
+        this.activity.getSearchText1().setText("");
     }
 
     private void refreshRouteListView(final ArrayList<Route> routes) {
@@ -108,13 +114,27 @@ public class MainActivityController {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             doSearch(query);
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            this.doView(intent);
+        } else {
+            Log.i(LOG_TAG, "Create intent NOT from search");
         }
+
     }
 
     private void doSearch(String queryStr) {
-
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr);
+        int savedCityId = Preferences.getSavedCityId();
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
         refreshRouteListView(routes);
+    }
+
+    private void doView(final Intent queryIntent) {
+        Uri uri = queryIntent.getData();
+        String action = queryIntent.getAction();
+        Intent intent = new Intent(action);
+        intent.setData(uri);
+        this.activity.startActivity(intent);
+        this.activity.finish();
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -132,5 +152,9 @@ public class MainActivityController {
         cityNameButton.setOnClickListener(oclCityNameBtn);
     }
 
+    private void initializeSearchManager() {
+        SearchManager searchManager = (SearchManager) this.activity.getSystemService(Context.SEARCH_SERVICE);
+        this.activity.getSearchView1().setSearchableInfo(searchManager.getSearchableInfo(this.activity.getComponentName()));
+    }
 
 }

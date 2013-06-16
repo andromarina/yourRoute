@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-    <ListView
-            android:id="@+id/listViewMain"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="@dimen/filters_panel_height"
-            android:clickable="false"
-            android:focusable="false"
-            android:drawSelectorOnTop="true"
-            android:cacheColorHint="@android:color/white">
-    </ListView>
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
             android:id="@+id/filtersPanel"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/filters_panel_height"
             android:layout_gravity="top|left"
-            android:background="@color/filters_panel_background"
+            android:background="@android:color/background_light"
             android:orientation="horizontal"
             android:layout_alignParentTop="true">
         <SearchView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/searchView"
+                android:id="@+id/searchView1"
                 android:queryHint="@string/street_name_hint"
                 android:iconifiedByDefault="false"
                 android:layout_weight="1" style="@style/AppBaseTheme"/>
@@ -41,8 +28,21 @@
                 android:id="@+id/route_number"
                 android:layout_marginLeft="5dp" android:layout_marginBottom="5dp" android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp" android:textColorHint="#858585"
-                android:textColor="@android:color/white"
                 android:singleLine="true" android:maxLength="7" android:inputType="text"/>
     </LinearLayout>
-
-</RelativeLayout>
+    <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/filters_panel_height"
+            android:id="@+id/searchView" android:layout_gravity="center" android:iconifiedByDefault="false"
+            android:background="@android:color/background_light"/>
+    <ListView
+            android:id="@+id/listViewMain"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:drawSelectorOnTop="true"
+            android:cacheColorHint="@android:color/white">
+    </ListView>
+</LinearLayout>
