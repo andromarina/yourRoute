@@ -27,11 +27,10 @@ public class RoutesRepository {
     private final static String ROUTE_START_TIME_COLUMN_NAME = "StartTime";
     private final static String START_END_COLUMN_NAME = "StartEnd";
     private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
+    private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
     private final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
     private final static String STOP_NAME_COLUMN_NAME = "StopName";
     private final static String ROUTE_ID_COLUMN_NAME = "_id";
-
-    private final static int CAR_TYPE_NAME_COLUMN_INDEX = 0;
     private final static String CITY_ID_COLUMN_NAME = "Routes.CityId";
 
     public RoutesRepository(ContentResolver contentResolver) {
@@ -80,13 +79,9 @@ public class RoutesRepository {
         Cursor routesCursor;
         String selection;
 
-        if (query.isEmpty()) {
-            selection = CITY_ID_COLUMN_NAME + "=" + cityId;
-            routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
-        } else {
-            selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'" + " AND Routes.CityId=" + cityId;
-            routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
-        }
+        selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'" + " AND Routes.CityId=" + cityId;
+        routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
+
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
             int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
@@ -133,7 +128,8 @@ public class RoutesRepository {
         int endTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_END_TIME_COLUMN_NAME);
         String endTime = routesCursor.getString(endTimeColumnIndex);
 
-        String carTypeName = carTypesCursor.getString(CAR_TYPE_NAME_COLUMN_INDEX);
+        int carTypeColumnIndex = carTypesCursor.getColumnIndex(CAR_TYPE_NAME_COLUMN_NAME);
+        String carTypeName = carTypesCursor.getString(carTypeColumnIndex);
         CarType type = new CarType(carTypeId, carTypeName);
 
         Route route = new Route(id, name, type, startEnd, duration, length, interval, startTime, endTime);
