@@ -57,6 +57,8 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
             case 5:
                 carType.setImageResource(R.drawable.ic_bus);
                 break;
+            case 6:
+                carType.setImageResource(R.drawable.ic_bus);
         }
         item.setBackgroundColor(colors[position % 2]);
 

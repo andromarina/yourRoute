@@ -29,7 +29,7 @@ public class RoutesRepository {
     private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
     private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
     private final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
-    private final static String STOP_NAME_COLUMN_NAME = "StopName";
+    private final static String STOP_NAME_COLUMN_NAME = "LOWER (StopName)";
     private final static String ROUTE_ID_COLUMN_NAME = "_id";
     private final static String CITY_ID_COLUMN_NAME = "Routes.CityId";
 
