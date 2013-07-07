@@ -4,9 +4,13 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.RoutesRepository;
+import com.yourroute.model.StopsRepository;
 
 public class MainActivity extends FragmentActivity {
 
@@ -14,7 +18,6 @@ public class MainActivity extends FragmentActivity {
     private ListView listViewMain;
     private EditText routeFilterEdit;
     private SearchView searchView1;
-    private AutoCompleteTextView searchText1;
     private MainActivityController mainActivityController;
 
 
@@ -38,8 +41,9 @@ public class MainActivity extends FragmentActivity {
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository);
-        this.mainActivityController.handleIntent(getIntent());
+        StopsRepository stopsRepository = new StopsRepository(getContentResolver());
+
+        this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository, stopsRepository);
 
     }
 
@@ -50,7 +54,6 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
         this.searchView1 = (SearchView) findViewById(R.id.searchView1);
-        this.searchText1 = (AutoCompleteTextView) searchView1.findViewById(searchView1.getContext().getResources().getIdentifier("android:id/search_src_text", null, null));
 
     }
 
@@ -58,7 +61,6 @@ public class MainActivity extends FragmentActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        this.mainActivityController.handleIntent(intent);
     }
 
     public Button getCityNameButton() {
@@ -81,10 +83,6 @@ public class MainActivity extends FragmentActivity {
 
     public EditText getRouteFilterEdit() {
         return this.routeFilterEdit;
-    }
-
-    public AutoCompleteTextView getSearchText1() {
-        return this.searchText1;
     }
 
 

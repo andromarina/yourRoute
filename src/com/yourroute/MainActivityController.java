@@ -4,18 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.database.Cursor;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import com.yourroute.model.CitiesRepository;
-import com.yourroute.model.City;
-import com.yourroute.model.Route;
-import com.yourroute.model.RoutesRepository;
+import android.widget.*;
+import com.yourroute.model.*;
 
 import java.util.ArrayList;
 
@@ -26,26 +21,28 @@ import java.util.ArrayList;
  * Time: 11:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MainActivityController {
+public class MainActivityController implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
 
     private final String LOG_TAG = "MainActivityController";
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
     private RoutesRepository routesRepository;
+    private StopsRepository stopsRepository;
     private ArrayList<City> cities;
     RouteListAdapter adapter;
 
-    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository, RoutesRepository routesRepository) {
+    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository, RoutesRepository routesRepository, StopsRepository stopsRepository) {
         this.context = context;
         this.activity = activity;
         this.citiesRepository = citiesRepository;
         this.routesRepository = routesRepository;
+        this.stopsRepository = stopsRepository;
     }
 
     public void initialize() {
 
-        initializeSearchManager();
+        initializeSearch();
         Preferences.initialize(this.context, this.activity);
         int savedCityId = Preferences.getSavedCityId();
 
@@ -57,7 +54,6 @@ public class MainActivityController {
     public void restoreActions() {
         Editable savedFilterValue = this.activity.getRouteFilterEdit().getEditableText();
         this.adapter.getFilter().filter(savedFilterValue);
-        handleIntent(this.activity.getIntent());
     }
 
     private void showCityChoiceDialog() {
@@ -87,7 +83,6 @@ public class MainActivityController {
         final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(cityId);
         this.refreshRouteListView(routes);
         this.activity.getRouteFilterEdit().setText("");
-        this.activity.getSearchText1().setText("");
     }
 
     private void refreshRouteListView(final ArrayList<Route> routes) {
@@ -109,32 +104,11 @@ public class MainActivityController {
         });
     }
 
-    public void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            doSearch(query);
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            this.doView(intent);
-        } else {
-            Log.i(LOG_TAG, "Create intent NOT from search");
-        }
-
-    }
 
     private void doSearch(String queryStr) {
-        int savedCityId = Preferences.getSavedCityId();
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
-        refreshRouteListView(routes);
-    }
-
-    private void doView(final Intent queryIntent) {
-        Uri uri = queryIntent.getData();
-        String action = queryIntent.getAction();
-        Intent intent = new Intent(action);
-        intent.setData(uri);
-        this.activity.startActivity(intent);
-        this.activity.finish();
+//        int savedCityId = Preferences.getSavedCityId();
+//        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
+//        refreshRouteListView(routes);
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -152,9 +126,48 @@ public class MainActivityController {
         cityNameButton.setOnClickListener(oclCityNameBtn);
     }
 
-    private void initializeSearchManager() {
+    private void initializeSearch() {
         SearchManager searchManager = (SearchManager) this.activity.getSystemService(Context.SEARCH_SERVICE);
         this.activity.getSearchView1().setSearchableInfo(searchManager.getSearchableInfo(this.activity.getComponentName()));
+        this.activity.getSearchView1().setOnQueryTextListener(this);
+        this.activity.getSearchView1().setOnSuggestionListener(this);
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        int savedCityId = Preferences.getSavedCityId();
+        Cursor cursor = this.stopsRepository.getStopsSuggestionsCursor(newText, savedCityId);
+
+        if (cursor.getCount() != 0) {
+            Log.d(LOG_TAG, "suggestions cursor size: " + cursor.getCount());
+            String[] columns = new String[]{StopsRepository.STOP_NAME_COLUMN_NAME};
+            int[] columnTextId = new int[]{android.R.id.text1};
+            SimpleCursorAdapter simple = new SimpleCursorAdapter(activity.getBaseContext(),
+                    android.R.layout.simple_list_item_1, cursor, columns, columnTextId, 0);
+
+            activity.getSearchView1().setSuggestionsAdapter(simple);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int position) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean onSuggestionClick(int position) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
 }
