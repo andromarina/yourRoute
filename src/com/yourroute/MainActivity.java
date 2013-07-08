@@ -17,7 +17,7 @@ public class MainActivity extends FragmentActivity {
     private Button cityNameButton;
     private ListView listViewMain;
     private EditText routeFilterEdit;
-    private SearchView searchView1;
+    private SearchView streetSearch1;
     private MainActivityController mainActivityController;
 
 
@@ -53,8 +53,7 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
-        this.searchView1 = (SearchView) findViewById(R.id.searchView1);
-
+        this.streetSearch1 = (SearchView) findViewById(R.id.searchView1);
     }
 
     @Override
@@ -71,8 +70,8 @@ public class MainActivity extends FragmentActivity {
         return this.listViewMain;
     }
 
-    public SearchView getSearchView1() {
-        return this.searchView1;
+    public SearchView getStreetSearch1() {
+        return this.streetSearch1;
     }
 
     @Override

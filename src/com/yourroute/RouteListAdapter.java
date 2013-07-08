@@ -38,7 +38,12 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
         TextView name = (TextView) item.findViewById(R.id.name);
         name.setText(route.getName());
         TextView startEnd = (TextView) item.findViewById(R.id.start_end);
-        startEnd.setText(route.getStartEnd());
+
+        if (route.getStartEnd().isEmpty()) {
+            startEnd.setHeight(0);
+        } else {
+            startEnd.setText(route.getStartEnd());
+        }
         ImageView carType = (ImageView) item.findViewById(R.id.carTypeImage);
         int carTypeId = route.getType().getId();
         switch (carTypeId) {
@@ -52,13 +57,19 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
                 carType.setImageResource(R.drawable.ic_tram);
                 break;
             case 4:
-                carType.setImageResource(R.drawable.ic_minibus);
+                carType.setImageResource(R.drawable.ic_taxi);
                 break;
             case 5:
                 carType.setImageResource(R.drawable.ic_bus);
                 break;
             case 6:
                 carType.setImageResource(R.drawable.ic_bus);
+                break;
+            case 7:
+                carType.setImageResource(R.drawable.ic_bus);
+                break;
+            case 8:
+                carType.setImageResource(R.drawable.ic_electro_train);
         }
         item.setBackgroundColor(colors[position % 2]);
 

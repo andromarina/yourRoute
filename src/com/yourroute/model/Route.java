@@ -33,7 +33,7 @@ public class Route {
         this.startEnd = (startEnd == null) ? "" : startEnd;
         this.duration = (duration == null) ? "" : duration;
         this.length = (length == null) ? "" : length;
-        this.interval = (interval == null) ? "" : interval;
+        this.interval = (interval == null || interval == "00:00") ? "" : interval;
         this.startTime = (startTime == null) ? "" : startTime;
         this.endTime = (endTime == null) ? "" : endTime;
     }

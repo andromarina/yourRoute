@@ -29,6 +29,7 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
     private CitiesRepository citiesRepository;
     private RoutesRepository routesRepository;
     private StopsRepository stopsRepository;
+    private SearchView streetSearch1;
     private ArrayList<City> cities;
     RouteListAdapter adapter;
 
@@ -54,6 +55,9 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
     public void restoreActions() {
         Editable savedFilterValue = this.activity.getRouteFilterEdit().getEditableText();
         this.adapter.getFilter().filter(savedFilterValue);
+
+        String savedStreetName1 = streetSearch1.getQuery().toString();
+        doSearch(savedStreetName1);
     }
 
     private void showCityChoiceDialog() {
@@ -83,6 +87,7 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
         final ArrayList<Route> routes = this.routesRepository.getRoutesByCityID(cityId);
         this.refreshRouteListView(routes);
         this.activity.getRouteFilterEdit().setText("");
+        streetSearch1.setQuery("", true);
     }
 
     private void refreshRouteListView(final ArrayList<Route> routes) {
@@ -106,9 +111,9 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
 
 
     private void doSearch(String queryStr) {
-//        int savedCityId = Preferences.getSavedCityId();
-//        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
-//        refreshRouteListView(routes);
+        int savedCityId = Preferences.getSavedCityId();
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
+        refreshRouteListView(routes);
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -127,15 +132,17 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
     }
 
     private void initializeSearch() {
+        this.streetSearch1 = this.activity.getStreetSearch1();
         SearchManager searchManager = (SearchManager) this.activity.getSystemService(Context.SEARCH_SERVICE);
-        this.activity.getSearchView1().setSearchableInfo(searchManager.getSearchableInfo(this.activity.getComponentName()));
-        this.activity.getSearchView1().setOnQueryTextListener(this);
-        this.activity.getSearchView1().setOnSuggestionListener(this);
+        streetSearch1.setSearchableInfo(searchManager.getSearchableInfo(this.activity.getComponentName()));
+        streetSearch1.setOnQueryTextListener(this);
+        streetSearch1.setOnSuggestionListener(this);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        doSearch(query);
+        return false;
     }
 
     @Override
@@ -151,7 +158,7 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
             SimpleCursorAdapter simple = new SimpleCursorAdapter(activity.getBaseContext(),
                     android.R.layout.simple_list_item_1, cursor, columns, columnTextId, 0);
 
-            activity.getSearchView1().setSuggestionsAdapter(simple);
+            streetSearch1.setSuggestionsAdapter(simple);
             return true;
         } else {
             return false;
@@ -161,12 +168,15 @@ public class MainActivityController implements SearchView.OnQueryTextListener, S
 
     @Override
     public boolean onSuggestionSelect(int position) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     @Override
     public boolean onSuggestionClick(int position) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        Cursor cursor = (Cursor) streetSearch1.getSuggestionsAdapter().getItem(position);
+        int indexColumnSuggestion = cursor.getColumnIndex(StopsRepository.STOP_NAME_COLUMN_NAME);
+        streetSearch1.setQuery(cursor.getString(indexColumnSuggestion), false);
+        return false;
     }
 
 
