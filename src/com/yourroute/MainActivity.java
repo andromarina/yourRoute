@@ -20,12 +20,6 @@ public class MainActivity extends FragmentActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        this.mainActivityController.initialize();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -41,6 +35,7 @@ public class MainActivity extends FragmentActivity {
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
 
         this.mainActivityController = new MainActivityController(this, this, citiesRepository, stopsRepository, routesRepository);
+        this.mainActivityController.initialize();
 
     }
 
