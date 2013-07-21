@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.*;
 import com.yourroute.model.CitiesRepository;
+import com.yourroute.model.RoutesRepository;
 import com.yourroute.model.StopsRepository;
 
 public class MainActivity extends FragmentActivity {
 
     private Button cityNameButton;
-    private RadioButton streetName;
-    private RadioButton routeNumber;
-    private AutoCompleteTextView streetSearchMain;
+    private RadioGroup searchMode;
+    private AutoCompleteTextView searchMain;
+    private SlidingDrawer slidingDrawer;
     private ImageButton clearButton;
     private MainActivityController mainActivityController;
 
@@ -33,13 +34,13 @@ public class MainActivity extends FragmentActivity {
         configureSearch();
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
-        this.streetName = (RadioButton) findViewById(R.id.street_name_radio_button);
-        this.routeNumber = (RadioButton) findViewById(R.id.route_number_radio_button);
+        this.searchMode = (RadioGroup) findViewById(R.id.search_mode);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         StopsRepository stopsRepository = new StopsRepository(getContentResolver());
+        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
 
-        this.mainActivityController = new MainActivityController(this, this, citiesRepository, stopsRepository);
+        this.mainActivityController = new MainActivityController(this, this, citiesRepository, stopsRepository, routesRepository);
 
     }
 
@@ -49,21 +50,21 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        SlidingDrawer slidingDrawer = (SlidingDrawer) findViewById(R.id.slidingDrawer);
+        this.slidingDrawer = (SlidingDrawer) findViewById(R.id.slidingDrawer);
         final ImageButton handler = (ImageButton) findViewById(R.id.handle);
-        slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
+        this.slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
                 handler.setRotationX(180);
             }
         });
-        slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
+        this.slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
                 handler.setRotationX(360);
             }
         });
-        this.streetSearchMain = (AutoCompleteTextView) findViewById(R.id.street_search);
+        this.searchMain = (AutoCompleteTextView) findViewById(R.id.street_search);
         this.clearButton = (ImageButton) findViewById(R.id.clear_button);
 
     }
@@ -78,20 +79,20 @@ public class MainActivity extends FragmentActivity {
         return this.cityNameButton;
     }
 
-    public AutoCompleteTextView getStreetSearchMain() {
-        return this.streetSearchMain;
+    public AutoCompleteTextView getSearchMain() {
+        return this.searchMain;
     }
 
-    public RadioButton getStreetNameButton() {
-        return this.streetName;
-    }
-
-    public RadioButton getRouteNumberButton() {
-        return this.routeNumber;
+    public RadioGroup getSearchModeRadioGroup() {
+        return this.searchMode;
     }
 
     public ImageButton getClearButton() {
         return this.clearButton;
+    }
+
+    public SlidingDrawer getSlidingDrawer() {
+        return this.slidingDrawer;
     }
 
 }

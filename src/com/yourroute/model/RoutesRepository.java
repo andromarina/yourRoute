@@ -7,17 +7,11 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mara
- * Date: 5/19/13
- * Time: 7:05 PM
- * To change this template use File | Settings | File Templates.
- */
 public class RoutesRepository {
 
     private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
     private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://your.route.DB/RouteByStopName");
+    private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://your.route.DB/RoutesByRouteName");
     private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
     private final static String ROUTE_DURATION_COLUMN_NAME = "Duration";
@@ -28,11 +22,9 @@ public class RoutesRepository {
     private final static String START_END_COLUMN_NAME = "StartEnd";
     private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
     private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
-    private final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
-    private final static String STOP_NAME_COLUMN_NAME = "StopName";
+    public final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
     private final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
     private final static String ROUTE_ID_COLUMN_NAME = "_id";
-    private final static String CITY_ID_COLUMN_NAME = "Routes.CityId";
 
     public RoutesRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
@@ -77,6 +69,45 @@ public class RoutesRepository {
         }
         routesCursor.close();
         return routes;
+    }
+
+    public ArrayList<Route> getRoutesByRouteName(String query, int cityId) {
+        ArrayList<Route> routes = new ArrayList<Route>();
+        Cursor routesCursor;
+        String selection;
+
+        selection = ROUTE_NAME_COLUMN_NAME + " LIKE " + "'%" + query.toUpperCase() + "%'" + " AND Routes.CityId=" + cityId;
+        routesCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
+
+        routesCursor.moveToFirst();
+        while (!routesCursor.isAfterLast()) {
+            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
+            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
+            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
+            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
+            carTypesCursor.moveToFirst();
+            Route route = createRoute(routesCursor, carTypesCursor);
+            routes.add(route);
+            routesCursor.moveToNext();
+            carTypesCursor.close();
+        }
+        routesCursor.close();
+        return routes;
+    }
+
+    public Cursor getRouteSuggestionsCursor(String text, int cityId) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(ROUTE_NAME_COLUMN_NAME);
+        stringBuilder.append(" LIKE ");
+        stringBuilder.append("'%");
+        stringBuilder.append(text.toLowerCase());
+        stringBuilder.append("%'");
+        stringBuilder.append(" AND CityId=");
+        stringBuilder.append(cityId);
+        String selection = stringBuilder.toString();
+        Cursor stopsCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
+        return stopsCursor;
     }
 
     private Route createRoute(Cursor routesCursor, Cursor carTypesCursor) {

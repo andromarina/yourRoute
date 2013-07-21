@@ -24,7 +24,14 @@ public class SearchResultsActivityController {
 
     public void initialize() {
         String searchPhrase = getSearchPhrase();
-        doSearch(searchPhrase);
+        switch (getSearchMode()) {
+            case 1:
+                doSearchByStreetName(searchPhrase);
+                break;
+            case 2:
+                doSearchByRouteName(searchPhrase);
+        }
+
     }
 
     private void refreshSearchResults(final ArrayList<Route> routes) {
@@ -44,9 +51,15 @@ public class SearchResultsActivityController {
         });
     }
 
-    private void doSearch(String queryStr) {
+    private void doSearchByStreetName(String queryStr) {
         int savedCityId = Preferences.getSavedCityId();
         final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
+        refreshSearchResults(routes);
+    }
+
+    private void doSearchByRouteName(String queryStr) {
+        int savedCityId = Preferences.getSavedCityId();
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByRouteName(queryStr, savedCityId);
         refreshSearchResults(routes);
     }
 
@@ -54,6 +67,12 @@ public class SearchResultsActivityController {
         Intent intent = this.activity.getIntent();
         String searchPhrase = intent.getStringExtra("SearchPhrase");
         return searchPhrase;
+    }
+
+    private int getSearchMode() {
+        Intent intent = this.activity.getIntent();
+        int searchMode = intent.getIntExtra("SearchMode", 1);
+        return searchMode;
     }
 
 }
