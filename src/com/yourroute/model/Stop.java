@@ -29,4 +29,6 @@ public class Stop {
     public int getStopIndex() {
         return this.stopIndex;
     }
+
 }
+

@@ -21,6 +21,7 @@ public class StopsRepository {
     private final Uri STOPS_SUGGESTIONS_URI = Uri.parse("content://your.route.DB/StopsSuggestions");
     public final static String STOP_ID_COLUMN_NAME = "_id";
     public final static String STOP_NAME_COLUMN_NAME = "StopName";
+    public final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
     private final static String STOP_INDEX_COLUMN_NAME = "StopIndex";
     private final static String ROUTE_ID_COLUMN_NAME = "RouteId";
 
@@ -46,7 +47,7 @@ public class StopsRepository {
     public Cursor getStopsSuggestionsCursor(String text, int cityId) {
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(STOP_NAME_COLUMN_NAME);
+        stringBuilder.append(STOP_NAME_FOR_SEARCH);
         stringBuilder.append(" LIKE ");
         stringBuilder.append("'%");
         stringBuilder.append(text.toLowerCase());

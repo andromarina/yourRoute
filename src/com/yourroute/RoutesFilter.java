@@ -34,7 +34,6 @@ public class RoutesFilter extends Filter {
         adapter.notifyDataSetChanged();
         adapter.clear();
         adapter.addAll(temp);
-        //   adapter.notifyDataSetInvalidated();
         adapter.notifyDataSetChanged();
     }
 

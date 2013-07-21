@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/street_name_radio_button"
+            android:gravity="center_vertical|center_horizontal"
+            android:showDividers="middle"
+            android:background="@android:color/background_light"
+            android:dividerPadding="6dp"
+            android:divider="@drawable/divider"
+            android:layout_gravity="bottom" android:layout_alignParentBottom="true">
+    <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Street name"
+            android:id="@+id/street_name_radio_button"
+            android:layout_weight="1"
+            android:button="@drawable/button_direction"
+            android:textColor="@color/radio_button_text"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/rbutton_background"/>
+
+    <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Route number"
+            android:id="@+id/route_number_radio_button"
+            android:layout_weight="1"
+            android:button="@drawable/button_number"
+            android:textColor="@color/radio_button_text"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/rbutton_background"
+            android:paddingLeft="10dp"/>
+</RadioGroup>

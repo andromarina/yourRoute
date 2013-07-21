@@ -11,13 +11,6 @@ import com.yourroute.model.City;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mara
- * Date: 5/12/13
- * Time: 5:00 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CityListAdapter extends ArrayAdapter<City> {
     private List<City> objects;
 

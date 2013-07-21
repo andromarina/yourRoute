@@ -11,13 +11,6 @@ import com.yourroute.model.Stop;
 
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mara
- * Date: 6/6/13
- * Time: 9:15 PM
- * To change this template use File | Settings | File Templates.
- */
 public class StopsListAdapter extends ArrayAdapter<Stop> {
 
     public StopsListAdapter(Context context, int textViewResourceId, ArrayList<Stop> objects) {

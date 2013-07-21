@@ -2,13 +2,7 @@ package com.yourroute;
 
 import android.text.Editable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mara
- * Date: 5/26/13
- * Time: 3:35 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class RouteTextWatcher implements android.text.TextWatcher {
     public RouteListAdapter adapter;
 

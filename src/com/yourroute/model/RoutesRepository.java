@@ -30,6 +30,7 @@ public class RoutesRepository {
     private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
     private final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
     private final static String STOP_NAME_COLUMN_NAME = "StopName";
+    private final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
     private final static String ROUTE_ID_COLUMN_NAME = "_id";
     private final static String CITY_ID_COLUMN_NAME = "Routes.CityId";
 
@@ -54,32 +55,12 @@ public class RoutesRepository {
         return route;
     }
 
-    public ArrayList<Route> getRoutesByCityID(int cityId) {
-        ArrayList<Route> routes = new ArrayList<Route>();
-        String selection = CITY_ID_COLUMN_NAME + "=" + cityId;
-        Cursor routesCursor = this.contentResolver.query(ROUTES_URI, null, selection, null, null);
-        routesCursor.moveToFirst();
-        while (!routesCursor.isAfterLast()) {
-            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
-            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
-            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
-            carTypesCursor.moveToFirst();
-            Route route = createRoute(routesCursor, carTypesCursor);
-            routes.add(route);
-            routesCursor.moveToNext();
-            carTypesCursor.close();
-        }
-        routesCursor.close();
-        return routes;
-    }
-
     public ArrayList<Route> getRoutesByStopName(String query, int cityId) {
         ArrayList<Route> routes = new ArrayList<Route>();
         Cursor routesCursor;
         String selection;
 
-        selection = STOP_NAME_COLUMN_NAME + " LIKE " + "'%" + query.toLowerCase() + "%'" + " AND Routes.CityId=" + cityId;
+        selection = STOP_NAME_FOR_SEARCH + " LIKE " + "'%" + query.toLowerCase() + "%'" + " AND Routes.CityId=" + cityId;
         routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
 
         routesCursor.moveToFirst();
