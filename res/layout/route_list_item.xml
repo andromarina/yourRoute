@@ -30,14 +30,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/font_size">
+                android:textSize="@dimen/font_size" android:singleLine="true" android:layout_gravity="center_vertical">
 
         </TextView>
 
         <TextView
                 android:id="@+id/start_end"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content" android:singleLine="false"
+                android:layout_gravity="center_vertical">
         </TextView>
     </LinearLayout>
 

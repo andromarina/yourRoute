@@ -2,19 +2,23 @@ package com.yourroute;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.yourroute.model.Route;
 import com.yourroute.model.RoutesRepository;
 
 import java.util.ArrayList;
 
 public class SearchResultsActivityController {
-    SearchResultsActivity activity;
-    Context context;
-    RouteListAdapter adapter;
-    RoutesRepository routesRepository;
+
+    private final String LOG_TAG = "SearchResultsActivityController";
+    private SearchResultsActivity activity;
+    private Context context;
+    private RouteListAdapter adapter;
+    private RoutesRepository routesRepository;
 
     public SearchResultsActivityController(Context context, SearchResultsActivity activity, RoutesRepository routesRepository) {
         this.activity = activity;
@@ -36,6 +40,12 @@ public class SearchResultsActivityController {
 
     private void refreshSearchResults(final ArrayList<Route> routes) {
 
+        if (routes.isEmpty()) {
+            Log.d(LOG_TAG, "routes array is empty");
+            TextView noResults = activity.getNoSearchResultsTextView();
+            noResults.setVisibility(View.VISIBLE);
+            return;
+        }
         ListView searchResultsListView = this.activity.getSearchResultsListView();
         this.adapter = new RouteListAdapter(this.context, R.layout.route_list_item, routes);
         searchResultsListView.setAdapter(this.adapter);

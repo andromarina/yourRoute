@@ -1,9 +1,9 @@
 package com.yourroute;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.yourroute.model.RoutesRepository;
 
 /**
@@ -15,14 +15,18 @@ import com.yourroute.model.RoutesRepository;
  */
 public class SearchResultsActivity extends Activity {
     ListView searchResultsListView;
+    TextView noSearchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_results_activity);
-        getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setTitle(R.string.search_results);
+
         this.searchResultsListView = (ListView) findViewById(R.id.search_results);
+        this.noSearchResults = (TextView) findViewById(R.id.no_search_results);
+
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
         SearchResultsActivityController controller = new SearchResultsActivityController(this, this, routesRepository);
         controller.initialize();
@@ -31,5 +35,9 @@ public class SearchResultsActivity extends Activity {
 
     public ListView getSearchResultsListView() {
         return this.searchResultsListView;
+    }
+
+    public TextView getNoSearchResultsTextView() {
+        return this.noSearchResults;
     }
 }

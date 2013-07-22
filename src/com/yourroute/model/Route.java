@@ -33,7 +33,7 @@ public class Route {
         this.startEnd = (startEnd == null) ? "" : startEnd;
         this.duration = (duration == null) ? "" : duration;
         this.length = (length == null) ? "" : length;
-        this.interval = (interval == null || interval == "00:00") ? "" : interval;
+        this.interval = (interval == null || interval.equals("00:00")) ? "" : interval;
         this.startTime = (startTime == null) ? "" : startTime;
         this.endTime = (endTime == null) ? "" : endTime;
     }
@@ -72,13 +72,13 @@ public class Route {
         if (!this.length.isEmpty()) {
             sb.append(this.length);
             sb.append(" ");
-            sb.append("km/");
+            sb.append("km");
         }
 
         if (!this.duration.isEmpty()) {
             sb.append(this.duration);
             sb.append(" ");
-            sb.append("min");
+            sb.append("/min");
         } else {
             sb.delete(sb.length() - 1, sb.length() - 1);
         }

@@ -35,12 +35,15 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
             item = inflater.inflate(R.layout.route_list_item, null);
         }
         Route route = super.getItem(position);
+
         TextView name = (TextView) item.findViewById(R.id.name);
         name.setText(route.getName());
+
+
         TextView startEnd = (TextView) item.findViewById(R.id.start_end);
 
         if (route.getStartEnd().isEmpty()) {
-            startEnd.setHeight(0);
+            startEnd.setVisibility(View.GONE);
         } else {
             startEnd.setText(route.getStartEnd());
         }

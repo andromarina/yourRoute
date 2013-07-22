@@ -46,7 +46,6 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
     public void initialize() {
 
         initializeSearch();
-        Preferences.initialize(context.getApplicationContext());
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
     }
