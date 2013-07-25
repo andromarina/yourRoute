@@ -7,20 +7,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/info_panel"
-            android:background="@drawable/tiled_background2"
-            android:minHeight="45dp"
+            android:minHeight="50dp"
             android:orientation="vertical" android:paddingLeft="@dimen/page_margin"
-            android:paddingRight="@dimen/page_margin" android:paddingBottom="2dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ул. ПРИВОКЗАЛЬНАЯ - БОРТНИЧИ"
-                android:id="@+id/start_end"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:textSize="20dp" android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal" android:textColor="@android:color/holo_blue_dark"/>
+            android:paddingRight="@dimen/page_margin" android:paddingBottom="2dp"
+            >
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ic_car_type"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ул. ПРИВОКЗАЛЬНАЯ - БОРТНИЧИ"
+                    android:id="@+id/start_end"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black" android:textStyle="bold"
+                    android:layout_gravity="center_vertical|left" android:gravity="left"/>
+        </LinearLayout>
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -34,13 +43,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/operation_time"
                     android:layout_gravity="left" android:textSize="16dp"
-                    android:textColor="@android:color/white"/>
+                    />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 06:00 - 00:00"
                     android:id="@+id/operation_time"
-                    android:textSize="16dp" android:textColor="@android:color/white"/>
+                    android:textSize="16dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -52,13 +61,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/interval" android:textSize="16dp"
-                    android:textColor="@android:color/white"/>
+                    />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 10 мин"
                     android:id="@+id/interval" android:textSize="16dp"
-                    android:textColor="@android:color/white"/>
+                    />
         </LinearLayout>
 
         <LinearLayout
@@ -70,13 +79,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/length" android:textSize="16dp"
-                    android:textColor="@android:color/white"/>
+                    />
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/length"
                     android:text=" 13 км/ 00:35 мин" android:textSize="16dp"
-                    android:textColor="@android:color/white" android:singleLine="true"/>
+                    android:singleLine="true"/>
         </LinearLayout>
 
     </LinearLayout>

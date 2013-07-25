@@ -19,14 +19,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/tabhost_height"
                     android:showDividers="middle"
-                    android:dividerPadding="3dp"
-                    android:background="@drawable/tiled_background3"
-                    android:clickable="true">
+                    android:dividerPadding="4dp"
+                    android:background="#d4d4d4"
+                    android:clickable="false" android:divider="@drawable/divider" android:tabStripEnabled="false"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:baselineAligned="false">
             </TabWidget>
             <FrameLayout
                     android:id="@android:id/tabcontent"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent" android:background="@android:color/white">
                 <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"

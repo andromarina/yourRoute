@@ -5,10 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
+import android.widget.*;
 import com.yourroute.model.Route;
 import com.yourroute.model.RoutesRepository;
 import com.yourroute.model.Stop;
@@ -34,7 +31,7 @@ public class RouteDetailsActivityController {
     public void initialize() {
         initializeRouteDetailsFragment();
         initializeRoute();
-        setRouteName();
+        setCarTypeIcon();
         setStartEnd();
         setOperationHours();
         setInterval();
@@ -70,8 +67,8 @@ public class RouteDetailsActivityController {
         this.route.initializeStops(stops);
     }
 
-    private void setRouteName() {
-        TextView routeNameView = this.activity.getRoute_name_View();
+    public String composeRouteName() {
+
         String routeName = this.route.getName();
         String carType = this.route.getType().toString();
         StringBuilder sb = new StringBuilder();
@@ -79,7 +76,16 @@ public class RouteDetailsActivityController {
         sb.append(" ");
         sb.append(carType);
         String composedInfo = sb.toString();
-        routeNameView.setText(composedInfo);
+        return composedInfo;
+
+    }
+
+    public void setCarTypeIcon() {
+        ImageView carType = activity.getCarTypeIcon();
+        int carTypeId = this.route.getType().getId();
+        int resourceId = this.route.getIconResource(carTypeId);
+        carType.setImageResource(resourceId);
+
     }
 
     private void setStartEnd() {

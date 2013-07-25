@@ -11,10 +11,12 @@
     <string name="street_name_hint">"Название остановки"</string>
     <string name="second_street_name_hint">"Название второй остановки"</string>
     <string name="route_number_hint">"Номер маршрута"</string>
-    <string name="forward">"Forward"</string>
-    <string name="backward">"Backward"</string>
+    <string name="forward">"Прямой"</string>
+    <string name="backward">"Обратный"</string>
     <string name="no_search_results">"Поиск не дал результатов"</string>
     <string name="search_results">"Результаты поиска"</string>
+    <string name="stop_name">"По остановкам"</string>
+    <string name="route_number">"По номеру"</string>
 
 
 </resources>

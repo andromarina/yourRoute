@@ -1,20 +1,18 @@
 package com.yourroute;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
+import android.widget.*;
 import com.yourroute.model.RoutesRepository;
 import com.yourroute.model.StopsRepository;
 
 
 public class RouteDetailsActivity extends FragmentActivity {
     private TabHost direction_tabhost;
-    private TextView route_name;
     private TextView startEndView;
+    private ImageView carTypeIcon;
     private TextView operationHoursView;
     private LinearLayout operationHoursLayout;
     private TextView intervalView;
@@ -32,13 +30,10 @@ public class RouteDetailsActivity extends FragmentActivity {
         setContentView(R.layout.route_card);
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
         StopsRepository stopsRepository = new StopsRepository(getContentResolver());
-        getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setCustomView(R.layout.route_name_view);
-        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
         this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
-        this.route_name = (TextView) findViewById(R.id.route_name_view);
         this.startEndView = (TextView) findViewById(R.id.start_end);
+        this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
         this.operationHoursView = (TextView) findViewById(R.id.operation_time);
         this.operationHoursLayout = (LinearLayout) findViewById(R.id.operation_time_layout);
         this.intervalView = (TextView) findViewById(R.id.interval);
@@ -50,18 +45,33 @@ public class RouteDetailsActivity extends FragmentActivity {
 
         this.controller = new RouteDetailsActivityController(this, routesRepository, stopsRepository);
         this.controller.initialize();
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setTitle(controller.composeRouteName());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public TabHost getDirection_tabhost() {
         return this.direction_tabhost;
     }
 
-    public TextView getRoute_name_View() {
-        return this.route_name;
-    }
-
     public TextView getStartEndView() {
         return this.startEndView;
+    }
+
+    public ImageView getCarTypeIcon() {
+        return this.carTypeIcon;
     }
 
     public TextView getOperationHoursView() {

@@ -15,23 +15,23 @@
     <RadioButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Street name"
+            android:text="@string/stop_name"
             android:id="@+id/street_name_radio_button"
             android:layout_weight="1"
             android:button="@drawable/button_direction"
             android:textColor="@color/radio_button_text"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical"
             android:background="@drawable/rbutton_background"/>
 
     <RadioButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Route number"
+            android:text="@string/route_number"
             android:id="@+id/route_number_radio_button"
             android:layout_weight="1"
             android:button="@drawable/button_number"
             android:textColor="@color/radio_button_text"
-            android:gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical"
             android:background="@drawable/rbutton_background"
             android:paddingLeft="10dp"/>
 </RadioGroup>

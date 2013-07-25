@@ -1,5 +1,7 @@
 package com.yourroute.model;
 
+import com.yourroute.R;
+
 import java.util.ArrayList;
 
 /**
@@ -50,6 +52,37 @@ public class Route {
         return this.type;
     }
 
+    public int getIconResource(int carTypeId) {
+        int iconResource;
+        switch (carTypeId) {
+            case 1:
+                iconResource = R.drawable.ic_bus;
+                return iconResource;
+            case 2:
+                iconResource = R.drawable.ic_trolley;
+                return iconResource;
+            case 3:
+                iconResource = R.drawable.ic_tram;
+                return iconResource;
+            case 4:
+                iconResource = R.drawable.ic_taxi;
+                return iconResource;
+            case 5:
+                iconResource = R.drawable.ic_bus;
+                return iconResource;
+            case 6:
+                iconResource = R.drawable.ic_bus;
+                return iconResource;
+            case 7:
+                iconResource = R.drawable.ic_bus;
+                return iconResource;
+            case 8:
+                iconResource = R.drawable.ic_electro_train;
+                return iconResource;
+        }
+        return 0;
+    }
+
     public String getStartEnd() {
         return this.startEnd;
     }
@@ -72,13 +105,13 @@ public class Route {
         if (!this.length.isEmpty()) {
             sb.append(this.length);
             sb.append(" ");
-            sb.append("km");
+            sb.append("km ");
         }
 
         if (!this.duration.isEmpty()) {
             sb.append(this.duration);
             sb.append(" ");
-            sb.append("/min");
+            sb.append("min");
         } else {
             sb.delete(sb.length() - 1, sb.length() - 1);
         }
