@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -6,10 +6,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.yourroute.model.Route;
-import com.yourroute.model.RoutesRepository;
-import com.yourroute.model.Stop;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.Route;
+import com.andromarina.yourRoute.model.RoutesRepository;
+import com.andromarina.yourRoute.model.Stop;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 import java.util.ArrayList;
 
@@ -98,10 +99,10 @@ public class RouteDetailsActivityController {
 
         TextView operationHoursView = this.activity.getOperationHoursView();
         LinearLayout operationalHoursLayout = this.activity.getOperationHoursLayout();
-        if (this.route.getOperationalHours().isEmpty()) {
+        if (this.route.getWorkTime().isEmpty()) {
             operationalHoursLayout.setVisibility(View.GONE);
         } else {
-            operationHoursView.setText(route.getOperationalHours());
+            operationHoursView.setText(route.getWorkTime());
         }
     }
 
@@ -120,10 +121,10 @@ public class RouteDetailsActivityController {
         TextView lengthView = this.activity.getLengthView();
         LinearLayout lengthLayout = this.activity.getLengthLayout();
 
-        if (route.getLengthAndDuration().isEmpty()) {
+        if (route.getLength().isEmpty()) {
             lengthLayout.setVisibility(View.GONE);
         } else {
-            lengthView.setText(this.route.getLengthAndDuration());
+            lengthView.setText(this.route.getLength());
         }
     }
 
@@ -136,9 +137,13 @@ public class RouteDetailsActivityController {
         ListView forwardStopsList = this.activity.getForwardStopsList();
         StopsListAdapter adapterForward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, this.route.getForwardStops());
         forwardStopsList.setAdapter(adapterForward);
+        StopsListListener stopsListListener = new StopsListListener(activity.getBaseContext(), activity, stops);
+        forwardStopsList.setOnItemClickListener(stopsListListener);
+
 
         StopsListAdapter adapterBackward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, this.route.getBackwardStops());
         ListView backwardStopsList = this.activity.getBackwardStopsList();
         backwardStopsList.setAdapter(adapterBackward);
+        backwardStopsList.setOnItemClickListener(stopsListListener);
     }
 }

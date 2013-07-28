@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.yourroute"
+          package="com.andromarina"
           android:versionCode="1"
           android:versionName="1.0">
 
@@ -10,12 +10,12 @@
 
 
     <application
-            android:name=".YourRouteApp"
+            android:name=".yourRoute.YourRouteApp"
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:theme="@style/MyTheme">
         <activity
-                android:name="com.yourroute.MainActivity"
+                android:name=".yourRoute.MainActivity"
                 android:label="@string/app_name"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait">
@@ -33,20 +33,20 @@
 
         </activity>
         <activity
-                android:name="com.yourroute.RouteDetailsActivity"
+                android:name=".yourRoute.RouteDetailsActivity"
                 android:screenOrientation="portrait"
-                android:parentActivityName="com.yourroute.MainActivity">
+                android:parentActivityName=".yourRoute.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.yourroute.MainActivity"/>
+                    android:value=".yourRoute.MainActivity"/>
         </activity>
         <activity
-                android:name="com.yourroute.SearchResultsActivity"
+                android:name=".yourRoute.SearchResultsActivity"
                 android:screenOrientation="portrait"
-                android:parentActivityName="com.yourroute.MainActivity">
+                android:parentActivityName=".yourRoute.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.yourroute.MainActivity"/>
+                    android:value=".yourRoute.MainActivity"/>
         </activity>
     </application>
 

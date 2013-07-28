@@ -1,12 +1,13 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.*;
-import com.yourroute.model.RoutesRepository;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.RoutesRepository;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 
 public class RouteDetailsActivity extends FragmentActivity {

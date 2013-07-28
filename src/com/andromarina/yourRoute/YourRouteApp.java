@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.app.Application;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 
 import android.content.Context;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.yourroute.model.City;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.City;
 
 import java.util.List;
 

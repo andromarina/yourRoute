@@ -1,4 +1,4 @@
-package com.yourroute.model;
+package com.andromarina.yourRoute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;

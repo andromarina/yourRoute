@@ -1,4 +1,4 @@
-package com.yourroute.model;
+package com.andromarina.yourRoute.model;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,13 +11,13 @@ public class CarType {
     private final String name;
     private final int id;
 
-    public CarType (int id, String name) {
+    public CarType(int id, String name) {
         this.name = name;
         this.id = id;
     }
 
     public String getName() {
-      return this.name;
+        return this.name;
     }
 
     public int getId() {

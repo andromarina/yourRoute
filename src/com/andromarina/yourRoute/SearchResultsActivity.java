@@ -1,10 +1,11 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.yourroute.model.RoutesRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.RoutesRepository;
 
 /**
  * Created with IntelliJ IDEA.

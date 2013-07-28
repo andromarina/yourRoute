@@ -1,7 +1,7 @@
 /*___Generated_by_IDEA___*/
 
 /** Automatically generated file. DO NOT MODIFY */
-package com.yourroute;
+package com.andromarina;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

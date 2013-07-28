@@ -1,13 +1,14 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.*;
-import com.yourroute.model.CitiesRepository;
-import com.yourroute.model.RoutesRepository;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.CitiesRepository;
+import com.andromarina.yourRoute.model.RoutesRepository;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 public class MainActivity extends FragmentActivity {
 
@@ -85,6 +86,20 @@ public class MainActivity extends FragmentActivity {
 
     public RadioGroup getSearchModeRadioGroup() {
         return this.searchMode;
+    }
+
+    public int getCurrentSearchMode() {
+        int checkedButtonId = getSearchModeRadioGroup().getCheckedRadioButtonId();
+        int searchMode = 0;
+        switch (checkedButtonId) {
+            case (R.id.street_name_radio_button):
+                searchMode = 1;
+                break;
+            case (R.id.route_number_radio_button):
+                searchMode = 2;
+                break;
+        }
+        return searchMode;
     }
 
     public ImageButton getClearButton() {

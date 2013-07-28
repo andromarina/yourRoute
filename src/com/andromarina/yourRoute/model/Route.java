@@ -1,6 +1,6 @@
-package com.yourroute.model;
+package com.andromarina.yourRoute.model;
 
-import com.yourroute.R;
+import com.andromarina.R;
 
 import java.util.ArrayList;
 
@@ -18,26 +18,22 @@ public class Route {
     private final String name;
     private final CarType type;
     private final String startEnd;
-    private final String duration;
     private final String length;
     private final String interval;
-    private final String startTime;
-    private final String endTime;
+    private final String workTime;
     private StopsCollection forwardStops;
     private StopsCollection backwardStops;
 
 
-    public Route(int id, String name, CarType type, String startEnd, String duration,
-                 String length, String interval, String startTime, String endTime) {
+    public Route(int id, String name, CarType type, String startEnd,
+                 String length, String interval, String workTime) {
         this.id = id;
         this.name = (name == null) ? "" : name;
         this.type = type;
         this.startEnd = (startEnd == null) ? "" : startEnd;
-        this.duration = (duration == null) ? "" : duration;
         this.length = (length == null) ? "" : length;
         this.interval = (interval == null || interval.equals("00:00")) ? "" : interval;
-        this.startTime = (startTime == null) ? "" : startTime;
-        this.endTime = (endTime == null) ? "" : endTime;
+        this.workTime = (workTime == null) ? "" : workTime;
     }
 
     public int getId() {
@@ -87,63 +83,16 @@ public class Route {
         return this.startEnd;
     }
 
-    public String getDuration() {
-        return this.duration;
-    }
-
     public String getLength() {
         return this.length;
-    }
-
-    public String getLengthAndDuration() {
-        if (this.length.isEmpty() && this.duration.isEmpty()) {
-            return new String();
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        if (!this.length.isEmpty()) {
-            sb.append(this.length);
-            sb.append(" ");
-            sb.append("km ");
-        }
-
-        if (!this.duration.isEmpty()) {
-            sb.append(this.duration);
-            sb.append(" ");
-            sb.append("min");
-        } else {
-            sb.delete(sb.length() - 1, sb.length() - 1);
-        }
-
-        String lengthAndDuration = sb.toString();
-        return lengthAndDuration;
-
-
     }
 
     public String getInterval() {
         return this.interval;
     }
 
-    public String getStartTime() {
-        return this.startTime;
-    }
-
-    public String getEndTime() {
-        return this.endTime;
-    }
-
-    public String getOperationalHours() {
-        if (this.startTime.isEmpty() && this.endTime.isEmpty()) {
-            return new String();
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(startTime);
-        sb.append(" - ");
-        sb.append(endTime);
-        String operationalHours = sb.toString();
-        return operationalHours;
+    public String getWorkTime() {
+        return this.workTime;
     }
 
     public void initializeStops(ArrayList<Stop> stops) {

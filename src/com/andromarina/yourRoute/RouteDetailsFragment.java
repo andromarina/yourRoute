@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 
 import android.graphics.Color;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import com.andromarina.R;
 
 
 public class RouteDetailsFragment extends Fragment {

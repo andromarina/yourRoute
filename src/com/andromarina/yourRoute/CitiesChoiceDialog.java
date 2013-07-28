@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import com.yourroute.model.City;
+import com.andromarina.yourRoute.model.City;
 
 import java.util.ArrayList;
 
@@ -27,8 +27,8 @@ public class CitiesChoiceDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-        builder.setTitle(com.yourroute.R.string.select_city_list_title);
-        CityListAdapter adapter = new CityListAdapter(context, com.yourroute.R.id.city_name, this.cities);
+        builder.setTitle(com.andromarina.R.string.select_city_list_title);
+        CityListAdapter adapter = new CityListAdapter(context, com.andromarina.R.id.city_name, this.cities);
 
         builder.setSingleChoiceItems(adapter, -1, listener);
 

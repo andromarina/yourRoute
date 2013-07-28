@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.yourroute.model.Route;
-import com.yourroute.model.RoutesRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.Route;
+import com.andromarina.yourRoute.model.RoutesRepository;
 
 import java.util.ArrayList;
 

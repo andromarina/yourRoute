@@ -32,11 +32,13 @@
                 <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:id="@+id/backward_stops_list"/>
+                        android:id="@+id/backward_stops_list" android:clickable="true"
+                        android:listSelector="@drawable/rbutton_background"/>
                 <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:id="@+id/forward_stops_list" android:focusable="false"/>
+                        android:id="@+id/forward_stops_list" android:focusable="false" android:clickable="true"
+                        android:listSelector="@drawable/rbutton_background"/>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

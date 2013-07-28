@@ -1,4 +1,4 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 public class StopsSuggestionsTextWatcherOptional implements TextWatcher {
     private StopsRepository stopsRepository;

@@ -1,12 +1,13 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.text.InputType;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import com.yourroute.model.RoutesRepository;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.RoutesRepository;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListener {
     private MainActivity activity;
@@ -62,7 +63,7 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
         searchField.setHint(routeNumberHint);
         searchField.setText("");
         searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
-        optionalStreetSearchLayout.setVisibility(View.GONE);
+        optionalStreetSearchLayout.setVisibility(View.INVISIBLE);
 
     }
 

@@ -1,4 +1,4 @@
-package com.yourroute.model;
+package com.andromarina.yourRoute.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

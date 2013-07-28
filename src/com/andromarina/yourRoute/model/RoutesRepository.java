@@ -1,4 +1,4 @@
-package com.yourroute.model;
+package com.andromarina.yourRoute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -14,11 +14,9 @@ public class RoutesRepository {
     private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://your.route.DB/RoutesByRouteName");
     private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
-    private final static String ROUTE_DURATION_COLUMN_NAME = "Duration";
     private final static String ROUTE_LENGTH_COLUMN_NAME = "Length";
     private final static String ROUTE_INTERVAL_COLUMN_NAME = "Interval";
-    private final static String ROUTE_END_TIME_COLUMN_NAME = "EndTime";
-    private final static String ROUTE_START_TIME_COLUMN_NAME = "StartTime";
+    private final static String ROUTE_WORK_TIME_COLUMN_NAME = "WorkTime";
     private final static String START_END_COLUMN_NAME = "StartEnd";
     private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
     private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
@@ -113,15 +111,15 @@ public class RoutesRepository {
 
     public ArrayList<Route> uniteRoutes(ArrayList<Route> mainArray, ArrayList<Route> additionalArray) {
         ArrayList<Route> result = new ArrayList<Route>();
-        for (Route i : mainArray) {
-            int iID = i.getId();
+        for (Route route : mainArray) {
+            int iID = route.getId();
             for (int j = 0; j < additionalArray.size(); ++j) {
                 Route jRoute = additionalArray.get(j);
                 int jID = jRoute.getId();
                 if (iID == jID) {
-                    result.add(i);
+                    result.add(route);
+                    break;
                 }
-                ++j;
             }
         }
         Log.d(LOG_TAG, "united array size is: " + result.size());
@@ -142,26 +140,20 @@ public class RoutesRepository {
         int carTypeIdColumnName = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
         int carTypeId = routesCursor.getInt(carTypeIdColumnName);
 
-        int durationColumnIndex = routesCursor.getColumnIndex(ROUTE_DURATION_COLUMN_NAME);
-        String duration = routesCursor.getString(durationColumnIndex);
-
         int lengthColumnIndex = routesCursor.getColumnIndex(ROUTE_LENGTH_COLUMN_NAME);
         String length = routesCursor.getString(lengthColumnIndex);
 
         int intervalColumnIndex = routesCursor.getColumnIndex(ROUTE_INTERVAL_COLUMN_NAME);
         String interval = routesCursor.getString(intervalColumnIndex);
 
-        int startTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_START_TIME_COLUMN_NAME);
-        String startTime = routesCursor.getString(startTimeColumnIndex);
-
-        int endTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_END_TIME_COLUMN_NAME);
-        String endTime = routesCursor.getString(endTimeColumnIndex);
+        int workTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_WORK_TIME_COLUMN_NAME);
+        String startTime = routesCursor.getString(workTimeColumnIndex);
 
         int carTypeColumnIndex = carTypesCursor.getColumnIndex(CAR_TYPE_NAME_COLUMN_NAME);
         String carTypeName = carTypesCursor.getString(carTypeColumnIndex);
         CarType type = new CarType(carTypeId, carTypeName);
 
-        Route route = new Route(id, name, type, startEnd, duration, length, interval, startTime, endTime);
+        Route route = new Route(id, name, type, startEnd, length, interval, startTime);
         return route;
     }
 

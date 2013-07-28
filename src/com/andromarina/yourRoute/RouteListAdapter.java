@@ -1,14 +1,14 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.yourroute.model.Route;
+import com.andromarina.R;
+import com.andromarina.yourRoute.model.Route;
 
 import java.util.ArrayList;
 
@@ -22,9 +22,9 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
 
     @Override
     public View getView(int position, View item, ViewGroup parent) {
-        int[] colors = new int[2];
-        colors[0] = Color.parseColor("#F5F5F5");
-        colors[1] = Color.parseColor("#E8E8E8");
+//        int[] colors = new int[2];
+//        colors[0] = Color.parseColor("#F5F5F5");
+//        colors[1] = Color.parseColor("#E8E8E8");
 
         if (item == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,7 +47,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
         int carTypeId = route.getType().getId();
         int iconResource = route.getIconResource(carTypeId);
         carType.setImageResource(iconResource);
-        item.setBackgroundColor(colors[position % 2]);
+        // item.setBackgroundColor(colors[position % 2]);
 
         return item;
     }

@@ -1,16 +1,15 @@
-package com.yourroute;
+package com.andromarina.yourRoute;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.yourroute.model.CitiesRepository;
-import com.yourroute.model.City;
-import com.yourroute.model.RoutesRepository;
-import com.yourroute.model.StopsRepository;
+import com.andromarina.yourRoute.model.CitiesRepository;
+import com.andromarina.yourRoute.model.City;
+import com.andromarina.yourRoute.model.RoutesRepository;
+import com.andromarina.yourRoute.model.StopsRepository;
 
 import java.util.ArrayList;
 
@@ -139,19 +138,8 @@ public class MainActivityController {
 
     private void initializeSearchButton() {
         Button searchButton = this.activity.getSearchButton();
-        searchButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, SearchResultsActivity.class);
-                String searchKeyMain = activity.getSearchMain().getText().toString();
-                intent.putExtra("SearchPhrase", searchKeyMain);
-                String searchKeyOptional = activity.getStreetSearchOptional().getText().toString();
-                intent.putExtra("OptionalSearchPhrase", searchKeyOptional);
-                int searchMode = getCurrentSearchMode(activity.getSearchModeRadioGroup());
-                intent.putExtra("SearchMode", searchMode);
-                activity.startActivity(intent);
-            }
-        });
+        SearchButtonListener searchButtonListener = new SearchButtonListener(activity, context);
+        searchButton.setOnClickListener(searchButtonListener);
     }
 
     private void initializeSearchModeRadioGroup() {
@@ -185,19 +173,5 @@ public class MainActivityController {
 //        return true;
 //    }
 
-
-    public int getCurrentSearchMode(RadioGroup radioGroup) {
-        int checkedButtonId = radioGroup.getCheckedRadioButtonId();
-        int searchMode = 0;
-        switch (checkedButtonId) {
-            case (R.id.street_name_radio_button):
-                searchMode = 1;
-                break;
-            case (R.id.route_number_radio_button):
-                searchMode = 2;
-                break;
-        }
-        return searchMode;
-    }
 
 }
