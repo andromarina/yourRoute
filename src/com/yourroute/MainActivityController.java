@@ -5,9 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.yourroute.model.CitiesRepository;
 import com.yourroute.model.City;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
  * Time: 11:28 AM
  * To change this template use File | Settings | File Templates.
  */
-public class MainActivityController implements AutoCompleteTextView.OnEditorActionListener {
+public class MainActivityController {
 
     private final String LOG_TAG = "MainActivityController";
     private Context context;
@@ -32,6 +30,7 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
     private RoutesRepository routesRepository;
     private StopsRepository stopsRepository;
     private AutoCompleteTextView streetSearchMain;
+    private AutoCompleteTextView streetSearchOptional;
     private ArrayList<City> cities;
 
     public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository,
@@ -45,7 +44,9 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
 
     public void initialize() {
 
-        initializeSearch();
+        initializeSearchMain();
+        initializeSearchOptional();
+        initializeSearchButton();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
     }
@@ -75,6 +76,7 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
         int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
         streetSearchMain.setText("");
+        streetSearchOptional.setText("");
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -92,7 +94,7 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
         cityNameButton.setOnClickListener(oclCityNameBtn);
     }
 
-    private void initializeSearch() {
+    private void initializeSearchMain() {
 
         this.streetSearchMain = this.activity.getSearchMain();
         ImageButton clearFieldButton = activity.getClearButton();
@@ -103,12 +105,51 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
             }
         });
         initializeSearchModeRadioGroup();
-        this.streetSearchMain.setOnEditorActionListener(this);
+        //   this.streetSearchMain.setOnEditorActionListener(this);
         streetSearchMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedSuggestion = (String) ((TextView) view).getText();
                 streetSearchMain.setText(selectedSuggestion);
+            }
+        });
+    }
+
+    private void initializeSearchOptional() {
+
+        this.streetSearchOptional = this.activity.getStreetSearchOptional();
+        ImageButton clearFieldButton = activity.getClearButtonOptional();
+        clearFieldButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                streetSearchOptional.setText("");
+            }
+        });
+        initializeSearchModeRadioGroup();
+        //  this.streetSearchOptional.setOnEditorActionListener(this);
+        streetSearchOptional.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSuggestion = (String) ((TextView) view).getText();
+                streetSearchOptional.setText(selectedSuggestion);
+            }
+        });
+
+    }
+
+    private void initializeSearchButton() {
+        Button searchButton = this.activity.getSearchButton();
+        searchButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SearchResultsActivity.class);
+                String searchKeyMain = activity.getSearchMain().getText().toString();
+                intent.putExtra("SearchPhrase", searchKeyMain);
+                String searchKeyOptional = activity.getStreetSearchOptional().getText().toString();
+                intent.putExtra("OptionalSearchPhrase", searchKeyOptional);
+                int searchMode = getCurrentSearchMode(activity.getSearchModeRadioGroup());
+                intent.putExtra("SearchMode", searchMode);
+                activity.startActivity(intent);
             }
         });
     }
@@ -119,22 +160,31 @@ public class MainActivityController implements AutoCompleteTextView.OnEditorActi
         searchMode.setOnCheckedChangeListener(switchListener);
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        String searchKey = v.getText().toString();
+//    @Override
+//    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//        String searchKey = v.getText().toString();
+//
+//        if (actionId != EditorInfo.IME_ACTION_SEARCH) {
+//            return false;
+//        }
+//
+//        Intent intent = new Intent(context, SearchResultsActivity.class);
+//
+//        if (v.getId() == R.id.street_search) {
+//            intent.putExtra("SearchPhrase", searchKey);
+//        }
+//
+//        else if (v.getId() == R.id.optional_street_search) {
+//            intent.putExtra("OptionalSearchPhrase", searchKey);
+//        }
+//
+//        int searchMode = getCurrentSearchMode(activity.getSearchModeRadioGroup());
+//        intent.putExtra("SearchMode", searchMode);
+//        activity.startActivity(intent);
+//
+//        return true;
+//    }
 
-        if (actionId != EditorInfo.IME_ACTION_SEARCH) {
-            return false;
-        }
-
-        Intent intent = new Intent(context, SearchResultsActivity.class);
-        intent.putExtra("SearchPhrase", searchKey);
-        int searchMode = getCurrentSearchMode(activity.getSearchModeRadioGroup());
-        intent.putExtra("SearchMode", searchMode);
-        activity.startActivity(intent);
-
-        return true;
-    }
 
     public int getCurrentSearchMode(RadioGroup radioGroup) {
         int checkedButtonId = radioGroup.getCheckedRadioButtonId();

@@ -28,9 +28,10 @@ public class SearchResultsActivityController {
 
     public void initialize() {
         String searchPhrase = getSearchPhrase();
+        String optionalSearchPhrase = getOptionalSearchPhrase();
         switch (getSearchMode()) {
             case 1:
-                doSearchByStreetName(searchPhrase);
+                doSearchByStreetName(searchPhrase, optionalSearchPhrase);
                 break;
             case 2:
                 doSearchByRouteName(searchPhrase);
@@ -61,10 +62,40 @@ public class SearchResultsActivityController {
         });
     }
 
-    private void doSearchByStreetName(String queryStr) {
+    private void refreshUnitedSearchResults(final ArrayList<Route> unitedArray) {
+
+        if (unitedArray.isEmpty()) {
+            Log.d(LOG_TAG, "united routes array is empty");
+            TextView noResults = activity.getNoSearchResultsTextView();
+            noResults.setVisibility(View.VISIBLE);
+            return;
+        }
+        ListView searchResultsListView = this.activity.getSearchResultsListView();
+        this.adapter = new RouteListAdapter(this.context, R.layout.route_list_item, unitedArray);
+        searchResultsListView.setAdapter(this.adapter);
+
+        searchResultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(context, RouteDetailsActivity.class);
+                int routeID = unitedArray.get(position).getId();
+                intent.putExtra("routeID", routeID);
+                activity.startActivity(intent);
+            }
+        });
+    }
+
+    private void doSearchByStreetName(String stopName, String optionalName) {
         int savedCityId = Preferences.getSavedCityId();
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(queryStr, savedCityId);
-        refreshSearchResults(routes);
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(stopName, savedCityId);
+        if (!optionalName.isEmpty()) {
+            Log.d(LOG_TAG, "Optional street search name: " + optionalName);
+            final ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(optionalName, savedCityId);
+            ArrayList<Route> unitedArray = this.routesRepository.uniteRoutes(routes, routesOptional);
+            refreshUnitedSearchResults(unitedArray);
+        } else {
+            refreshSearchResults(routes);
+        }
     }
 
     private void doSearchByRouteName(String queryStr) {
@@ -77,6 +108,12 @@ public class SearchResultsActivityController {
         Intent intent = this.activity.getIntent();
         String searchPhrase = intent.getStringExtra("SearchPhrase");
         return searchPhrase;
+    }
+
+    private String getOptionalSearchPhrase() {
+        Intent intent = this.activity.getIntent();
+        String optionalSearchPhrase = intent.getStringExtra("OptionalSearchPhrase");
+        return optionalSearchPhrase;
     }
 
     private int getSearchMode() {

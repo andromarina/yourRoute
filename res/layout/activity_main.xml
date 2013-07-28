@@ -5,7 +5,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" android:background="@color/list_grey">
 
-    <include layout="@layout/search_panel"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_marginTop="10dp">
+        <include layout="@layout/search_panel"/>
+    </LinearLayout>
 
     <include layout="@layout/radio_buttons"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/find_button"
+            android:id="@+id/search_button"
+            android:layout_alignParentLeft="false" android:layout_alignParentTop="false"
+            android:layout_gravity="center_horizontal" android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"/>
 </RelativeLayout>

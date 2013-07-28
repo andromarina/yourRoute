@@ -4,7 +4,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
-import android.widget.SlidingDrawer;
+import android.widget.RelativeLayout;
 import com.yourroute.model.RoutesRepository;
 import com.yourroute.model.StopsRepository;
 
@@ -12,16 +12,19 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
     private MainActivity activity;
     private StopsRepository stopsRepository;
     private RoutesRepository routesRepository;
-    SlidingDrawer slidingDrawer;
     AutoCompleteTextView searchField;
+    AutoCompleteTextView optionalSearchField;
+    RelativeLayout optionalStreetSearchLayout;
 
     public SearchModeSwitchListener(MainActivity activity, StopsRepository stopsRepository, RoutesRepository routesRepository) {
         this.activity = activity;
         this.stopsRepository = stopsRepository;
         this.routesRepository = routesRepository;
-        this.slidingDrawer = activity.getSlidingDrawer();
         this.searchField = activity.getSearchMain();
+        this.optionalSearchField = activity.getStreetSearchOptional();
+        this.optionalStreetSearchLayout = activity.getOptionalStreetSearchLayout();
         configureStreetNameSearch();
+
     }
 
     @Override
@@ -40,11 +43,14 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
     private void configureStreetNameSearch() {
         StopsSuggestionsTextWatcher stopsSuggestionsWatcher = new StopsSuggestionsTextWatcher(stopsRepository, activity);
         searchField.addTextChangedListener(stopsSuggestionsWatcher);
+        StopsSuggestionsTextWatcherOptional suggestionsTextWatcherOptional = new StopsSuggestionsTextWatcherOptional(stopsRepository, activity);
+        optionalSearchField.addTextChangedListener(suggestionsTextWatcherOptional);
         String streetNameHint = activity.getResources().getString(R.string.street_name_hint);
         searchField.setHint(streetNameHint);
         searchField.setText("");
         searchField.setInputType(InputType.TYPE_CLASS_TEXT);
-        slidingDrawer.setVisibility(View.VISIBLE);
+        optionalSearchField.setText("");
+        optionalStreetSearchLayout.setVisibility(View.VISIBLE);
     }
 
     private void configureRouteNumberSearch() {
@@ -56,7 +62,7 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
         searchField.setHint(routeNumberHint);
         searchField.setText("");
         searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
-        slidingDrawer.setVisibility(View.GONE);
+        optionalStreetSearchLayout.setVisibility(View.GONE);
 
     }
 

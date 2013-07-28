@@ -25,6 +25,7 @@ public class RoutesRepository {
     public final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
     private final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
     private final static String ROUTE_ID_COLUMN_NAME = "_id";
+    private String LOG_TAG = this.getClass().getSimpleName();
 
     public RoutesRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
@@ -108,6 +109,23 @@ public class RoutesRepository {
         String selection = stringBuilder.toString();
         Cursor stopsCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
         return stopsCursor;
+    }
+
+    public ArrayList<Route> uniteRoutes(ArrayList<Route> mainArray, ArrayList<Route> additionalArray) {
+        ArrayList<Route> result = new ArrayList<Route>();
+        for (Route i : mainArray) {
+            int iID = i.getId();
+            for (int j = 0; j < additionalArray.size(); ++j) {
+                Route jRoute = additionalArray.get(j);
+                int jID = jRoute.getId();
+                if (iID == jID) {
+                    result.add(i);
+                }
+                ++j;
+            }
+        }
+        Log.d(LOG_TAG, "united array size is: " + result.size());
+        return result;
     }
 
     private Route createRoute(Cursor routesCursor, Cursor carTypesCursor) {

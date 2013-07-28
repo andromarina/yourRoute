@@ -14,8 +14,11 @@ public class MainActivity extends FragmentActivity {
     private Button cityNameButton;
     private RadioGroup searchMode;
     private AutoCompleteTextView searchMain;
-    private SlidingDrawer slidingDrawer;
+    private AutoCompleteTextView streetSearchOptional;
+    private RelativeLayout optionalStreetSearchLayout;
+    private Button searchButton;
     private ImageButton clearButton;
+    private ImageButton clearButtonOptional;
     private MainActivityController mainActivityController;
 
 
@@ -45,22 +48,12 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        this.slidingDrawer = (SlidingDrawer) findViewById(R.id.slidingDrawer);
-        final ImageButton handler = (ImageButton) findViewById(R.id.handle);
-        this.slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
-            @Override
-            public void onDrawerOpened() {
-                handler.setRotationX(180);
-            }
-        });
-        this.slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
-            @Override
-            public void onDrawerClosed() {
-                handler.setRotationX(360);
-            }
-        });
         this.searchMain = (AutoCompleteTextView) findViewById(R.id.street_search);
+        this.streetSearchOptional = (AutoCompleteTextView) findViewById(R.id.optional_street_search);
+        this.optionalStreetSearchLayout = (RelativeLayout) findViewById(R.id.optional_street_search_layout);
+        this.searchButton = (Button) findViewById(R.id.search_button);
         this.clearButton = (ImageButton) findViewById(R.id.clear_button);
+        this.clearButtonOptional = (ImageButton) findViewById(R.id.clear_button_second);
 
     }
 
@@ -78,6 +71,18 @@ public class MainActivity extends FragmentActivity {
         return this.searchMain;
     }
 
+    public AutoCompleteTextView getStreetSearchOptional() {
+        return this.streetSearchOptional;
+    }
+
+    public RelativeLayout getOptionalStreetSearchLayout() {
+        return this.optionalStreetSearchLayout;
+    }
+
+    public Button getSearchButton() {
+        return this.searchButton;
+    }
+
     public RadioGroup getSearchModeRadioGroup() {
         return this.searchMode;
     }
@@ -86,8 +91,8 @@ public class MainActivity extends FragmentActivity {
         return this.clearButton;
     }
 
-    public SlidingDrawer getSlidingDrawer() {
-        return this.slidingDrawer;
+    public ImageButton getClearButtonOptional() {
+        return this.clearButtonOptional;
     }
 
 }
