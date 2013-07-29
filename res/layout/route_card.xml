@@ -33,12 +33,12 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/backward_stops_list" android:clickable="true"
-                        android:listSelector="@drawable/rbutton_background"/>
+                        android:listSelector="@drawable/list_selector"/>
                 <ListView
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/forward_stops_list" android:focusable="false" android:clickable="true"
-                        android:listSelector="@drawable/rbutton_background"/>
+                        android:listSelector="@drawable/list_selector"/>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

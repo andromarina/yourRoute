@@ -18,5 +18,5 @@
             android:id="@+id/search_results" android:drawSelectorOnTop="false" android:clickable="true"
             android:longClickable="true"
             android:focusableInTouchMode="true"
-            android:focusable="true" android:listSelector="@drawable/rbutton_background"/>
+            android:focusable="true" android:listSelector="@drawable/list_selector"/>
 </RelativeLayout>
