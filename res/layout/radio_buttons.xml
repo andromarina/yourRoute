@@ -12,26 +12,16 @@
             android:dividerPadding="6dp"
             android:divider="@drawable/divider"
             android:layout_gravity="bottom" android:layout_alignParentBottom="true" android:id="@+id/search_mode">
-    <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/stop_name"
-            android:id="@+id/street_name_radio_button"
-            android:layout_weight="1"
-            android:button="@drawable/button_direction"
-            android:textColor="@color/radio_button_text"
-            android:gravity="center_vertical"
-            android:background="@drawable/rbutton_background"/>
 
-    <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/route_number"
-            android:id="@+id/route_number_radio_button"
-            android:layout_weight="1"
-            android:button="@drawable/button_number"
-            android:textColor="@color/radio_button_text"
-            android:gravity="center_vertical"
-            android:background="@drawable/rbutton_background"
-            android:paddingLeft="10dp"/>
+    <view android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          class="controls.CustomRadioButton" android:id="@+id/street_name_radio_button"
+          style="@style/speaker_list_layout_radio_button" android:drawableLeft="@drawable/button_direction"
+          android:text="@string/stop_name" android:layout_weight="1"
+            />
+    <view android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          class="controls.CustomRadioButton" android:id="@+id/route_number_radio_button"
+          style="@style/speaker_list_layout_radio_button" android:drawableLeft="@drawable/button_number"
+          android:text="@string/route_number" android:layout_weight="1"/>
 </RadioGroup>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="font_type" format="integer">
+        <enum name="regular" value="0"/>
+        <enum name="medium" value="1"/>
+    </attr>
+
+    <declare-styleable name="button_drawable">
+        <attr name="drawableSrcLeft" format="reference"/>
+        <attr name="drawableSrcWidth" format="dimension"/>
+        <attr name="drawableSrcHeight" format="dimension"/>
+    </declare-styleable>
+</resources>
