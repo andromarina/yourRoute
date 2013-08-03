@@ -3,7 +3,9 @@
 
     <style name="speaker_list_layout_radio_button">
         <item name="android:button">@null</item>
+        <item name="android:padding">5dp</item>
         <item name="android:textColor">@color/radio_button_text</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/rbutton_background</item>

@@ -8,8 +8,8 @@
     <string name="interval">"Интервал: "</string>
     <string name="km">"км"</string>
     <string name="min">"мин"</string>
-    <string name="street_name_hint">"Название остановки"</string>
-    <string name="second_street_name_hint">"Дополнительная остановка"</string>
+    <string name="street_name_hint">"Остановка отправления"</string>
+    <string name="second_street_name_hint">"Остановка прибытия"</string>
     <string name="route_number_hint">"Номер маршрута"</string>
     <string name="forward">"Прямой"</string>
     <string name="backward">"Обратный"</string>
@@ -18,7 +18,7 @@
     <string name="stop_name">"По остановкам"</string>
     <string name="route_number">"По номеру"</string>
     <string name="find_button">"Поиск"</string>
-    <string name="need_to_fill_main_search_field">"Заполните основное поле поиска"</string>
+    <string name="need_to_fill_main_search_field">"Заполните поле поиска"</string>
 
 
 </resources>
