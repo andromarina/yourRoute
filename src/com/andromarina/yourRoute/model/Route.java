@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Route {
     private final int id;
     private final String name;
-    private final CarType type;
+    private final int carType;
     private final String startEnd;
     private final String length;
     private final String interval;
@@ -25,11 +25,11 @@ public class Route {
     private StopsCollection backwardStops;
 
 
-    public Route(int id, String name, CarType type, String startEnd,
+    public Route(int id, String name, int carType, String startEnd,
                  String length, String interval, String workTime) {
         this.id = id;
         this.name = (name == null) ? "" : name;
-        this.type = type;
+        this.carType = carType;
         this.startEnd = (startEnd == null) ? "" : startEnd;
         this.length = (length == null) ? "" : length;
         this.interval = (interval == null || interval.equals("00:00")) ? "" : interval;
@@ -44,8 +44,8 @@ public class Route {
         return this.name;
     }
 
-    public CarType getType() {
-        return this.type;
+    public int getCarType() {
+        return this.carType;
     }
 
     public int getIconResource(int carTypeId) {
@@ -61,18 +61,12 @@ public class Route {
                 iconResource = R.drawable.ic_tram;
                 return iconResource;
             case 4:
-                iconResource = R.drawable.ic_taxi;
+                iconResource = R.drawable.ic_metro;
                 return iconResource;
             case 5:
-                iconResource = R.drawable.ic_bus;
+                iconResource = R.drawable.ic_boat;
                 return iconResource;
             case 6:
-                iconResource = R.drawable.ic_bus;
-                return iconResource;
-            case 7:
-                iconResource = R.drawable.ic_bus;
-                return iconResource;
-            case 8:
                 iconResource = R.drawable.ic_electro_train;
                 return iconResource;
         }
@@ -110,7 +104,7 @@ public class Route {
 
     @Override
     public String toString() {
-        return String.format("[%d] %s %s %s", this.id, this.name, this.getType().toString(), this.startEnd);
+        return String.format("[%d] %s %s %s", this.id, this.name, this.getCarType(), this.startEnd);
     }
 
 

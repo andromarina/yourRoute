@@ -44,7 +44,7 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
             startEnd.setText(route.getStartEnd());
         }
         ImageView carType = (ImageView) item.findViewById(R.id.carTypeImage);
-        int carTypeId = route.getType().getId();
+        int carTypeId = route.getCarType();
         int iconResource = route.getIconResource(carTypeId);
         carType.setImageResource(iconResource);
         // item.setBackgroundColor(colors[position % 2]);

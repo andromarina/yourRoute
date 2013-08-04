@@ -12,7 +12,6 @@ public class RoutesRepository {
     private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
     private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://your.route.DB/RouteByStopName");
     private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://your.route.DB/RoutesByRouteName");
-    private final Uri CAR_TYPES_URI = Uri.parse("content://your.route.DB/CarTypes");
     private final ContentResolver contentResolver;
     private final static String ROUTE_LENGTH_COLUMN_NAME = "Length";
     private final static String ROUTE_INTERVAL_COLUMN_NAME = "Interval";
@@ -34,14 +33,7 @@ public class RoutesRepository {
         Log.i("Test", "getRoute query" + query);
         Cursor routesCursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
         routesCursor.moveToFirst();
-        int carTypeIdColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
-        int carTypeId = routesCursor.getInt(carTypeIdColumnIndex);
-
-        String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
-        Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
-        carTypesCursor.moveToFirst();
-        Route route = createRoute(routesCursor, carTypesCursor);
-        carTypesCursor.close();
+        Route route = createRoute(routesCursor);
         routesCursor.close();
         return route;
     }
@@ -52,19 +44,14 @@ public class RoutesRepository {
         String selection;
 
         selection = STOP_NAME_FOR_SEARCH + " LIKE " + "'%" + query.toLowerCase() + "%'" + " AND Routes.CityId=" + cityId;
+        Log.d(LOG_TAG, "getRoutesByStopName: " + selection);
         routesCursor = this.contentResolver.query(ROUTES_BY_STOP_NAME_URI, null, selection, null, null);
 
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
-            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
-            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
-            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
-            carTypesCursor.moveToFirst();
-            Route route = createRoute(routesCursor, carTypesCursor);
+            Route route = createRoute(routesCursor);
             routes.add(route);
             routesCursor.moveToNext();
-            carTypesCursor.close();
         }
         routesCursor.close();
         return routes;
@@ -76,19 +63,14 @@ public class RoutesRepository {
         String selection;
 
         selection = ROUTE_NAME_COLUMN_NAME + " LIKE " + "'%" + query.toUpperCase() + "%'" + " AND Routes.CityId=" + cityId;
+        Log.d(LOG_TAG, "getRoutesByRouteName: " + selection);
         routesCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
 
         routesCursor.moveToFirst();
         while (!routesCursor.isAfterLast()) {
-            int carTypeColumnIndex = routesCursor.getColumnIndex(CAR_TYPE_ID_COLUMN_NAME);
-            int carTypeId = routesCursor.getInt(carTypeColumnIndex);
-            String carTypeQuery = String.format("%s/%d", CAR_TYPES_URI.toString(), carTypeId);
-            Cursor carTypesCursor = this.contentResolver.query(Uri.parse(carTypeQuery), null, null, null, null);
-            carTypesCursor.moveToFirst();
-            Route route = createRoute(routesCursor, carTypesCursor);
+            Route route = createRoute(routesCursor);
             routes.add(route);
             routesCursor.moveToNext();
-            carTypesCursor.close();
         }
         routesCursor.close();
         return routes;
@@ -105,6 +87,7 @@ public class RoutesRepository {
         stringBuilder.append(" AND CityId=");
         stringBuilder.append(cityId);
         String selection = stringBuilder.toString();
+        Log.d(LOG_TAG, "getRouteSuggestionsCursor: " + selection);
         Cursor stopsCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
         return stopsCursor;
     }
@@ -126,7 +109,7 @@ public class RoutesRepository {
         return result;
     }
 
-    private Route createRoute(Cursor routesCursor, Cursor carTypesCursor) {
+    private Route createRoute(Cursor routesCursor) {
 
         int routeIdColumnIndex = routesCursor.getColumnIndex(ROUTE_ID_COLUMN_NAME);
 
@@ -149,11 +132,7 @@ public class RoutesRepository {
         int workTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_WORK_TIME_COLUMN_NAME);
         String startTime = routesCursor.getString(workTimeColumnIndex);
 
-        int carTypeColumnIndex = carTypesCursor.getColumnIndex(CAR_TYPE_NAME_COLUMN_NAME);
-        String carTypeName = carTypesCursor.getString(carTypeColumnIndex);
-        CarType type = new CarType(carTypeId, carTypeName);
-
-        Route route = new Route(id, name, type, startEnd, length, interval, startTime);
+        Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime);
         return route;
     }
 

@@ -48,7 +48,7 @@ public class RouteDetailsActivity extends FragmentActivity {
         this.controller.initialize();
         getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(controller.composeRouteName());
+        getActionBar().setTitle(controller.getRouteName());
     }
 
     @Override

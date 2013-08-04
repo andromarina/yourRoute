@@ -68,22 +68,16 @@ public class RouteDetailsActivityController {
         this.route.initializeStops(stops);
     }
 
-    public String composeRouteName() {
+    public String getRouteName() {
 
         String routeName = this.route.getName();
-        String carType = this.route.getType().toString();
-        StringBuilder sb = new StringBuilder();
-        sb.append(routeName);
-        sb.append(" ");
-        sb.append(carType);
-        String composedInfo = sb.toString();
-        return composedInfo;
+        return routeName;
 
     }
 
     public void setCarTypeIcon() {
         ImageView carType = activity.getCarTypeIcon();
-        int carTypeId = this.route.getType().getId();
+        int carTypeId = this.route.getCarType();
         int resourceId = this.route.getIconResource(carTypeId);
         carType.setImageResource(resourceId);
 
