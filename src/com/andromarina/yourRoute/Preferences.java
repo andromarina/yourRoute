@@ -32,7 +32,7 @@ public class Preferences {
     public static int getSavedCityId() {
 
         sPref = context.getSharedPreferences("CityId", Context.MODE_PRIVATE);
-        int savedCityId = sPref.getInt("CityId", 1);
+        int savedCityId = sPref.getInt("CityId", 24);
         Log.i("Test", savedCityId + "City id loaded");
         return savedCityId;
     }

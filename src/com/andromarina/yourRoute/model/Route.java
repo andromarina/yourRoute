@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Route {
     private final int id;
-    private final String name;
+    private String name;
     private final int carType;
     private final String startEnd;
     private final String length;
@@ -41,6 +41,7 @@ public class Route {
     }
 
     public String getName() {
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
         return this.name;
     }
 
