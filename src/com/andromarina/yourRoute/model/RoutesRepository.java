@@ -62,7 +62,7 @@ public class RoutesRepository {
         Cursor routesCursor;
         String selection;
 
-        selection = ROUTE_NAME_COLUMN_NAME + " LIKE " + "'%" + query.toUpperCase() + "%'" + " AND Routes.CityId=" + cityId;
+        selection = ROUTE_NAME_COLUMN_NAME + " LIKE " + "'%" + query + "%'" + " AND Routes.CityId=" + cityId;
         Log.d(LOG_TAG, "getRoutesByRouteName: " + selection);
         routesCursor = this.contentResolver.query(ROUTES_BY_ROUTE_NAME_URI, null, selection, null, null);
 
