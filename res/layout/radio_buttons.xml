@@ -15,13 +15,13 @@
 
     <view android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          class="controls.CustomRadioButton" android:id="@+id/street_name_radio_button"
+          class="com.yourRoute.controls.CustomRadioButton" android:id="@+id/street_name_radio_button"
           style="@style/speaker_list_layout_radio_button" android:drawableLeft="@drawable/button_direction"
           android:text="@string/stop_name" android:layout_weight="1"
             />
     <view android:layout_width="match_parent"
           android:layout_height="match_parent"
-          class="controls.CustomRadioButton" android:id="@+id/route_number_radio_button"
+          class="com.yourRoute.controls.CustomRadioButton" android:id="@+id/route_number_radio_button"
           style="@style/speaker_list_layout_radio_button" android:drawableLeft="@drawable/button_number"
           android:text="@string/route_number" android:layout_weight="1"/>
 </RadioGroup>
