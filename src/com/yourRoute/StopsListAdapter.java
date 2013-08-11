@@ -29,11 +29,13 @@ public class StopsListAdapter extends ArrayAdapter<Stop> {
         }
         Stop stop = super.getItem(position);
         TextView name = (TextView) item.findViewById(R.id.stop_name);
-        String searchKey = YourRouteApp.getSearchPhrase();
-        String optionalSearchKey = YourRouteApp.getOptionalSearchPhrase();
+        String searchKey = YourRouteApp.getSearchPhrase().toLowerCase();
+        String optionalSearchKey = YourRouteApp.getOptionalSearchPhrase().toLowerCase();
         String stopName = stop.getName();
         name.setText(stopName);
-        if (stopName.equals(searchKey) || stop.equals(optionalSearchKey)) {
+        if (stopName.toLowerCase().contains(searchKey)) {
+            name.setTextColor(Color.parseColor("#33b5e5"));
+        } else if (stopName.toLowerCase().contains(optionalSearchKey) && !optionalSearchKey.isEmpty()) {
             name.setTextColor(Color.parseColor("#33b5e5"));
         } else {
             name.setTextColor(Color.BLACK);
