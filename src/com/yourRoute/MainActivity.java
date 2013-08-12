@@ -4,7 +4,11 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.model.StopsRepository;
@@ -13,12 +17,10 @@ public class MainActivity extends FragmentActivity {
 
     private Button cityNameButton;
     private RadioGroup searchMode;
-    private AutoCompleteTextView searchMain;
-    private AutoCompleteTextView streetSearchOptional;
-    private RelativeLayout optionalStreetSearchLayout;
+    private CustomSearchField searchMain;
+    private CustomSearchField streetSearchOptional;
     private Button searchButton;
     private ImageButton clearButton;
-    private ImageButton clearButtonOptional;
     private MainActivityController mainActivityController;
 
 
@@ -50,11 +52,8 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         this.searchMain = (AutoCompleteTextView) findViewById(R.id.street_search);
         this.streetSearchOptional = (AutoCompleteTextView) findViewById(R.id.optional_street_search);
-        this.optionalStreetSearchLayout = (RelativeLayout) findViewById(R.id.optional_street_search_layout);
         this.searchButton = (Button) findViewById(R.id.search_button);
         this.clearButton = (ImageButton) findViewById(R.id.clear_button);
-        this.clearButtonOptional = (ImageButton) findViewById(R.id.clear_button_second);
-
     }
 
     @Override
@@ -73,10 +72,6 @@ public class MainActivity extends FragmentActivity {
 
     public AutoCompleteTextView getStreetSearchOptional() {
         return this.streetSearchOptional;
-    }
-
-    public RelativeLayout getOptionalStreetSearchLayout() {
-        return this.optionalStreetSearchLayout;
     }
 
     public Button getSearchButton() {
@@ -103,10 +98,6 @@ public class MainActivity extends FragmentActivity {
 
     public ImageButton getClearButton() {
         return this.clearButton;
-    }
-
-    public ImageButton getClearButtonOptional() {
-        return this.clearButtonOptional;
     }
 
 }

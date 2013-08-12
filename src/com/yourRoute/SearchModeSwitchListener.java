@@ -22,7 +22,6 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
         this.routesRepository = routesRepository;
         this.searchField = activity.getSearchMain();
         this.optionalSearchField = activity.getStreetSearchOptional();
-        this.optionalStreetSearchLayout = activity.getOptionalStreetSearchLayout();
         configureStreetNameSearch();
 
     }

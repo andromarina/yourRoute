@@ -5,9 +5,7 @@ import android.database.Cursor;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import com.yourRoute.model.StopsRepository;
 
@@ -28,16 +26,9 @@ public class StopsSuggestionsTextWatcherOptional implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
         String searchKey = s.toString();
-        ImageButton clearButton = activity.getClearButtonOptional();
         Log.d("Test", "c " + searchKey);
-        if (searchKey.isEmpty()) {
-            Log.d("Test", "I'm empty " + searchKey + "...");
-            clearButton.setVisibility(View.INVISIBLE);
-            return;
-        }
 
         int savedCityId = Preferences.getSavedCityId();
-        clearButton.setVisibility(View.VISIBLE);
         Cursor cursor = this.stopsRepository.getStopsSuggestionsCursor(searchKey, savedCityId);
         String[] columns = new String[]{StopsRepository.STOP_NAME_COLUMN_NAME};
         int[] columnTextId = new int[]{android.R.id.text1};

@@ -117,13 +117,6 @@ public class MainActivityController {
     private void initializeSearchOptional() {
 
         this.streetSearchOptional = this.activity.getStreetSearchOptional();
-        ImageButton clearFieldButton = activity.getClearButtonOptional();
-        clearFieldButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                streetSearchOptional.setText("");
-            }
-        });
         initializeSearchModeRadioGroup();
         //  this.streetSearchOptional.setOnEditorActionListener(this);
         streetSearchOptional.setOnItemClickListener(new AdapterView.OnItemClickListener() {
