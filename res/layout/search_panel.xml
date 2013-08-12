@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:customSearchField="http://schemas.android.com/apk/res/com.yourRoute"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
@@ -42,13 +43,17 @@
 
         </LinearLayout>
     </RelativeLayout>
-    <view android:layout_width="match_parent"
-          android:layout_height="50dp"
-          class="com.yourRoute.controls.CustomSearchField"
-          android:id="@+id/view"
-          hint="Test"/>
-    <RelativeLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_marginBottom="5dp"
-                    android:id="@+id/optional_street_search_layout">
+    <view
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            class="com.yourRoute.controls.CustomSearchField"
+            android:id="@+id/view"
+            customSearchField:hint="Test"/>
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/optional_street_search_layout">
         <AutoCompleteTextView android:layout_width="fill_parent" android:layout_height="fill_parent"
                               android:id="@+id/optional_street_search" android:completionThreshold="1"
                               android:singleLine="true"
