@@ -10,4 +10,8 @@
         <attr name="drawableSrcWidth" format="dimension"/>
         <attr name="drawableSrcHeight" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="CustomSearchField">
+        <attr name="hint" format="string"></attr>
+    </declare-styleable>
 </resources>

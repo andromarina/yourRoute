@@ -8,7 +8,8 @@
 
     <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dp" android:layout_marginBottom="5dp" android:id="@+id/main_street_search_layout">
+            android:layout_height="50dp" android:layout_marginBottom="5dp"
+            android:id="@+id/main_street_search_layout">
 
         <AutoCompleteTextView
                 android:layout_width="fill_parent"
@@ -41,6 +42,11 @@
 
         </LinearLayout>
     </RelativeLayout>
+    <view android:layout_width="match_parent"
+          android:layout_height="50dp"
+          class="com.yourRoute.controls.CustomSearchField"
+          android:id="@+id/view"
+          hint="TESTY"/>
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="50dp" android:layout_marginBottom="5dp"
                     android:id="@+id/optional_street_search_layout">
         <AutoCompleteTextView android:layout_width="fill_parent" android:layout_height="fill_parent"
