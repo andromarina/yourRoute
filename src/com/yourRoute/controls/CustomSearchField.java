@@ -29,7 +29,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
 
         TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.CustomSearchField);
         String hint = typedArray.getString(R.styleable.CustomSearchField_hint);
-        if (!hint.isEmpty()) {
+        if (hint != null && !hint.isEmpty()) {
             autoCompleteTextView.setHint(hint);
         }
 
