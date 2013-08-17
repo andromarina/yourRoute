@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -50,8 +49,8 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        this.searchMain = (AutoCompleteTextView) findViewById(R.id.street_search);
-        this.streetSearchOptional = (AutoCompleteTextView) findViewById(R.id.optional_street_search);
+        this.searchMain = (CustomSearchField) findViewById(R.id.street_search);
+        this.streetSearchOptional = (CustomSearchField) findViewById(R.id.optional_street_search);
         this.searchButton = (Button) findViewById(R.id.search_button);
         this.clearButton = (ImageButton) findViewById(R.id.clear_button);
     }
@@ -66,11 +65,11 @@ public class MainActivity extends FragmentActivity {
         return this.cityNameButton;
     }
 
-    public AutoCompleteTextView getSearchMain() {
+    public CustomSearchField getSearchMain() {
         return this.searchMain;
     }
 
-    public AutoCompleteTextView getStreetSearchOptional() {
+    public CustomSearchField getStreetSearchOptional() {
         return this.streetSearchOptional;
     }
 

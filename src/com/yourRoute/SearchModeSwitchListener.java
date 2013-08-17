@@ -2,9 +2,9 @@ package com.yourRoute;
 
 import android.text.InputType;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.model.StopsRepository;
 
@@ -12,8 +12,8 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
     private MainActivity activity;
     private StopsRepository stopsRepository;
     private RoutesRepository routesRepository;
-    AutoCompleteTextView searchField;
-    AutoCompleteTextView optionalSearchField;
+    CustomSearchField searchField;
+    CustomSearchField optionalSearchField;
     RelativeLayout optionalStreetSearchLayout;
 
     public SearchModeSwitchListener(MainActivity activity, StopsRepository stopsRepository, RoutesRepository routesRepository) {
