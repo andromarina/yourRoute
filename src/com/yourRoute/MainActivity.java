@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
@@ -19,7 +18,6 @@ public class MainActivity extends FragmentActivity {
     private CustomSearchField searchMain;
     private CustomSearchField streetSearchOptional;
     private Button searchButton;
-    private ImageButton clearButton;
     private MainActivityController mainActivityController;
 
 
@@ -49,10 +47,9 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        this.searchMain = (CustomSearchField) findViewById(R.id.street_search);
+        this.searchMain = (CustomSearchField) findViewById(R.id.auto_complete_text_view);
         this.streetSearchOptional = (CustomSearchField) findViewById(R.id.optional_street_search);
         this.searchButton = (Button) findViewById(R.id.search_button);
-        this.clearButton = (ImageButton) findViewById(R.id.clear_button);
     }
 
     @Override
@@ -93,10 +90,6 @@ public class MainActivity extends FragmentActivity {
                 break;
         }
         return searchMode;
-    }
-
-    public ImageButton getClearButton() {
-        return this.clearButton;
     }
 
 }

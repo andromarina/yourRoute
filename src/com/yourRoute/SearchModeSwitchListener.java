@@ -1,10 +1,9 @@
 package com.yourRoute;
 
 import android.text.InputType;
-import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.model.StopsRepository;
 
@@ -12,16 +11,16 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
     private MainActivity activity;
     private StopsRepository stopsRepository;
     private RoutesRepository routesRepository;
-    CustomSearchField searchField;
-    CustomSearchField optionalSearchField;
+    private AutoCompleteTextView searchField;
+    private AutoCompleteTextView optionalSearchField;
     RelativeLayout optionalStreetSearchLayout;
 
     public SearchModeSwitchListener(MainActivity activity, StopsRepository stopsRepository, RoutesRepository routesRepository) {
         this.activity = activity;
         this.stopsRepository = stopsRepository;
         this.routesRepository = routesRepository;
-        this.searchField = activity.getSearchMain();
-        this.optionalSearchField = activity.getStreetSearchOptional();
+        this.searchField = activity.getSearchMain().getAutoCompleteTextView();
+        this.optionalSearchField = activity.getStreetSearchOptional().getAutoCompleteTextView();
         configureStreetNameSearch();
 
     }
@@ -49,7 +48,7 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
         searchField.setText("");
         searchField.setInputType(InputType.TYPE_CLASS_TEXT);
         optionalSearchField.setText("");
-        optionalStreetSearchLayout.setVisibility(View.VISIBLE);
+        //     optionalStreetSearchLayout.setVisibility(View.VISIBLE);
     }
 
     private void configureRouteNumberSearch() {
@@ -61,7 +60,7 @@ public class SearchModeSwitchListener implements RadioGroup.OnCheckedChangeListe
         searchField.setHint(routeNumberHint);
         searchField.setText("");
         searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
-        optionalStreetSearchLayout.setVisibility(View.INVISIBLE);
+        //     optionalStreetSearchLayout.setVisibility(View.INVISIBLE);
 
     }
 

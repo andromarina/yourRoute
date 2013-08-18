@@ -12,18 +12,17 @@ import com.yourRoute.R;
 
 public class CustomSearchField extends RelativeLayout implements TextWatcher {
 
-    AutoCompleteTextView autoCompleteTextView;
-    ImageButton clearButton;
-    OnClickListener cleartext;
+    private AutoCompleteTextView autoCompleteTextView;
+    private ImageButton clearButton;
+    private OnClickListener clearText;
 
     public CustomSearchField(Context context, AttributeSet attr) {
-        super(context);
+        super(context, attr);
 
-        String inflater = context.LAYOUT_INFLATER_SERVICE;
-        LayoutInflater layoutInflater;
-        layoutInflater = (LayoutInflater) getContext().getSystemService(inflater);
-        layoutInflater.inflate((R.layout.search_field), this, true);
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.street_search);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        RelativeLayout layout = (RelativeLayout) mInflater.inflate(R.layout.custom_search_field, this);
+
+        autoCompleteTextView = (AutoCompleteTextView) layout.getChildAt(0).findViewById(R.id.auto_complete_text_view);
         autoCompleteTextView.addTextChangedListener(this);
         clearButton = (ImageButton) findViewById(R.id.clear_button);
 
@@ -33,7 +32,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
             autoCompleteTextView.setHint(hint);
         }
 
-        cleartext = new OnClickListener() {
+        clearText = new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -41,7 +40,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
                 autoCompleteTextView.setText("");
             }
         };
-        clearButton.setOnClickListener(cleartext);
+        clearButton.setOnClickListener(clearText);
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,6 +70,10 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public AutoCompleteTextView getAutoCompleteTextView() {
+        return this.autoCompleteTextView;
     }
 }
 

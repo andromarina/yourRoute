@@ -20,7 +20,7 @@ public class SearchButtonListener implements Button.OnClickListener {
     public void onClick(View v) {
 
         Intent intent = new Intent(context, SearchResultsActivity.class);
-        String searchKeyMain = activity.getSearchMain().getText().toString();
+        String searchKeyMain = activity.getSearchMain().getAutoCompleteTextView().getText().toString();
         if (searchKeyMain.isEmpty()) {
             String needTofillMainField = activity.getResources().getString(R.string.need_to_fill_main_search_field);
             Toast.makeText(context, needTofillMainField, 10).show();
@@ -28,7 +28,7 @@ public class SearchButtonListener implements Button.OnClickListener {
         }
         intent.putExtra("SearchPhrase", searchKeyMain);
         YourRouteApp.saveSearchPhrase(searchKeyMain);
-        String searchKeyOptional = activity.getStreetSearchOptional().getText().toString();
+        String searchKeyOptional = activity.getStreetSearchOptional().getAutoCompleteTextView().getText().toString();
         intent.putExtra("OptionalSearchPhrase", searchKeyOptional);
         YourRouteApp.saveOptionalSearchPhrase(searchKeyOptional);
         int searchMode = activity.getCurrentSearchMode();

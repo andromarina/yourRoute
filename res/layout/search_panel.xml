@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             class="com.yourRoute.controls.CustomSearchField"
-            android:id="@+id/street_search"
+            android:id="@+id/auto_complete_text_view"
             customSearchField:hint="@string/street_name_hint"/>
 
     <view

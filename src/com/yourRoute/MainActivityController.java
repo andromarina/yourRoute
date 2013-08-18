@@ -95,16 +95,7 @@ public class MainActivityController {
 
     private void initializeSearchMain() {
 
-        this.streetSearchMain = this.activity.getSearchMain();
-        ImageButton clearFieldButton = activity.getClearButton();
-        clearFieldButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                streetSearchMain.setText("");
-            }
-        });
-        initializeSearchModeRadioGroup();
-        //   this.streetSearchMain.setOnEditorActionListener(this);
+        this.streetSearchMain = this.activity.getSearchMain().getAutoCompleteTextView();
         streetSearchMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,9 +107,8 @@ public class MainActivityController {
 
     private void initializeSearchOptional() {
 
-        this.streetSearchOptional = this.activity.getStreetSearchOptional();
+        this.streetSearchOptional = this.activity.getStreetSearchOptional().getAutoCompleteTextView();
         initializeSearchModeRadioGroup();
-        //  this.streetSearchOptional.setOnEditorActionListener(this);
         streetSearchOptional.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -140,31 +130,4 @@ public class MainActivityController {
         SearchModeSwitchListener switchListener = new SearchModeSwitchListener(activity, stopsRepository, routesRepository);
         searchMode.setOnCheckedChangeListener(switchListener);
     }
-
-//    @Override
-//    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//        String searchKey = v.getText().toString();
-//
-//        if (actionId != EditorInfo.IME_ACTION_SEARCH) {
-//            return false;
-//        }
-//
-//        Intent intent = new Intent(context, SearchResultsActivity.class);
-//
-//        if (v.getId() == R.id.street_search) {
-//            intent.putExtra("SearchPhrase", searchKey);
-//        }
-//
-//        else if (v.getId() == R.id.optional_street_search) {
-//            intent.putExtra("OptionalSearchPhrase", searchKey);
-//        }
-//
-//        int searchMode = getCurrentSearchMode(activity.getSearchModeRadioGroup());
-//        intent.putExtra("SearchMode", searchMode);
-//        activity.startActivity(intent);
-//
-//        return true;
-//    }
-
-
 }

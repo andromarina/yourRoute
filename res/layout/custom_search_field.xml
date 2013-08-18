@@ -7,14 +7,16 @@
     <AutoCompleteTextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:id="@+id/street_search"
+            android:id="@+id/auto_complete_text_view"
             android:completionThreshold="1"
             android:singleLine="true"
             android:shadowColor="@color/filters_panel_background"
             android:background="@drawable/street_search"
             android:paddingLeft="5dp"
             android:inputType="text"
-            android:dropDownVerticalOffset="10dp" android:paddingRight="47dp" android:layout_margin="5dp"
+            android:dropDownVerticalOffset="10dp"
+            android:paddingRight="47dp"
+            android:layout_margin="5dp"
             android:maxLength="50"/>
     <LinearLayout
             android:layout_width="47dip"

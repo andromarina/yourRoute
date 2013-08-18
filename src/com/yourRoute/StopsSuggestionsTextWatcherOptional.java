@@ -35,7 +35,7 @@ public class StopsSuggestionsTextWatcherOptional implements TextWatcher {
         Context context = activity.getBaseContext();
         SimpleCursorAdapter simple = new SimpleCursorAdapter(context,
                 android.R.layout.simple_list_item_1, cursor, columns, columnTextId, 0);
-        AutoCompleteTextView searchField = activity.getStreetSearchOptional();
+        AutoCompleteTextView searchField = activity.getStreetSearchOptional().getAutoCompleteTextView();
         searchField.setAdapter(simple);
 
     }
