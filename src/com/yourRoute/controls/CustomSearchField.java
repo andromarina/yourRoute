@@ -9,46 +9,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import com.yourRoute.R;
+import com.yourRoute.SearchProvider;
 
 public class CustomSearchField extends RelativeLayout implements TextWatcher {
 
     private AutoCompleteTextView autoCompleteTextView;
     private ImageButton clearButton;
     private OnClickListener clearText;
+    private Context context;
+    private AttributeSet attr;
+    private SearchProvider searchProvider;
 
     public CustomSearchField(Context context, AttributeSet attr) {
         super(context, attr);
+        this.context = context;
+        this.attr = attr;
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         RelativeLayout layout = (RelativeLayout) mInflater.inflate(R.layout.custom_search_field, this);
 
-        autoCompleteTextView = (AutoCompleteTextView) layout.getChildAt(0).findViewById(R.id.auto_complete_text_view);
+        autoCompleteTextView = (AutoCompleteTextView) layout.getChildAt(0).findViewById(R.id.search_by_stop);
         autoCompleteTextView.addTextChangedListener(this);
-        clearButton = (ImageButton) findViewById(R.id.clear_button);
+        clearButton = (ImageButton) layout.findViewById(R.id.clear_button);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.CustomSearchField);
-        String hint = typedArray.getString(R.styleable.CustomSearchField_hint);
-        if (hint != null && !hint.isEmpty()) {
-            autoCompleteTextView.setHint(hint);
-        }
+        initClearButton();
 
-        clearText = new OnClickListener() {
+        applyAttributes();
 
-            @Override
-            public void onClick(View v) {
-
-                autoCompleteTextView.setText("");
-            }
-        };
-        clearButton.setOnClickListener(clearText);
-
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSuggestion = (String) ((TextView) view).getText();
-                autoCompleteTextView.setText(selectedSuggestion);
-            }
-        });
+        initAutoCompleteTextView();
     }
 
     @Override
@@ -63,8 +51,8 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
             clearButton.setVisibility(View.INVISIBLE);
             return;
         }
-
         clearButton.setVisibility(View.VISIBLE);
+        setSearchProvider(searchProvider, searchKey);
     }
 
     @Override
@@ -74,6 +62,47 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
 
     public AutoCompleteTextView getAutoCompleteTextView() {
         return this.autoCompleteTextView;
+    }
+
+    public void initialize(SearchProvider searchProvider) {
+        this.searchProvider = searchProvider;
+    }
+
+    private void initClearButton() {
+
+        clearText = new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                autoCompleteTextView.setText("");
+            }
+        };
+        clearButton.setOnClickListener(clearText);
+    }
+
+    private void applyAttributes() {
+        TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.CustomSearchField);
+        String hint = typedArray.getString(R.styleable.CustomSearchField_hint);
+        if (hint != null && !hint.isEmpty()) {
+            autoCompleteTextView.setHint(hint);
+        }
+    }
+
+    private void initAutoCompleteTextView() {
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSuggestion = (String) ((TextView) view).getText();
+                autoCompleteTextView.setText(selectedSuggestion);
+            }
+        });
+    }
+
+    private void setSearchProvider(SearchProvider searchProvider, String searchKey) {
+        SimpleCursorAdapter adapter = searchProvider.getSuggestions(context, searchKey);
+        this.autoCompleteTextView.setAdapter(adapter);
     }
 }
 

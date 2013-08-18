@@ -5,11 +5,10 @@ import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
-import com.yourRoute.model.RoutesRepository;
-import com.yourRoute.model.StopsRepository;
 
 import java.util.ArrayList;
 
@@ -26,25 +25,19 @@ public class MainActivityController {
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
-    private RoutesRepository routesRepository;
-    private StopsRepository stopsRepository;
-    private AutoCompleteTextView streetSearchMain;
-    private AutoCompleteTextView streetSearchOptional;
+    private CustomSearchField streetSearchMain;
+    private CustomSearchField streetSearchOptional;
     private ArrayList<City> cities;
 
-    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository,
-                                  StopsRepository stopsRepository, RoutesRepository routesRepository) {
+    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository) {
         this.context = context;
         this.activity = activity;
         this.citiesRepository = citiesRepository;
-        this.stopsRepository = stopsRepository;
-        this.routesRepository = routesRepository;
     }
 
     public void initialize() {
 
-        initializeSearchMain();
-        initializeSearchOptional();
+        initializeSearchByStopName();
         initializeSearchButton();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
@@ -74,8 +67,8 @@ public class MainActivityController {
         activity.getCityNameButton().setText(name);
         int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
-        streetSearchMain.setText("");
-        streetSearchOptional.setText("");
+        streetSearchMain.getAutoCompleteTextView().setText("");
+        streetSearchOptional.getAutoCompleteTextView().setText("");
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -93,30 +86,13 @@ public class MainActivityController {
         cityNameButton.setOnClickListener(oclCityNameBtn);
     }
 
-    private void initializeSearchMain() {
+    private void initializeSearchByStopName() {
 
-        this.streetSearchMain = this.activity.getSearchMain().getAutoCompleteTextView();
-        streetSearchMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSuggestion = (String) ((TextView) view).getText();
-                streetSearchMain.setText(selectedSuggestion);
-            }
-        });
-    }
-
-    private void initializeSearchOptional() {
-
-        this.streetSearchOptional = this.activity.getStreetSearchOptional().getAutoCompleteTextView();
-        initializeSearchModeRadioGroup();
-        streetSearchOptional.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSuggestion = (String) ((TextView) view).getText();
-                streetSearchOptional.setText(selectedSuggestion);
-            }
-        });
-
+        StopSuggestionsProvider stopSuggestionsProvider = new StopSuggestionsProvider();
+        this.streetSearchMain = this.activity.getSearchMain();
+        this.streetSearchMain.initialize(stopSuggestionsProvider);
+        this.streetSearchOptional = this.activity.getStreetSearchOptional();
+        this.streetSearchOptional.initialize(stopSuggestionsProvider);
     }
 
     private void initializeSearchButton() {
@@ -125,9 +101,4 @@ public class MainActivityController {
         searchButton.setOnClickListener(searchButtonListener);
     }
 
-    private void initializeSearchModeRadioGroup() {
-        RadioGroup searchMode = activity.getSearchModeRadioGroup();
-        SearchModeSwitchListener switchListener = new SearchModeSwitchListener(activity, stopsRepository, routesRepository);
-        searchMode.setOnCheckedChangeListener(switchListener);
-    }
 }

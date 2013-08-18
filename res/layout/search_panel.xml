@@ -10,14 +10,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             class="com.yourRoute.controls.CustomSearchField"
-            android:id="@+id/auto_complete_text_view"
+            android:id="@+id/search_by_stop"
             customSearchField:hint="@string/street_name_hint"/>
 
     <view
             android:layout_width="match_parent"
             android:layout_height="50dp"
             class="com.yourRoute.controls.CustomSearchField"
-            android:id="@+id/optional_street_search"
+            android:id="@+id/search_by_stop_optional"
             customSearchField:hint="@string/second_street_name_hint"/>
 
 </LinearLayout>

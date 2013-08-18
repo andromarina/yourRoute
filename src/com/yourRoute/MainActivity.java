@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
-import com.yourRoute.model.RoutesRepository;
-import com.yourRoute.model.StopsRepository;
 
 public class MainActivity extends FragmentActivity {
 
@@ -33,10 +31,7 @@ public class MainActivity extends FragmentActivity {
         this.searchMode = (RadioGroup) findViewById(R.id.search_mode);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
-        StopsRepository stopsRepository = new StopsRepository(getContentResolver());
-        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-
-        this.mainActivityController = new MainActivityController(this, this, citiesRepository, stopsRepository, routesRepository);
+        this.mainActivityController = new MainActivityController(this, this, citiesRepository);
         this.mainActivityController.initialize();
 
     }
@@ -47,8 +42,8 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        this.searchMain = (CustomSearchField) findViewById(R.id.auto_complete_text_view);
-        this.streetSearchOptional = (CustomSearchField) findViewById(R.id.optional_street_search);
+        this.searchMain = (CustomSearchField) findViewById(R.id.search_by_stop);
+        this.streetSearchOptional = (CustomSearchField) findViewById(R.id.search_by_stop_optional);
         this.searchButton = (Button) findViewById(R.id.search_button);
     }
 

@@ -21,9 +21,6 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
 
     @Override
     public View getView(int position, View item, ViewGroup parent) {
-//        int[] colors = new int[2];
-//        colors[0] = Color.parseColor("#F5F5F5");
-//        colors[1] = Color.parseColor("#E8E8E8");
 
         if (item == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,7 +43,6 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
         int carTypeId = route.getCarType();
         int iconResource = route.getIconResource(carTypeId);
         carType.setImageResource(iconResource);
-        // item.setBackgroundColor(colors[position % 2]);
 
         return item;
     }

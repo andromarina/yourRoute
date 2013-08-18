@@ -7,7 +7,7 @@
     <AutoCompleteTextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:id="@+id/auto_complete_text_view"
+            android:id="@+id/search_by_stop"
             android:completionThreshold="1"
             android:singleLine="true"
             android:shadowColor="@color/filters_panel_background"
