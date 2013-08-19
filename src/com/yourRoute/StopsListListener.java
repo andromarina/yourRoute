@@ -24,10 +24,10 @@ public class StopsListListener implements ListView.OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(context, SearchResultsActivity.class);
         String searchKeyMain = stops.get(position).getName();
-        intent.putExtra("SearchPhrase", searchKeyMain);
+        intent.putExtra("StopNameKey", searchKeyMain);
         YourRouteApp.saveSearchPhrase(searchKeyMain);
-        intent.putExtra("OptionalSearchPhrase", "");
         intent.putExtra("SearchMode", 1);
+        //  intent.putExtra("OptionalStopNameKey", "");
         activity.startActivity(intent);
     }
 }

@@ -5,17 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
-import android.widget.RadioGroup;
+import android.widget.TabHost;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 
 public class MainActivity extends FragmentActivity {
 
     private Button cityNameButton;
-    private RadioGroup searchMode;
-    private CustomSearchField searchMain;
-    private CustomSearchField streetSearchOptional;
-    private Button searchButton;
+    private TabHost mainTabhost;
+    private CustomSearchField stopSearchMain;
+    private CustomSearchField stopSearchOptional;
+    private CustomSearchField routeNumberSearch;
+    private Button stopNameSearchButton;
+    private Button routeNumberSearchButton;
     private MainActivityController mainActivityController;
 
 
@@ -23,12 +25,13 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
 
+        configureActionBar();
         configureSearch();
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
-        this.searchMode = (RadioGroup) findViewById(R.id.search_mode);
+        this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         this.mainActivityController = new MainActivityController(this, this, citiesRepository);
@@ -37,14 +40,19 @@ public class MainActivity extends FragmentActivity {
     }
 
     @SuppressWarnings("deprecation")
-    private void configureSearch() {
-
+    private void configureActionBar() {
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setCustomView(R.layout.city_name_button);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        this.searchMain = (CustomSearchField) findViewById(R.id.search_by_stop);
-        this.streetSearchOptional = (CustomSearchField) findViewById(R.id.search_by_stop_optional);
-        this.searchButton = (Button) findViewById(R.id.search_button);
+    }
+
+    private void configureSearch() {
+
+        this.stopSearchMain = (CustomSearchField) findViewById(R.id.search_by_stop);
+        this.stopSearchOptional = (CustomSearchField) findViewById(R.id.search_by_stop_optional);
+        this.stopNameSearchButton = (Button) findViewById(R.id.stop_name_search_button);
+        this.routeNumberSearch = (CustomSearchField) findViewById(R.id.route_number_search_field);
+        this.routeNumberSearchButton = (Button) findViewById(R.id.route_number_search_button);
     }
 
     @Override
@@ -57,34 +65,29 @@ public class MainActivity extends FragmentActivity {
         return this.cityNameButton;
     }
 
-    public CustomSearchField getSearchMain() {
-        return this.searchMain;
+    public CustomSearchField getStopSearchMain() {
+        return this.stopSearchMain;
     }
 
-    public CustomSearchField getStreetSearchOptional() {
-        return this.streetSearchOptional;
+    public CustomSearchField getStopSearchOptional() {
+        return this.stopSearchOptional;
     }
 
-    public Button getSearchButton() {
-        return this.searchButton;
+    public Button getStopNameSearchButton() {
+        return this.stopNameSearchButton;
     }
 
-    public RadioGroup getSearchModeRadioGroup() {
-        return this.searchMode;
+    public TabHost getMainTabhost() {
+        return this.mainTabhost;
     }
 
-    public int getCurrentSearchMode() {
-        int checkedButtonId = getSearchModeRadioGroup().getCheckedRadioButtonId();
-        int searchMode = 0;
-        switch (checkedButtonId) {
-            case (R.id.street_name_radio_button):
-                searchMode = 1;
-                break;
-            case (R.id.route_number_radio_button):
-                searchMode = 2;
-                break;
-        }
-        return searchMode;
+    public CustomSearchField getRouteNumberSearch() {
+        return routeNumberSearch;
     }
+
+    public Button getRouteNumberSearchButton() {
+        return routeNumberSearchButton;
+    }
+
 
 }

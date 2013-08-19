@@ -3,9 +3,11 @@ package com.yourRoute;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TabHost;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
@@ -21,12 +23,13 @@ import java.util.ArrayList;
  */
 public class MainActivityController {
 
-    private final String LOG_TAG = "MainActivityController";
+    private final String LOG_TAG = this.getClass().getSimpleName();
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
-    private CustomSearchField streetSearchMain;
-    private CustomSearchField streetSearchOptional;
+    private CustomSearchField stopSearchMain;
+    private CustomSearchField stopSearchOptional;
+    private CustomSearchField routeNumbersSearch;
     private ArrayList<City> cities;
 
     public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository) {
@@ -37,8 +40,9 @@ public class MainActivityController {
 
     public void initialize() {
 
+        initializeMainActivityFragment();
         initializeSearchByStopName();
-        initializeSearchButton();
+        initializeRouteNumbersSearch();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
     }
@@ -67,8 +71,9 @@ public class MainActivityController {
         activity.getCityNameButton().setText(name);
         int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
-        streetSearchMain.getAutoCompleteTextView().setText("");
-        streetSearchOptional.getAutoCompleteTextView().setText("");
+        stopSearchMain.getAutoCompleteTextView().setText("");
+        stopSearchOptional.getAutoCompleteTextView().setText("");
+        routeNumbersSearch.getAutoCompleteTextView().setText("");
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -89,16 +94,44 @@ public class MainActivityController {
     private void initializeSearchByStopName() {
 
         StopSuggestionsProvider stopSuggestionsProvider = new StopSuggestionsProvider();
-        this.streetSearchMain = this.activity.getSearchMain();
-        this.streetSearchMain.initialize(stopSuggestionsProvider);
-        this.streetSearchOptional = this.activity.getStreetSearchOptional();
-        this.streetSearchOptional.initialize(stopSuggestionsProvider);
+        this.stopSearchMain = this.activity.getStopSearchMain();
+        this.stopSearchMain.initialize(stopSuggestionsProvider);
+        this.stopSearchOptional = this.activity.getStopSearchOptional();
+        this.stopSearchOptional.initialize(stopSuggestionsProvider);
+        Button stopNameSearchButton = this.activity.getStopNameSearchButton();
+        StopSearchButtonListener searchButtonListener = new StopSearchButtonListener(activity, context);
+        stopNameSearchButton.setOnClickListener(searchButtonListener);
     }
 
-    private void initializeSearchButton() {
-        Button searchButton = this.activity.getSearchButton();
-        SearchButtonListener searchButtonListener = new SearchButtonListener(activity, context);
-        searchButton.setOnClickListener(searchButtonListener);
+    private void initializeRouteNumbersSearch() {
+
+        RouteNumberSuggestionsProvider routeNumberSuggestionsProvider = new RouteNumberSuggestionsProvider();
+        this.routeNumbersSearch = this.activity.getRouteNumberSearch();
+        this.routeNumbersSearch.initialize(routeNumberSuggestionsProvider);
+        Button routeNumberSearchButton = this.activity.getRouteNumberSearchButton();
+        RouteNumberSearchButtonListener listener = new RouteNumberSearchButtonListener(activity, context);
+        routeNumberSearchButton.setOnClickListener(listener);
+    }
+
+    private void initializeMainActivityFragment() {
+        FragmentManager fm = this.activity.getSupportFragmentManager();
+        MainActivityFragment fragment = new MainActivityFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(fragment, "MainActivityFragment");
+        initializeTabHost();
+        ft.commit();
+    }
+
+    private void initializeTabHost() {
+
+        TabHost main_tabhost = activity.getMainTabhost();
+        main_tabhost.setup();
+        String stops = activity.getResources().getString(R.string.stop_name);
+        String route_number = activity.getResources().getString(R.string.route_number);
+        String favorites = activity.getResources().getString(R.string.favorites);
+        main_tabhost.addTab(main_tabhost.newTabSpec("StopsSearchTab").setIndicator(stops).setContent(R.id.stops_search_panel));
+        main_tabhost.addTab(main_tabhost.newTabSpec("RoutesSearch").setIndicator(route_number).setContent(R.id.route_number_search));
+        main_tabhost.addTab(main_tabhost.newTabSpec("Favorites").setIndicator(favorites).setContent(R.id.favorites_list));
     }
 
 }
