@@ -28,7 +28,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         RelativeLayout layout = (RelativeLayout) mInflater.inflate(R.layout.custom_search_field, this);
 
-        autoCompleteTextView = (AutoCompleteTextView) layout.getChildAt(0).findViewById(R.id.search_by_stop);
+        autoCompleteTextView = (AutoCompleteTextView) layout.getChildAt(0).findViewById(R.id.autocompete_text_view);
         autoCompleteTextView.addTextChangedListener(this);
         clearButton = (ImageButton) layout.findViewById(R.id.clear_button);
 

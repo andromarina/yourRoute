@@ -108,13 +108,13 @@ public class SearchResultsActivityController {
 
     private String getStopNameKey() {
         Intent intent = this.activity.getIntent();
-        String searchPhrase = intent.getStringExtra("StopNameKey");
+        String searchPhrase = intent.getStringExtra("StopName");
         return searchPhrase;
     }
 
     private String getOptionalStopNameKey() {
         Intent intent = this.activity.getIntent();
-        String optionalSearchPhrase = intent.getStringExtra("OptionalStopNameKey");
+        String optionalSearchPhrase = intent.getStringExtra("OptionalStopName");
         return optionalSearchPhrase;
     }
 

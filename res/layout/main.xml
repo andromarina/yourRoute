@@ -14,24 +14,29 @@
             <LinearLayout
                     android:id="@+id/stop_name_search"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:orientation="vertical">
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
                 <include android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         layout="@layout/search_panel" android:id="@+id/stops_search_panel"
+                         layout="@layout/search_panel"
+                         android:id="@+id/stops_search_panel"
                          android:layout_gravity="center_horizontal|top"/>
                 <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/find_button"
-                        android:id="@+id/stop_name_search_button" android:layout_gravity="center_horizontal|bottom"/>
+                        android:id="@+id/stop_name_search_button"
+                        android:layout_gravity="center_horizontal|bottom"/>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/route_number_search"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:orientation="vertical">
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
                 <view android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      class="com.yourRoute.controls.CustomSearchField" android:id="@+id/route_number_search_field"/>
+                      class="com.yourRoute.controls.CustomSearchField"
+                      android:id="@+id/route_number_search_field"/>
                 <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

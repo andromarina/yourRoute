@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity {
 
     private void configureSearch() {
 
-        this.stopSearchMain = (CustomSearchField) findViewById(R.id.search_by_stop);
+        this.stopSearchMain = (CustomSearchField) findViewById(R.id.stop_search_field);
         this.stopSearchOptional = (CustomSearchField) findViewById(R.id.search_by_stop_optional);
         this.stopNameSearchButton = (Button) findViewById(R.id.stop_name_search_button);
         this.routeNumberSearch = (CustomSearchField) findViewById(R.id.route_number_search_field);
