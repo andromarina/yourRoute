@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:customSearchField="http://schemas.android.com/apk/res/com.yourRoute"
          android:id="@+id/main_tabhost"
          android:layout_width="fill_parent"
          android:layout_height="fill_parent">
@@ -36,26 +37,33 @@
                 <view android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       class="com.yourRoute.controls.CustomSearchField"
-                      android:id="@+id/route_number_search_field"/>
+                      android:id="@+id/route_number_search_field"
+                      customSearchField:hint="@string/route_number_hint"/>
                 <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/find_button"
-                        android:id="@+id/route_number_search_button"/>
+                        android:id="@+id/route_number_search_button" android:layout_gravity="center_horizontal|bottom"
+                        android:layout_marginTop="50dp"/>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/favorites"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <ListView
+                    android:layout_height="fill_parent" android:orientation="vertical">
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/favorites_list"/>
+                        android:text="In Development"
+                        android:id="@+id/textView"
+                        android:textSize="20sp"
+                        android:layout_gravity="center" android:gravity="center"/>
             </LinearLayout>
         </FrameLayout>
         <TabWidget android:id="@android:id/tabs"
                    android:layout_width="fill_parent"
                    android:layout_height="wrap_content"
-                   android:layout_alignParentBottom="true"/>
+                   android:layout_alignParentBottom="true" android:tabStripEnabled="false"
+                   android:showDividers="middle" android:divider="@drawable/divider" android:dividerPadding="8dp"
+                   android:background="@color/list_grey"/>
     </RelativeLayout>
 </TabHost>

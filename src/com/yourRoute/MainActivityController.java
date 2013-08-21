@@ -2,8 +2,8 @@ package com.yourRoute;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +31,7 @@ public class MainActivityController {
     private CustomSearchField stopSearchOptional;
     private CustomSearchField routeNumbersSearch;
     private ArrayList<City> cities;
+    private TabHost.TabSpec tspec;
 
     public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository) {
         this.context = context;
@@ -114,24 +115,37 @@ public class MainActivityController {
     }
 
     private void initializeMainActivityFragment() {
-        FragmentManager fm = this.activity.getSupportFragmentManager();
-        MainActivityFragment fragment = new MainActivityFragment();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragment, "MainActivityFragment");
+//        FragmentManager fm = this.activity.getSupportFragmentManager();
+//        MainActivityFragment fragment = new MainActivityFragment();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.add(fragment, "MainActivityFragment");
         initializeTabHost();
-        ft.commit();
+        //       ft.commit();
     }
 
     private void initializeTabHost() {
 
         TabHost main_tabhost = activity.getMainTabhost();
         main_tabhost.setup();
-        String stops = activity.getResources().getString(R.string.stop_name);
-        String route_number = activity.getResources().getString(R.string.route_number);
-        String favorites = activity.getResources().getString(R.string.favorites);
-        main_tabhost.addTab(main_tabhost.newTabSpec("StopsSearchTab").setIndicator(stops).setContent(R.id.stops_search_panel));
-        main_tabhost.addTab(main_tabhost.newTabSpec("RoutesSearch").setIndicator(route_number).setContent(R.id.route_number_search));
-        main_tabhost.addTab(main_tabhost.newTabSpec("Favorites").setIndicator(favorites).setContent(R.id.favorites_list));
+        Resources res = activity.getResources();
+
+        //Tab 1
+        this.tspec = main_tabhost.newTabSpec("Tab 1");
+        tspec.setIndicator("", res.getDrawable(R.drawable.button_direction));
+        tspec.setContent(R.id.stops_search_panel);
+        main_tabhost.addTab(tspec);
+
+        //Tab 2
+        this.tspec = main_tabhost.newTabSpec("Tab 2");
+        tspec.setIndicator("", res.getDrawable(R.drawable.button_number));
+        tspec.setContent(R.id.route_number_search);
+        main_tabhost.addTab(tspec);
+
+        //Tab 3
+        this.tspec = main_tabhost.newTabSpec("Tab 3");
+        tspec.setIndicator("", res.getDrawable(android.R.drawable.star_off));
+        tspec.setContent(R.id.textView);
+        main_tabhost.addTab(tspec);
     }
 
 }

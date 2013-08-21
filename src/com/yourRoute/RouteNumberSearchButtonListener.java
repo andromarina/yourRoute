@@ -20,7 +20,7 @@ public class RouteNumberSearchButtonListener implements Button.OnClickListener {
     public void onClick(View v) {
 
         Intent intent = new Intent(context, SearchResultsActivity.class);
-        String routeNumberSearchKey = activity.getStopSearchMain().getAutoCompleteTextView().getText().toString();
+        String routeNumberSearchKey = activity.getRouteNumberSearch().getAutoCompleteTextView().getText().toString();
         if (routeNumberSearchKey.isEmpty()) {
             String needTofillMainField = activity.getResources().getString(R.string.need_to_fill_main_search_field);
             Toast.makeText(context, needTofillMainField, 10).show();

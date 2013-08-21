@@ -10,7 +10,6 @@
             android:id="@+id/autocompete_text_view"
             android:completionThreshold="1"
             android:singleLine="true"
-            android:shadowColor="@color/filters_panel_background"
             android:background="@drawable/street_search"
             android:paddingLeft="5dp"
             android:inputType="text"
