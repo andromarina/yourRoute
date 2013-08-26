@@ -1,10 +1,11 @@
-package com.yourRoute;
+package com.yourRoute.routeDetailsActivity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.*;
+import com.yourRoute.R;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.model.StopsRepository;
 

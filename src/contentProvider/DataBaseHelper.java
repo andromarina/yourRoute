@@ -19,7 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase myDataBase;
     private final Context myContext;
-    final private String LOG_TAG = "DBHelper";
+    final private String LOG_TAG = this.getClass().getSimpleName();
 
     /**
      * Constructor

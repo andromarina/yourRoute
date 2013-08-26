@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.widget.SimpleCursorAdapter;

@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.searchResultsActivity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,13 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.yourRoute.R;
 import com.yourRoute.model.Route;
 
 import java.util.ArrayList;
 
 public class RouteListAdapter extends ArrayAdapter<Route> {
 
-    private String LOG_TAG = "RouteListAdapter";
+    private String LOG_TAG = this.getClass().getSimpleName();
 
     public RouteListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes) {
         super(context, textViewResourceId, routes);

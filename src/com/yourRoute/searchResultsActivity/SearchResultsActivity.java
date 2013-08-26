@@ -1,9 +1,10 @@
-package com.yourRoute;
+package com.yourRoute.searchResultsActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.yourRoute.R;
 import com.yourRoute.model.RoutesRepository;
 
 /**

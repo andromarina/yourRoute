@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.searchResultsActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.yourRoute.Preferences;
+import com.yourRoute.R;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesRepository;
+import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -89,7 +92,7 @@ public class SearchResultsActivityController {
         String searchKeyOptional = getOptionalStopNameKey();
         int savedCityId = Preferences.getSavedCityId();
         final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(searchKeyMain, savedCityId);
-        if (!searchKeyOptional.isEmpty()) {
+        if (searchKeyOptional != null && !searchKeyOptional.isEmpty()) {
             Log.d(LOG_TAG, "Optional street search name: " + searchKeyOptional);
             final ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(searchKeyOptional, savedCityId);
             ArrayList<Route> unitedArray = this.routesRepository.uniteRoutes(routes, routesOptional);

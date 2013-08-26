@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.mainActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import com.yourRoute.R;
 import com.yourRoute.model.City;
 
 import java.util.ArrayList;

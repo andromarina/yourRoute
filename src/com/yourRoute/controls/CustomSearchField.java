@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import com.yourRoute.R;
-import com.yourRoute.SearchProvider;
+import com.yourRoute.mainActivity.SearchProvider;
 
 public class CustomSearchField extends RelativeLayout implements TextWatcher {
 

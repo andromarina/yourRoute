@@ -10,24 +10,26 @@
         <FrameLayout android:id="@android:id/tabcontent"
                      android:layout_width="fill_parent"
                      android:layout_height="fill_parent"
-                     android:layout_alignParentTop="true"
-                     android:layout_above="@android:id/tabs">
+                     android:layout_alignParentTop="false"
+                     android:layout_above="@android:id/tabs" android:layout_alignParentBottom="false"
+                     android:addStatesFromChildren="true">
             <LinearLayout
                     android:id="@+id/stop_name_search"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical" android:baselineAligned="false" android:addStatesFromChildren="true">
                 <include android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          layout="@layout/search_panel"
                          android:id="@+id/stops_search_panel"
-                         android:layout_gravity="center_horizontal|top"/>
+                         android:layout_gravity="top"/>
                 <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/find_button"
                         android:id="@+id/stop_name_search_button"
-                        android:layout_gravity="center_horizontal|bottom"/>
+                        android:drawableRight="@drawable/ic_arrow" android:textStyle="bold"
+                        android:layout_gravity="bottom"/>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/route_number_search"
@@ -44,19 +46,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/find_button"
                         android:id="@+id/route_number_search_button" android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="50dp"/>
+                        android:layout_marginTop="50dp" android:textStyle="bold"
+                        android:drawableRight="@drawable/ic_arrow"/>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/favorites"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:orientation="vertical">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="In Development"
-                        android:id="@+id/textView"
-                        android:textSize="20sp"
-                        android:layout_gravity="center" android:gravity="center"/>
+                    android:layout_height="fill_parent" android:orientation="vertical"
+                    android:background="@drawable/background">
             </LinearLayout>
         </FrameLayout>
         <TabWidget android:id="@android:id/tabs"
@@ -64,6 +61,6 @@
                    android:layout_height="wrap_content"
                    android:layout_alignParentBottom="true" android:tabStripEnabled="false"
                    android:showDividers="middle" android:divider="@drawable/divider" android:dividerPadding="8dp"
-                   android:background="@color/list_grey"/>
+                   android:background="@color/filters_panel_background"/>
     </RelativeLayout>
 </TabHost>

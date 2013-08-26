@@ -17,6 +17,14 @@ public class Routes implements BaseColumns {
 
     // columns
     public static final String NAME = "RouteName";
+    public static final String ROUTE_LENGTH_COLUMN_NAME = "Length";
+    public static final String ROUTE_INTERVAL_COLUMN_NAME = "Interval";
+    public static final String ROUTE_WORK_TIME_COLUMN_NAME = "WorkTime";
+    public static final String START_END_COLUMN_NAME = "StartEnd";
+    public static final String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
+    public static final String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
+    public static final String ROUTE_NAME_COLUMN_NAME = "RouteName";
+    public static final String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
 
     // paths
     public static final String ROUTES_PATH = "Routes";

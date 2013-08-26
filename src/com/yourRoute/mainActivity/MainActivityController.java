@@ -1,16 +1,22 @@
-package com.yourRoute;
+package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
+import android.widget.Toast;
+import com.yourRoute.Preferences;
+import com.yourRoute.R;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
+import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 
 import java.util.ArrayList;
 
@@ -41,7 +47,7 @@ public class MainActivityController {
 
     public void initialize() {
 
-        initializeMainActivityFragment();
+        initializeTabHost();
         initializeSearchByStopName();
         initializeRouteNumbersSearch();
         int savedCityId = Preferences.getSavedCityId();
@@ -80,7 +86,6 @@ public class MainActivityController {
     private void initializeCityNameButton(int savedCityId) {
 
         String savedCityName = this.citiesRepository.getCity(savedCityId).getName();
-
         Button cityNameButton = this.activity.getCityNameButton();
         cityNameButton.setText(savedCityName);
         View.OnClickListener oclCityNameBtn = new View.OnClickListener() {
@@ -100,8 +105,12 @@ public class MainActivityController {
         this.stopSearchOptional = this.activity.getStopSearchOptional();
         this.stopSearchOptional.initialize(stopSuggestionsProvider);
         Button stopNameSearchButton = this.activity.getStopNameSearchButton();
-        StopSearchButtonListener searchButtonListener = new StopSearchButtonListener(activity, context);
-        stopNameSearchButton.setOnClickListener(searchButtonListener);
+        stopNameSearchButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForSearchByStopName();
+            }
+        });
     }
 
     private void initializeRouteNumbersSearch() {
@@ -110,17 +119,12 @@ public class MainActivityController {
         this.routeNumbersSearch = this.activity.getRouteNumberSearch();
         this.routeNumbersSearch.initialize(routeNumberSuggestionsProvider);
         Button routeNumberSearchButton = this.activity.getRouteNumberSearchButton();
-        RouteNumberSearchButtonListener listener = new RouteNumberSearchButtonListener(activity, context);
-        routeNumberSearchButton.setOnClickListener(listener);
-    }
-
-    private void initializeMainActivityFragment() {
-//        FragmentManager fm = this.activity.getSupportFragmentManager();
-//        MainActivityFragment fragment = new MainActivityFragment();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        ft.add(fragment, "MainActivityFragment");
-        initializeTabHost();
-        //       ft.commit();
+        routeNumberSearchButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForSearchByRouteNumber();
+            }
+        });
     }
 
     private void initializeTabHost() {
@@ -131,21 +135,55 @@ public class MainActivityController {
 
         //Tab 1
         this.tspec = main_tabhost.newTabSpec("Tab 1");
-        tspec.setIndicator("", res.getDrawable(R.drawable.button_direction));
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_directions_white));
         tspec.setContent(R.id.stops_search_panel);
         main_tabhost.addTab(tspec);
 
         //Tab 2
         this.tspec = main_tabhost.newTabSpec("Tab 2");
-        tspec.setIndicator("", res.getDrawable(R.drawable.button_number));
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_number_white));
         tspec.setContent(R.id.route_number_search);
         main_tabhost.addTab(tspec);
 
         //Tab 3
         this.tspec = main_tabhost.newTabSpec("Tab 3");
-        tspec.setIndicator("", res.getDrawable(android.R.drawable.star_off));
-        tspec.setContent(R.id.textView);
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_favorites_white));
+        tspec.setContent(R.id.favorites);
         main_tabhost.addTab(tspec);
     }
 
+    private void startActivityForSearchByRouteNumber() {
+
+        String routeNumberSearchKey = routeNumbersSearch.getAutoCompleteTextView().getText().toString();
+        if (routeNumberSearchKey.isEmpty()) {
+            showEmptyFieldToast();
+            return;
+        }
+        Intent intent = new Intent(context, SearchResultsActivity.class);
+        intent.putExtra("SearchMode", 2);
+        intent.putExtra("RouteNumber", routeNumberSearchKey);
+        activity.startActivity(intent);
+    }
+
+    private void startActivityForSearchByStopName() {
+
+        String stopSearchMainKey = stopSearchMain.getAutoCompleteTextView().getText().toString();
+        if (stopSearchMainKey.isEmpty()) {
+            showEmptyFieldToast();
+            return;
+        }
+        Intent intent = new Intent(context, SearchResultsActivity.class);
+        intent.putExtra("SearchMode", 1);
+        intent.putExtra("StopName", stopSearchMainKey);
+        YourRouteApp.saveSearchPhrase(stopSearchMainKey);
+        String stopNameOptional = stopSearchOptional.getAutoCompleteTextView().getText().toString();
+        intent.putExtra("OptionalStopName", stopNameOptional);
+        YourRouteApp.saveOptionalSearchPhrase(stopNameOptional);
+        activity.startActivity(intent);
+    }
+
+    private void showEmptyFieldToast() {
+        String needToFillMainField = activity.getResources().getString(R.string.need_to_fill_main_search_field);
+        Toast.makeText(context, needToFillMainField, 10).show();
+    }
 }

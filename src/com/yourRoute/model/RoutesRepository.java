@@ -4,24 +4,24 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import contentProvider.Contracts.Routes;
+import contentProvider.RoutesContentProvider;
 
 import java.util.ArrayList;
 
 public class RoutesRepository {
 
-    private final Uri ROUTES_URI = Uri.parse("content://your.route.DB/Routes");
-    private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://your.route.DB/RouteByStopName");
-    private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://your.route.DB/RoutesByRouteName");
+    private final Uri ROUTES_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Routes.ROUTES_PATH);
+    private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Routes.ROUTES_BY_STOP_NAME_PATH);
+    private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Routes.ROUTES_BY_ROUTE_NAME_PATH);
     private final ContentResolver contentResolver;
-    private final static String ROUTE_LENGTH_COLUMN_NAME = "Length";
-    private final static String ROUTE_INTERVAL_COLUMN_NAME = "Interval";
-    private final static String ROUTE_WORK_TIME_COLUMN_NAME = "WorkTime";
-    private final static String START_END_COLUMN_NAME = "StartEnd";
-    private final static String CAR_TYPE_ID_COLUMN_NAME = "CarTypeID";
-    private final static String CAR_TYPE_NAME_COLUMN_NAME = "CarTypeName";
-    public final static String ROUTE_NAME_COLUMN_NAME = "RouteName";
-    private final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
-    private final static String ROUTE_ID_COLUMN_NAME = "_id";
+    private final static String ROUTE_LENGTH_COLUMN_NAME = Routes.ROUTE_LENGTH_COLUMN_NAME;
+    private final static String ROUTE_INTERVAL_COLUMN_NAME = Routes.ROUTE_INTERVAL_COLUMN_NAME;
+    private final static String ROUTE_WORK_TIME_COLUMN_NAME = Routes.ROUTE_WORK_TIME_COLUMN_NAME;
+    private final static String START_END_COLUMN_NAME = Routes.START_END_COLUMN_NAME;
+    private final static String CAR_TYPE_ID_COLUMN_NAME = Routes.CAR_TYPE_ID_COLUMN_NAME;
+    public final static String ROUTE_NAME_COLUMN_NAME = Routes.ROUTE_NAME_COLUMN_NAME;
+    private final static String STOP_NAME_FOR_SEARCH = Routes.STOP_NAME_FOR_SEARCH;
     private String LOG_TAG = this.getClass().getSimpleName();
 
     public RoutesRepository(ContentResolver contentResolver) {
@@ -110,8 +110,6 @@ public class RoutesRepository {
     }
 
     private Route createRoute(Cursor routesCursor) {
-
-        //   int routeIdColumnIndex = routesCursor.getColumnIndex("Ro0----utes._id");
 
         // TODO refactor contracts. Column index was hardcoded
 

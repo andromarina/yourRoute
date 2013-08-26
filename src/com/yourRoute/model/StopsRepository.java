@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import contentProvider.Contracts.Stops;
+import contentProvider.RoutesContentProvider;
 
 import java.util.ArrayList;
 
@@ -16,14 +18,14 @@ import java.util.ArrayList;
  */
 public class StopsRepository {
     private final ContentResolver contentResolver;
-    private final String LOG_TAG = "StopsRepository";
-    private final Uri STOPS_URI = Uri.parse("content://your.route.DB/Stops");
-    private final Uri STOPS_SUGGESTIONS_URI = Uri.parse("content://your.route.DB/StopsSuggestions");
-    public final static String STOP_ID_COLUMN_NAME = "_id";
-    public final static String STOP_NAME_COLUMN_NAME = "StopName";
-    public final static String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
-    private final static String STOP_INDEX_COLUMN_NAME = "StopIndex";
-    private final static String ROUTE_ID_COLUMN_NAME = "RouteId";
+    private final String LOG_TAG = this.getClass().getSimpleName();
+    private final Uri STOPS_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Stops.STOPS_PATH);
+    private final Uri STOPS_SUGGESTIONS_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Stops.STOPS_SUGGESTIONS_PATH);
+    public final static String STOP_ID_COLUMN_NAME = Stops._ID;
+    public final static String STOP_NAME_COLUMN_NAME = Stops.NAME;
+    public final static String STOP_NAME_FOR_SEARCH = Stops.STOP_NAME_FOR_SEARCH;
+    private final static String STOP_INDEX_COLUMN_NAME = Stops.STOP_INDEX_COLUMN_NAME;
+    private final static String ROUTE_ID_COLUMN_NAME = Stops.ROUTE_ID_COLUMN_NAME;
 
 
     public StopsRepository(ContentResolver contentResolver) {

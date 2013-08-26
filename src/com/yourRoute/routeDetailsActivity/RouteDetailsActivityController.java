@@ -1,11 +1,9 @@
-package com.yourRoute;
+package com.yourRoute.routeDetailsActivity;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.yourRoute.R;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.model.Stop;
@@ -29,7 +27,7 @@ public class RouteDetailsActivityController {
     }
 
     public void initialize() {
-        initializeRouteDetailsFragment();
+        initializeTabHost();
         initializeRoute();
         setCarTypeIcon();
         setStartEnd();
@@ -37,15 +35,6 @@ public class RouteDetailsActivityController {
         setInterval();
         setLength();
         setStopsList();
-    }
-
-    private void initializeRouteDetailsFragment() {
-        FragmentManager fm = this.activity.getSupportFragmentManager();
-        RouteDetailsFragment fragment = new RouteDetailsFragment();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(fragment, "RouteDetailsFragment");
-        initializeTabHost();
-        ft.commit();
     }
 
     private void initializeTabHost() {
@@ -123,9 +112,6 @@ public class RouteDetailsActivityController {
     private void setStopsList() {
 
         final ArrayList<Stop> forwardStops = this.route.getForwardStops();
-        for (Stop stop : forwardStops) {
-            Log.d("Test", "Forward stop name: " + stop.getName().toString() + "stopIndex: " + stop.getStopIndex());
-        }
         ListView forwardStopsList = this.activity.getForwardStopsList();
         StopsListAdapter adapterForward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, forwardStops);
         forwardStopsList.setAdapter(adapterForward);
@@ -133,13 +119,11 @@ public class RouteDetailsActivityController {
         forwardStopsList.setOnItemClickListener(forwardStopsListListener);
 
         final ArrayList<Stop> backwardStops = this.route.getBackwardStops();
-        for (Stop stop : backwardStops) {
-            Log.d("Test", "Backward stop name: " + stop.getName().toString() + "stopIndex: " + stop.getStopIndex());
-        }
         ListView backwardStopsList = this.activity.getBackwardStopsList();
         StopsListListener backwardStopsListListener = new StopsListListener(activity.getBaseContext(), activity, backwardStops);
         backwardStopsList.setOnItemClickListener(backwardStopsListListener);
         StopsListAdapter adapterBackward = new StopsListAdapter(activity.getBaseContext(), R.layout.stop_item, backwardStops);
         backwardStopsList.setAdapter(adapterBackward);
     }
+
 }

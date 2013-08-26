@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import contentProvider.Contracts.Cities;
+import contentProvider.RoutesContentProvider;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  */
 public class CitiesRepository {
 
-    private final Uri CITIES_URI = Uri.parse("content://your.route.DB/Cities");
+    private final Uri CITIES_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Cities.TABLE_NAME);
     private final ContentResolver contentResolver;
 
     public CitiesRepository(ContentResolver contentResolver) {

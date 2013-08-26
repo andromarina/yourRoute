@@ -18,7 +18,7 @@
     <string name="stop_name">"По остановкам"</string>
     <string name="route_number">"По номеру"</string>
     <string name="favorites">"Избранное"</string>
-    <string name="find_button">"Поиск"</string>
+    <string name="find_button">"Перейти к результатам"</string>
     <string name="need_to_fill_main_search_field">"Заполните поле поиска"</string>
 
 

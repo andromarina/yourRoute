@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.mainActivity;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
 import android.widget.TabHost;
+import com.yourRoute.R;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 

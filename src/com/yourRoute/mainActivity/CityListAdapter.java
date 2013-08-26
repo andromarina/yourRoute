@@ -1,4 +1,4 @@
-package com.yourRoute;
+package com.yourRoute.mainActivity;
 
 
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.yourRoute.R;
 import com.yourRoute.model.City;
 
 import java.util.List;

@@ -11,7 +11,7 @@
             android:layout_height="50dp"
             class="com.yourRoute.controls.CustomSearchField"
             android:id="@+id/stop_search_field"
-            customSearchField:hint="@string/street_name_hint"/>
+            customSearchField:hint="@string/street_name_hint" android:gravity="top"/>
 
     <view
             android:layout_width="match_parent"
