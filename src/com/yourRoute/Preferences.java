@@ -15,6 +15,7 @@ public class Preferences {
 
     private static SharedPreferences sPref;
     private static Context context;
+    private static String LOG_TAG = "Preferences";
 
     public static void initialize(Context context) {
         Preferences.context = context;
@@ -26,14 +27,24 @@ public class Preferences {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("CityId", cityId);
         ed.commit();
-        Log.i("Test", cityId + "City id saved");
+        Log.d(LOG_TAG, cityId + "City id saved");
     }
 
     public static int getSavedCityId() {
 
         sPref = context.getSharedPreferences("CityId", Context.MODE_PRIVATE);
         int savedCityId = sPref.getInt("CityId", 24);
-        Log.i("Test", savedCityId + "City id loaded");
+        Log.i(LOG_TAG, savedCityId + "City id loaded");
         return savedCityId;
     }
+
+    public static void saveFavoriteRouteId(int routeId) {
+
+        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putInt("Favorite" + routeId, routeId);
+        ed.commit();
+        Log.d(LOG_TAG, "Route id " + routeId + "was saved to Preferences");
+    }
+
 }

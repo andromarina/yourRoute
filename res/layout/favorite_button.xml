@@ -1,0 +1,8 @@
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/favorite_button"
+             android:clickable="true"
+             android:src="@drawable/favorite_button_big"
+             style="?android:attr/borderlessButtonStyle">
+</ImageButton>

@@ -14,4 +14,5 @@
     <declare-styleable name="CustomSearchField">
         <attr name="hint" format="string"></attr>
     </declare-styleable>
+
 </resources>

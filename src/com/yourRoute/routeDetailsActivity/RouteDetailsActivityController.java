@@ -3,6 +3,7 @@ package com.yourRoute.routeDetailsActivity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.*;
+import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesRepository;
@@ -29,6 +30,7 @@ public class RouteDetailsActivityController {
     public void initialize() {
         initializeTabHost();
         initializeRoute();
+        //      initializeFavoriteButton();
         setCarTypeIcon();
         setStartEnd();
         setOperationHours();
@@ -59,10 +61,19 @@ public class RouteDetailsActivityController {
 
         String routeName = this.route.getName();
         return routeName;
-
     }
 
-    public void setCarTypeIcon() {
+    public void initializeFavoriteButton() {
+        ImageButton favoriteButton = activity.getFavoriteButton();
+        favoriteButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Preferences.saveFavoriteRouteId(routeId);
+            }
+        });
+    }
+
+    private void setCarTypeIcon() {
         ImageView carType = activity.getCarTypeIcon();
         int carTypeId = this.route.getCarType();
         int resourceId = this.route.getIconResource(carTypeId);

@@ -135,21 +135,27 @@ public class MainActivityController {
 
         //Tab 1
         this.tspec = main_tabhost.newTabSpec("Tab 1");
-        tspec.setIndicator("", res.getDrawable(R.drawable.ic_directions_white));
-        tspec.setContent(R.id.stops_search_panel);
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_directions_light));
+        tspec.setContent(R.id.stop_name_search);
         main_tabhost.addTab(tspec);
 
         //Tab 2
         this.tspec = main_tabhost.newTabSpec("Tab 2");
-        tspec.setIndicator("", res.getDrawable(R.drawable.ic_number_white));
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_number_light));
         tspec.setContent(R.id.route_number_search);
         main_tabhost.addTab(tspec);
 
         //Tab 3
         this.tspec = main_tabhost.newTabSpec("Tab 3");
-        tspec.setIndicator("", res.getDrawable(R.drawable.ic_favorites_white));
+        tspec.setIndicator("", res.getDrawable(R.drawable.ic_favorites_light));
         tspec.setContent(R.id.favorites);
         main_tabhost.addTab(tspec);
+//
+//        TabWidget tabs = (TabWidget)main_tabhost.getTabWidget();
+//        for (int i = 0; i<tabs.getChildCount(); i++) {
+//            LinearLayout tab = (LinearLayout) tabs.getChildAt(i);
+//            tab.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.tab_indicator));
+//        }
     }
 
     private void startActivityForSearchByRouteNumber() {

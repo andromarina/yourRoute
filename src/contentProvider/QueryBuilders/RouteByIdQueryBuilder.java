@@ -27,7 +27,7 @@ public class RouteByIdQueryBuilder extends BaseQueryBuilder {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         String routeId = uri.getLastPathSegment();
-        Log.d(LOG_TAG, "URI_ROUTE_ID" + routeId);
+        Log.d(LOG_TAG, "URI_ROUTE_ID " + routeId);
 
         SQLiteQueryBuilder queryBuilder = createSQLiteQueryBuilder();
         queryBuilder.setTables(Routes.TABLE_NAME);

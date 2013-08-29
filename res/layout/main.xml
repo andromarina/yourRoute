@@ -17,37 +17,49 @@
                     android:id="@+id/stop_name_search"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="vertical" android:baselineAligned="false" android:addStatesFromChildren="true">
+                    android:orientation="vertical" android:baselineAligned="false" android:addStatesFromChildren="true"
+                    android:background="@color/list_grey">
                 <include android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          layout="@layout/search_panel"
                          android:id="@+id/stops_search_panel"
-                         android:layout_gravity="top"/>
-                <Button
+                         android:layout_gravity="top" android:layout_marginTop="10dp"/>
+                <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/find_button"
-                        android:id="@+id/stop_name_search_button"
-                        android:drawableRight="@drawable/ic_arrow" android:textStyle="bold"
-                        android:layout_gravity="bottom"/>
+                        android:layout_height="fill_parent" android:paddingBottom="20dp">
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/find_button"
+                            android:id="@+id/stop_name_search_button"
+                            android:layout_gravity="center_horizontal"
+                            style="@style/search_button_style" android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/route_number_search"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical" android:background="@color/list_grey">
                 <view android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       class="com.yourRoute.controls.CustomSearchField"
                       android:id="@+id/route_number_search_field"
-                      customSearchField:hint="@string/route_number_hint"/>
-                <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/find_button"
-                        android:id="@+id/route_number_search_button" android:layout_gravity="center_horizontal|bottom"
-                        android:layout_marginTop="50dp" android:textStyle="bold"
-                        android:drawableRight="@drawable/ic_arrow"/>
+                      customSearchField:hint="@string/route_number_hint" android:layout_marginTop="10dp"
+                      android:layout_gravity="top"/>
+                <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" android:paddingBottom="20dp">
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/find_button"
+                            android:id="@+id/route_number_search_button"
+                            android:layout_gravity="center_horizontal|bottom"
+                            style="@style/search_button_style"
+                            android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/favorites"
@@ -60,7 +72,7 @@
                    android:layout_width="fill_parent"
                    android:layout_height="wrap_content"
                    android:layout_alignParentBottom="true" android:tabStripEnabled="false"
-                   android:showDividers="middle" android:divider="@drawable/divider" android:dividerPadding="8dp"
-                   android:background="@color/filters_panel_background"/>
+                   android:showDividers="middle" android:divider="@drawable/divider" android:dividerPadding="10dp"
+                   android:background="@drawable/tiled_background2"/>
     </RelativeLayout>
 </TabHost>

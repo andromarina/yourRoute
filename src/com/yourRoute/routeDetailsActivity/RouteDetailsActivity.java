@@ -23,7 +23,14 @@ public class RouteDetailsActivity extends FragmentActivity {
     private ListView forwardStopsList;
     private ListView backwardStopsList;
     private RouteDetailsActivityController controller;
+    private ImageButton favoriteButton;
 
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,7 @@ public class RouteDetailsActivity extends FragmentActivity {
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
         StopsRepository stopsRepository = new StopsRepository(getContentResolver());
 
+        this.favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
         this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
         this.startEndView = (TextView) findViewById(R.id.start_end);
         this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
@@ -46,9 +54,7 @@ public class RouteDetailsActivity extends FragmentActivity {
 
         this.controller = new RouteDetailsActivityController(this, routesRepository, stopsRepository);
         this.controller.initialize();
-        getActionBar().setDisplayShowTitleEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(controller.getRouteName());
+        configureActionBar();
     }
 
     @Override
@@ -61,6 +67,18 @@ public class RouteDetailsActivity extends FragmentActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void configureActionBar() {
+
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setTitle(controller.getRouteName());
+        getActionBar().setCustomView(R.layout.favorite_button);
+    }
+
+    public ImageButton getFavoriteButton() {
+        return favoriteButton;
     }
 
     public TabHost getDirection_tabhost() {

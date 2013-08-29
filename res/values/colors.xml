@@ -6,5 +6,6 @@
     <color name="pressed_radio_btn_text">#97a0a3</color>
     <color name="selected_radio_btn_text">#f44</color>
     <color name="light_blue">#33b5e5</color>
+    <color name="yellow">#efe32b</color>
 
 </resources>
