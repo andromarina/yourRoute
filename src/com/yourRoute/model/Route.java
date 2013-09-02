@@ -1,5 +1,6 @@
 package com.yourRoute.model;
 
+import com.yourRoute.Preferences;
 import com.yourRoute.R;
 
 import java.util.ArrayList;
@@ -101,6 +102,12 @@ public class Route {
 
     public StopsCollection getBackwardStops() {
         return this.backwardStops;
+    }
+
+    public boolean isFavorite() {
+        if (Preferences.isRouteIdPresentInPreferences(this.id)) {
+            return true;
+        } else return false;
     }
 
     @Override

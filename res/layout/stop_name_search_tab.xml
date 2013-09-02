@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/stop_name_search"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:baselineAligned="false"
+              android:addStatesFromChildren="true"
+              android:background="@color/list_grey">
+
+    <include android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             layout="@layout/search_panel"
+             android:id="@+id/stops_search_panel"
+             android:layout_gravity="top" android:layout_marginTop="10dp"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:paddingBottom="20dp">
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/find_button"
+                android:id="@+id/stop_name_search_button"
+                android:layout_gravity="center_horizontal"
+                style="@style/search_button_style"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</LinearLayout>

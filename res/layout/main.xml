@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-         xmlns:customSearchField="http://schemas.android.com/apk/res/com.yourRoute"
          android:id="@+id/main_tabhost"
          android:layout_width="fill_parent"
-         android:layout_height="fill_parent">
+         android:layout_height="fill_parent"
+         android:isScrollContainer="false">
+
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -13,61 +14,11 @@
                      android:layout_alignParentTop="false"
                      android:layout_above="@android:id/tabs" android:layout_alignParentBottom="false"
                      android:addStatesFromChildren="true">
-            <LinearLayout
-                    android:id="@+id/stop_name_search"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" android:baselineAligned="false" android:addStatesFromChildren="true"
-                    android:background="@color/list_grey">
-                <include android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         layout="@layout/search_panel"
-                         android:id="@+id/stops_search_panel"
-                         android:layout_gravity="top" android:layout_marginTop="10dp"/>
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="fill_parent" android:paddingBottom="20dp">
-                    <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/find_button"
-                            android:id="@+id/stop_name_search_button"
-                            android:layout_gravity="center_horizontal"
-                            style="@style/search_button_style" android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"/>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                    android:id="@+id/route_number_search"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" android:background="@color/list_grey">
-                <view android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      class="com.yourRoute.controls.CustomSearchField"
-                      android:id="@+id/route_number_search_field"
-                      customSearchField:hint="@string/route_number_hint" android:layout_marginTop="10dp"
-                      android:layout_gravity="top"/>
-                <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:paddingBottom="20dp">
-                    <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/find_button"
-                            android:id="@+id/route_number_search_button"
-                            android:layout_gravity="center_horizontal|bottom"
-                            style="@style/search_button_style"
-                            android:layout_alignParentBottom="true"/>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                    android:id="@+id/favorites"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:orientation="vertical"
-                    android:background="@drawable/background">
-            </LinearLayout>
+            <include layout="@layout/stop_name_search_tab"></include>
+            <include layout="@layout/route_number_search_tab"></include>
+            <include layout="@layout/favorites_tab"></include>
         </FrameLayout>
+
         <TabWidget android:id="@android:id/tabs"
                    android:layout_width="fill_parent"
                    android:layout_height="wrap_content"

@@ -44,7 +44,24 @@ public class Preferences {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("Favorite" + routeId, routeId);
         ed.commit();
-        Log.d(LOG_TAG, "Route id " + routeId + "was saved to Preferences");
+        Log.d(LOG_TAG, "Route id " + routeId + " was saved to Preferences");
+    }
+
+    public static void deleteFavoriteRouteId(int routeId) {
+
+        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.remove("Favorite" + routeId);
+        ed.commit();
+        Log.d(LOG_TAG, "Route id " + routeId + " was deleted from Preferences");
+    }
+
+    public static boolean isRouteIdPresentInPreferences(int routeId) {
+
+        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        if (sPref.contains("Favorite" + routeId)) {
+            return true;
+        } else return false;
     }
 
 }

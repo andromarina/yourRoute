@@ -2,21 +2,16 @@ package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
-import android.widget.Toast;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
-import com.yourRoute.YourRouteApp;
-import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
-import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 
 import java.util.ArrayList;
 
@@ -33,10 +28,8 @@ public class MainActivityController {
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
-    private CustomSearchField stopSearchMain;
-    private CustomSearchField stopSearchOptional;
-    private CustomSearchField routeNumbersSearch;
     private ArrayList<City> cities;
+    private SearchController searchController;
     private TabHost.TabSpec tspec;
 
     public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository) {
@@ -48,10 +41,11 @@ public class MainActivityController {
     public void initialize() {
 
         initializeTabHost();
-        initializeSearchByStopName();
-        initializeRouteNumbersSearch();
+        this.searchController = new SearchController(activity, context);
+        searchController.initialize();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
+//        initializeFavoriteButton();
     }
 
     private void showCityChoiceDialog() {
@@ -78,9 +72,7 @@ public class MainActivityController {
         activity.getCityNameButton().setText(name);
         int cityId = this.cities.get(which).getId();
         Preferences.saveCityId(cityId);
-        stopSearchMain.getAutoCompleteTextView().setText("");
-        stopSearchOptional.getAutoCompleteTextView().setText("");
-        routeNumbersSearch.getAutoCompleteTextView().setText("");
+        this.searchController.clearAllSearchFields();
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -95,36 +87,6 @@ public class MainActivityController {
             }
         };
         cityNameButton.setOnClickListener(oclCityNameBtn);
-    }
-
-    private void initializeSearchByStopName() {
-
-        StopSuggestionsProvider stopSuggestionsProvider = new StopSuggestionsProvider();
-        this.stopSearchMain = this.activity.getStopSearchMain();
-        this.stopSearchMain.initialize(stopSuggestionsProvider);
-        this.stopSearchOptional = this.activity.getStopSearchOptional();
-        this.stopSearchOptional.initialize(stopSuggestionsProvider);
-        Button stopNameSearchButton = this.activity.getStopNameSearchButton();
-        stopNameSearchButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForSearchByStopName();
-            }
-        });
-    }
-
-    private void initializeRouteNumbersSearch() {
-
-        RouteNumberSuggestionsProvider routeNumberSuggestionsProvider = new RouteNumberSuggestionsProvider();
-        this.routeNumbersSearch = this.activity.getRouteNumberSearch();
-        this.routeNumbersSearch.initialize(routeNumberSuggestionsProvider);
-        Button routeNumberSearchButton = this.activity.getRouteNumberSearchButton();
-        routeNumberSearchButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForSearchByRouteNumber();
-            }
-        });
     }
 
     private void initializeTabHost() {
@@ -150,6 +112,7 @@ public class MainActivityController {
         tspec.setIndicator("", res.getDrawable(R.drawable.ic_favorites_light));
         tspec.setContent(R.id.favorites);
         main_tabhost.addTab(tspec);
+
 //
 //        TabWidget tabs = (TabWidget)main_tabhost.getTabWidget();
 //        for (int i = 0; i<tabs.getChildCount(); i++) {
@@ -158,38 +121,18 @@ public class MainActivityController {
 //        }
     }
 
-    private void startActivityForSearchByRouteNumber() {
-
-        String routeNumberSearchKey = routeNumbersSearch.getAutoCompleteTextView().getText().toString();
-        if (routeNumberSearchKey.isEmpty()) {
-            showEmptyFieldToast();
-            return;
-        }
-        Intent intent = new Intent(context, SearchResultsActivity.class);
-        intent.putExtra("SearchMode", 2);
-        intent.putExtra("RouteNumber", routeNumberSearchKey);
-        activity.startActivity(intent);
-    }
-
-    private void startActivityForSearchByStopName() {
-
-        String stopSearchMainKey = stopSearchMain.getAutoCompleteTextView().getText().toString();
-        if (stopSearchMainKey.isEmpty()) {
-            showEmptyFieldToast();
-            return;
-        }
-        Intent intent = new Intent(context, SearchResultsActivity.class);
-        intent.putExtra("SearchMode", 1);
-        intent.putExtra("StopName", stopSearchMainKey);
-        YourRouteApp.saveSearchPhrase(stopSearchMainKey);
-        String stopNameOptional = stopSearchOptional.getAutoCompleteTextView().getText().toString();
-        intent.putExtra("OptionalStopName", stopNameOptional);
-        YourRouteApp.saveOptionalSearchPhrase(stopNameOptional);
-        activity.startActivity(intent);
-    }
-
-    private void showEmptyFieldToast() {
-        String needToFillMainField = activity.getResources().getString(R.string.need_to_fill_main_search_field);
-        Toast.makeText(context, needToFillMainField, 10).show();
-    }
+//    private void initializeFavoriteButton() {
+//        final ToggleButton star = this.activity.getStar();
+//        star.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (star.isChecked()) {
+//                    Preferences.saveFavoriteRouteId(1);
+//                }
+//                else {
+//                    Preferences.deleteFavoriteRouteId(1);
+//                }
+//            }
+//        });
+//    }
 }

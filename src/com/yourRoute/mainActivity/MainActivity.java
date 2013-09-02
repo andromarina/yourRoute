@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
@@ -20,19 +22,33 @@ public class MainActivity extends FragmentActivity {
     private Button stopNameSearchButton;
     private Button routeNumberSearchButton;
     private MainActivityController mainActivityController;
+    private TextView noFavorites;
+    private ListView favoritesListView;
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        int currentTabIndex = mainTabhost.getCurrentTab();
+        outState.putInt("CurrentTab", currentTabIndex);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
+        if (savedInstanceState != null) {
+            int currentTab = savedInstanceState.getInt("CurrentTab", 0);
+            mainTabhost.setCurrentTab(currentTab);
+        }
 
         configureActionBar();
         configureSearch();
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
         this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
+        this.noFavorites = (TextView) findViewById(R.id.no_favorites);
+        this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
         this.mainActivityController = new MainActivityController(this, this, citiesRepository);
@@ -90,5 +106,11 @@ public class MainActivity extends FragmentActivity {
         return routeNumberSearchButton;
     }
 
+    public TextView getNoFavorites() {
+        return noFavorites;
+    }
 
+    public ListView getFavoritesListView() {
+        return favoritesListView;
+    }
 }
