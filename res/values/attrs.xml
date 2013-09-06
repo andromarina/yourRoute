@@ -13,6 +13,7 @@
 
     <declare-styleable name="CustomSearchField">
         <attr name="hint" format="string"></attr>
+        <attr name="threshold" format="integer"></attr>
     </declare-styleable>
 
 </resources>

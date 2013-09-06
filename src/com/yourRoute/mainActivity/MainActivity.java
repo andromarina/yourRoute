@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.model.CitiesRepository;
+import com.yourRoute.model.RoutesRepository;
 
 public class MainActivity extends FragmentActivity {
 
@@ -51,7 +52,8 @@ public class MainActivity extends FragmentActivity {
         this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
 
         CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
-        this.mainActivityController = new MainActivityController(this, this, citiesRepository);
+        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
+        this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository);
         this.mainActivityController.initialize();
 
     }

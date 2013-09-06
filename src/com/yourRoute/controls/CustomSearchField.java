@@ -82,10 +82,19 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     }
 
     private void applyAttributes() {
+
         TypedArray typedArray = context.obtainStyledAttributes(attr, R.styleable.CustomSearchField);
+
+        //hint attribute
         String hint = typedArray.getString(R.styleable.CustomSearchField_hint);
         if (hint != null && !hint.isEmpty()) {
             autoCompleteTextView.setHint(hint);
+        }
+
+        //threshold
+        int threshold = typedArray.getInt(R.styleable.CustomSearchField_threshold, 0);
+        if (threshold != 0) {
+            autoCompleteTextView.setThreshold(threshold);
         }
     }
 

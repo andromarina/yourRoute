@@ -12,6 +12,7 @@ import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
+import com.yourRoute.model.RoutesRepository;
 
 import java.util.ArrayList;
 
@@ -28,24 +29,28 @@ public class MainActivityController {
     private Context context;
     private MainActivity activity;
     private CitiesRepository citiesRepository;
+    private RoutesRepository routesRepository;
     private ArrayList<City> cities;
     private SearchController searchController;
     private TabHost.TabSpec tspec;
 
-    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository) {
+    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository,
+                                  RoutesRepository routesRepository) {
         this.context = context;
         this.activity = activity;
         this.citiesRepository = citiesRepository;
+        this.routesRepository = routesRepository;
     }
 
     public void initialize() {
 
         initializeTabHost();
-        this.searchController = new SearchController(activity, context);
+        this.searchController = new SearchController(context, activity);
         searchController.initialize();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
-//        initializeFavoriteButton();
+        FavoritesController favoritesController = new FavoritesController(context, activity, routesRepository);
+        //  favoritesController.refreshFavoritesList();
     }
 
     private void showCityChoiceDialog() {

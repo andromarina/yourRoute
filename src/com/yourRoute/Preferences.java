@@ -13,6 +13,9 @@ import android.util.Log;
  */
 public class Preferences {
 
+    private static final String CITY_ID = "CityId";
+    private static final String FAVORITES = "Favorites";
+
     private static SharedPreferences sPref;
     private static Context context;
     private static String LOG_TAG = "Preferences";
@@ -23,24 +26,24 @@ public class Preferences {
 
     public static void saveCityId(int cityId) {
 
-        sPref = context.getSharedPreferences("CityId", Context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(CITY_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        ed.putInt("CityId", cityId);
+        ed.putInt(CITY_ID, cityId);
         ed.commit();
         Log.d(LOG_TAG, cityId + "City id saved");
     }
 
     public static int getSavedCityId() {
 
-        sPref = context.getSharedPreferences("CityId", Context.MODE_PRIVATE);
-        int savedCityId = sPref.getInt("CityId", 24);
+        sPref = context.getSharedPreferences(CITY_ID, Context.MODE_PRIVATE);
+        int savedCityId = sPref.getInt(CITY_ID, 24);
         Log.i(LOG_TAG, savedCityId + "City id loaded");
         return savedCityId;
     }
 
     public static void saveFavoriteRouteId(int routeId) {
 
-        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt("Favorite" + routeId, routeId);
         ed.commit();
@@ -49,7 +52,7 @@ public class Preferences {
 
     public static void deleteFavoriteRouteId(int routeId) {
 
-        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         ed.remove("Favorite" + routeId);
         ed.commit();
@@ -58,10 +61,25 @@ public class Preferences {
 
     public static boolean isRouteIdPresentInPreferences(int routeId) {
 
-        sPref = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
+        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         if (sPref.contains("Favorite" + routeId)) {
             return true;
         } else return false;
     }
+
+//    public static int[] getAllFavoriteRouteIds() {
+//        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
+//        Map<String, Integer> favorites = (Map<String, Integer>) sPref.getAll();
+//
+//
+//        Object[] favoriteIds = favorites.values().toArray();
+//        if (favoriteIds instanceof Integer[]) {
+//            Integer[] favoritesArray = (Integer[]) favoriteIds;
+//
+//            return favoritesArray;
+//        }
+//        else
+//            return new Integer[0];
+//    }
 
 }

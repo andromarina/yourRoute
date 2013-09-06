@@ -6,18 +6,23 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:gravity="top">
+
+
     <view
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             class="com.yourRoute.controls.CustomSearchField"
             android:id="@+id/stop_search_field"
-            customSearchField:hint="@string/street_name_hint" android:gravity="top"/>
+            customSearchField:hint="@string/street_name_hint"
+            customSearchField:threshold="3"
+            android:gravity="top"/>
 
     <view
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             class="com.yourRoute.controls.CustomSearchField"
             android:id="@+id/search_by_stop_optional"
-            customSearchField:hint="@string/second_street_name_hint"/>
+            customSearchField:hint="@string/second_street_name_hint"
+            customSearchField:threshold="1"/>
 
 </LinearLayout>

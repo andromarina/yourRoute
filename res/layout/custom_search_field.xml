@@ -10,7 +10,7 @@
             android:id="@+id/autocompete_text_view"
             android:completionThreshold="1"
             android:singleLine="true"
-            android:background="@drawable/street_search"
+            android:background="@drawable/search_field"
             android:paddingLeft="5dp"
             android:inputType="text"
             android:dropDownVerticalOffset="10dp"

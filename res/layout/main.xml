@@ -12,7 +12,8 @@
                      android:layout_width="fill_parent"
                      android:layout_height="fill_parent"
                      android:layout_alignParentTop="false"
-                     android:layout_above="@android:id/tabs" android:layout_alignParentBottom="false"
+                     android:layout_above="@android:id/tabs"
+                     android:layout_alignParentBottom="false"
                      android:addStatesFromChildren="true">
             <include layout="@layout/stop_name_search_tab"></include>
             <include layout="@layout/route_number_search_tab"></include>

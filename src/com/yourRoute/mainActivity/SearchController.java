@@ -2,8 +2,11 @@ package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
@@ -24,7 +27,7 @@ public class SearchController {
     private CustomSearchField stopSearchOptional;
     private CustomSearchField routeNumbersSearch;
 
-    public SearchController(MainActivity activity, Context context) {
+    public SearchController(Context context, MainActivity activity) {
         this.activity = activity;
         this.context = context;
     }
@@ -41,6 +44,18 @@ public class SearchController {
         this.stopSearchMain.initialize(stopSuggestionsProvider);
         this.stopSearchOptional = this.activity.getStopSearchOptional();
         this.stopSearchOptional.initialize(stopSuggestionsProvider);
+        this.stopSearchMain.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    stopSearchOptional.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
         Button stopNameSearchButton = this.activity.getStopNameSearchButton();
         stopNameSearchButton.setOnClickListener(new Button.OnClickListener() {
             @Override
