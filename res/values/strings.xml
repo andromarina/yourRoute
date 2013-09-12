@@ -4,7 +4,7 @@
     <string name="app_name">Your Route</string>
     <string name="select_city_list_title">Выбор города</string>
     <string name="operation_time">"Время работы: "</string>
-    <string name="length">"Продолжительность: "</string>
+    <string name="length">"Длина маршрута: "</string>
     <string name="interval">"Интервал: "</string>
     <string name="km">"км"</string>
     <string name="min">"мин"</string>
@@ -18,9 +18,9 @@
     <string name="stop_name">"По остановкам"</string>
     <string name="route_number">"По номеру"</string>
     <string name="favorites">"Избранное"</string>
-    <string name="no_favorites">"Добавьте маршрут в избранное"</string>
+    <string name="no_favorites">"Нет избранного"</string>
     <string name="find_button">"Поиск"</string>
-    <string name="need_to_fill_main_search_field">"Заполните поле поиска"</string>
-
+    <string name="need_to_fill_main_search_field">"Введите остановку отправления"</string>
+    <string name="need_to_fill_route_search_field">"Введите номер маршрута"</string>
 
 </resources>

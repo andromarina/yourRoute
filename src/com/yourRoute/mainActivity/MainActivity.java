@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && mainTabhost != null) {
             int currentTab = savedInstanceState.getInt("CurrentTab", 0);
             mainTabhost.setCurrentTab(currentTab);
         }

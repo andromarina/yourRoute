@@ -50,7 +50,7 @@ public class MainActivityController {
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
         FavoritesController favoritesController = new FavoritesController(context, activity, routesRepository);
-        //  favoritesController.refreshFavoritesList();
+        favoritesController.refreshFavoritesList();
     }
 
     private void showCityChoiceDialog() {

@@ -52,7 +52,8 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
             return;
         }
         clearButton.setVisibility(View.VISIBLE);
-        setSearchProvider(searchProvider, searchKey);
+        String searchKeyValidated = validateString(searchKey);
+        setSearchProvider(searchProvider, searchKeyValidated);
     }
 
     @Override
@@ -112,6 +113,17 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     private void setSearchProvider(SearchProvider searchProvider, String searchKey) {
         SimpleCursorAdapter adapter = searchProvider.getSuggestions(context, searchKey);
         this.autoCompleteTextView.setAdapter(adapter);
+    }
+
+    private String validateString(String string) {
+        String stringValidated = string.replace("'", "''");
+        return stringValidated;
+    }
+
+    public String getValidatedString() {
+        String autocompleteTextViewContent = this.autoCompleteTextView.getText().toString();
+        String result = validateString(autocompleteTextViewContent);
+        return result;
     }
 }
 

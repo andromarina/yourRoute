@@ -81,9 +81,10 @@ public class SearchController {
 
     private void startActivityForSearchByRouteNumber() {
 
-        String routeNumberSearchKey = routeNumbersSearch.getAutoCompleteTextView().getText().toString();
+        String routeNumberSearchKey = routeNumbersSearch.getValidatedString();
         if (routeNumberSearchKey.isEmpty()) {
-            showEmptyFieldToast();
+            Toast emptyRouteNumberField = Toast.makeText(context, R.string.need_to_fill_route_search_field, 3 * 1000);
+            emptyRouteNumberField.show();
             return;
         }
         Intent intent = new Intent(context, SearchResultsActivity.class);
@@ -94,24 +95,20 @@ public class SearchController {
 
     private void startActivityForSearchByStopName() {
 
-        String stopSearchMainKey = stopSearchMain.getAutoCompleteTextView().getText().toString();
+        String stopSearchMainKey = stopSearchMain.getValidatedString();
         if (stopSearchMainKey.isEmpty()) {
-            showEmptyFieldToast();
+            Toast emptyStartStopField = Toast.makeText(context, R.string.need_to_fill_main_search_field, 3 * 1000);
+            emptyStartStopField.show();
             return;
         }
         Intent intent = new Intent(context, SearchResultsActivity.class);
         intent.putExtra("SearchMode", 1);
         intent.putExtra("StopName", stopSearchMainKey);
         YourRouteApp.saveSearchPhrase(stopSearchMainKey);
-        String stopNameOptional = stopSearchOptional.getAutoCompleteTextView().getText().toString();
+        String stopNameOptional = stopSearchOptional.getValidatedString();
         intent.putExtra("OptionalStopName", stopNameOptional);
         YourRouteApp.saveOptionalSearchPhrase(stopNameOptional);
         activity.startActivity(intent);
-    }
-
-    private void showEmptyFieldToast() {
-        String needToFillMainField = activity.getResources().getString(R.string.need_to_fill_main_search_field);
-        Toast.makeText(context, needToFillMainField, 10).show();
     }
 
     public void clearAllSearchFields() {

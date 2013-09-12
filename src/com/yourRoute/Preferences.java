@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mara
@@ -45,7 +49,8 @@ public class Preferences {
 
         sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        ed.putInt("Favorite" + routeId, routeId);
+        getAllFavoritesSet().add(String.valueOf(routeId));
+        ed.putStringSet(FAVORITES, getAllFavoritesSet());
         ed.commit();
         Log.d(LOG_TAG, "Route id " + routeId + " was saved to Preferences");
     }
@@ -54,32 +59,32 @@ public class Preferences {
 
         sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        ed.remove("Favorite" + routeId);
+        getAllFavoritesSet().remove(String.valueOf(routeId));
+        ed.putStringSet(FAVORITES, getAllFavoritesSet());
         ed.commit();
         Log.d(LOG_TAG, "Route id " + routeId + " was deleted from Preferences");
     }
 
     public static boolean isRouteIdPresentInPreferences(int routeId) {
 
-        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
-        if (sPref.contains("Favorite" + routeId)) {
+        if (getAllFavoritesSet().contains(String.valueOf(routeId))) {
             return true;
         } else return false;
     }
 
-//    public static int[] getAllFavoriteRouteIds() {
-//        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
-//        Map<String, Integer> favorites = (Map<String, Integer>) sPref.getAll();
-//
-//
-//        Object[] favoriteIds = favorites.values().toArray();
-//        if (favoriteIds instanceof Integer[]) {
-//            Integer[] favoritesArray = (Integer[]) favoriteIds;
-//
-//            return favoritesArray;
-//        }
-//        else
-//            return new Integer[0];
-//    }
+    private static Set<String> getAllFavoritesSet() {
+        sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
+        Set<String> favoritesSet = sPref.getStringSet(FAVORITES, new HashSet<String>());
+        return favoritesSet;
+    }
+
+    public static ArrayList<Integer> getAllFavoritesId() {
+        ArrayList<Integer> favoritesId = new ArrayList<>();
+        for (String favorite : getAllFavoritesSet()) {
+            int id = Integer.parseInt(favorite);
+            favoritesId.add(id);
+        }
+        return favoritesId;
+    }
 
 }
