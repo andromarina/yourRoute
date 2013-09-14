@@ -1,6 +1,7 @@
 package com.yourRoute.routeDetailsActivity;
 
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.yourRoute.Preferences;
@@ -30,7 +31,6 @@ public class RouteDetailsActivityController {
     public void initialize() {
         initializeTabHost();
         initializeRoute();
-        //      initializeFavoriteButton();
         setCarTypeIcon();
         setStartEnd();
         setOperationHours();
@@ -43,10 +43,28 @@ public class RouteDetailsActivityController {
 
         TabHost direction_tabhost = activity.getDirection_tabhost();
         direction_tabhost.setup();
+
+        //Forward tab
         String forward = activity.getResources().getString(R.string.forward);
+        TabHost.TabSpec tspec = direction_tabhost.newTabSpec("ForwardTab");
+        tspec.setIndicator(forward);
+        tspec.setContent(R.id.forward_stops_list);
+        direction_tabhost.addTab(tspec);
+
+        //Backward tab
         String backward = activity.getResources().getString(R.string.backward);
-        direction_tabhost.addTab(direction_tabhost.newTabSpec("ForwardTab").setIndicator(forward).setContent(R.id.forward_stops_list));
-        direction_tabhost.addTab(direction_tabhost.newTabSpec("BackwardTab").setIndicator(backward).setContent(R.id.backward_stops_list));
+        tspec = direction_tabhost.newTabSpec("BackwardTab");
+        tspec.setIndicator(backward);
+        tspec.setContent(R.id.backward_stops_list);
+        direction_tabhost.addTab(tspec);
+
+        TabWidget tabs = direction_tabhost.getTabWidget();
+
+        for (int i = 0; i < tabs.getChildCount(); i++) {
+            View tab = tabs.getChildAt(i);
+            TextView tv = (TextView) tab.findViewById(android.R.id.title);
+            tv.setTextColor(activity.getResources().getColorStateList(R.color.tab_text));
+        }
     }
 
     private void initializeRoute() {
@@ -64,11 +82,25 @@ public class RouteDetailsActivityController {
     }
 
     public void initializeFavoriteButton() {
-        ImageButton favoriteButton = activity.getFavoriteButton();
-        favoriteButton.setOnClickListener(new Button.OnClickListener() {
+        MenuItem favoriteButton = activity.getFavoriteButton();
+
+        if (Preferences.isRouteIdPresentInPreferences(this.routeId)) {
+            favoriteButton.setIcon(R.drawable.ic_star_filled_big);
+        }
+
+        favoriteButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Preferences.saveFavoriteRouteId(routeId);
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if (Preferences.isRouteIdPresentInPreferences(routeId)) {
+                    Preferences.deleteFavoriteRouteId(routeId);
+                    item.setIcon(R.drawable.ic_star_empty_big);
+                    return true;
+                } else {
+                    Preferences.saveFavoriteRouteId(routeId);
+                    item.setIcon(R.drawable.ic_star_filled_big);
+                    return true;
+                }
             }
         });
     }

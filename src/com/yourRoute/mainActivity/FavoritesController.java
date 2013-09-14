@@ -16,7 +16,7 @@ import com.yourRoute.searchResultsActivity.RouteListAdapter;
 
 import java.util.ArrayList;
 
-public class FavoritesController {
+public class FavoritesController implements FavoritesChangedListener {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     private MainActivity activity;
@@ -69,5 +69,8 @@ public class FavoritesController {
         return routesArray;
     }
 
-
+    @Override
+    public void onChange() {
+        refreshFavoritesList();
+    }
 }

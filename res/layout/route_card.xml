@@ -18,12 +18,11 @@
                     android:id="@android:id/tabs"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/tabhost_height"
+                    android:tabStripEnabled="false"
                     android:showDividers="middle"
-                    android:dividerPadding="4dp"
-                    android:background="#d4d4d4"
-                    android:clickable="false" android:divider="@drawable/divider" android:tabStripEnabled="false"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:baselineAligned="false">
+                    android:divider="@drawable/divider"
+                    android:dividerPadding="10dp"
+                    android:background="@drawable/tiled_background2">
             </TabWidget>
             <FrameLayout
                     android:id="@android:id/tabcontent"

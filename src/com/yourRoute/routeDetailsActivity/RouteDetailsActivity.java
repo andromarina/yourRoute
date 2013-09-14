@@ -3,6 +3,7 @@ package com.yourRoute.routeDetailsActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.*;
 import com.yourRoute.R;
@@ -22,15 +23,18 @@ public class RouteDetailsActivity extends FragmentActivity {
     private LinearLayout lengthLayout;
     private ListView forwardStopsList;
     private ListView backwardStopsList;
+    private MenuItem favoriteButton;
     private RouteDetailsActivityController controller;
-    private ImageButton favoriteButton;
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.route_details_menu, menu);
+        this.favoriteButton = menu.getItem(0);
+        controller.initializeFavoriteButton();
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,6 @@ public class RouteDetailsActivity extends FragmentActivity {
         setContentView(R.layout.route_card);
         RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
         StopsRepository stopsRepository = new StopsRepository(getContentResolver());
-
-        this.favoriteButton = (ImageButton) findViewById(R.id.favorite_button);
         this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
         this.startEndView = (TextView) findViewById(R.id.start_end);
         this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
@@ -51,7 +53,6 @@ public class RouteDetailsActivity extends FragmentActivity {
         this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
         this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
         this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
-
         this.controller = new RouteDetailsActivityController(this, routesRepository, stopsRepository);
         this.controller.initialize();
         configureActionBar();
@@ -74,11 +75,6 @@ public class RouteDetailsActivity extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle(controller.getRouteName());
-        getActionBar().setCustomView(R.layout.favorite_button);
-    }
-
-    public ImageButton getFavoriteButton() {
-        return favoriteButton;
     }
 
     public TabHost getDirection_tabhost() {
@@ -123,6 +119,10 @@ public class RouteDetailsActivity extends FragmentActivity {
 
     public ListView getBackwardStopsList() {
         return this.backwardStopsList;
+    }
+
+    public MenuItem getFavoriteButton() {
+        return this.favoriteButton;
     }
 
 }

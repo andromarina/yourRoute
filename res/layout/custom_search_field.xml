@@ -13,7 +13,7 @@
             android:background="@drawable/search_field"
             android:paddingLeft="5dp"
             android:inputType="text"
-            android:dropDownVerticalOffset="10dp"
+            android:dropDownVerticalOffset="5dp"
             android:paddingRight="47dp"
             android:layout_margin="5dp"
             android:maxLength="25"/>

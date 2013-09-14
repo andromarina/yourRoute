@@ -118,26 +118,10 @@ public class MainActivityController {
         tspec.setContent(R.id.favorites);
         main_tabhost.addTab(tspec);
 
-//
 //        TabWidget tabs = (TabWidget)main_tabhost.getTabWidget();
 //        for (int i = 0; i<tabs.getChildCount(); i++) {
 //            LinearLayout tab = (LinearLayout) tabs.getChildAt(i);
 //            tab.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.tab_indicator));
 //        }
     }
-
-//    private void initializeFavoriteButton() {
-//        final ToggleButton star = this.activity.getStar();
-//        star.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (star.isChecked()) {
-//                    Preferences.saveFavoriteRouteId(1);
-//                }
-//                else {
-//                    Preferences.deleteFavoriteRouteId(1);
-//                }
-//            }
-//        });
-//    }
 }
