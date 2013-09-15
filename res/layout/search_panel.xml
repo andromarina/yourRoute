@@ -14,7 +14,7 @@
             class="com.yourRoute.controls.CustomSearchField"
             android:id="@+id/stop_search_field"
             customSearchField:hint="@string/street_name_hint"
-            customSearchField:threshold="3"
+            customSearchField:threshold="2"
             android:gravity="top"/>
 
     <view
@@ -23,6 +23,6 @@
             class="com.yourRoute.controls.CustomSearchField"
             android:id="@+id/search_by_stop_optional"
             customSearchField:hint="@string/second_street_name_hint"
-            customSearchField:threshold="1"/>
+            customSearchField:threshold="2"/>
 
 </LinearLayout>

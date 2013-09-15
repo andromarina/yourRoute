@@ -29,6 +29,10 @@ public class Preferences {
         Preferences.context = context;
     }
 
+    public static void setListener(FavoritesChangedListener favoritesChangedListener) {
+        listener = favoritesChangedListener;
+    }
+
     public static void saveCityId(int cityId) {
 
         sPref = context.getSharedPreferences(CITY_ID, Context.MODE_PRIVATE);

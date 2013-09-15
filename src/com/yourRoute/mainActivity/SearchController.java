@@ -12,6 +12,7 @@ import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,7 +83,7 @@ public class SearchController {
     private void startActivityForSearchByRouteNumber() {
 
         String routeNumberSearchKey = routeNumbersSearch.getValidatedString();
-        if (routeNumberSearchKey.isEmpty()) {
+        if (!StringUtils.isNotBlank(routeNumberSearchKey)) {
             Toast emptyRouteNumberField = Toast.makeText(context, R.string.need_to_fill_route_search_field, 3 * 1000);
             emptyRouteNumberField.show();
             return;
@@ -96,7 +97,8 @@ public class SearchController {
     private void startActivityForSearchByStopName() {
 
         String stopSearchMainKey = stopSearchMain.getValidatedString();
-        if (stopSearchMainKey.isEmpty()) {
+        int length = stopSearchMainKey.length();
+        if (!StringUtils.isNotBlank(stopSearchMainKey) || length <= 3) {
             Toast emptyStartStopField = Toast.makeText(context, R.string.need_to_fill_main_search_field, 3 * 1000);
             emptyStartStopField.show();
             return;

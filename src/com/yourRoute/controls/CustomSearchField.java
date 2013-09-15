@@ -116,7 +116,12 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     }
 
     private String validateString(String string) {
-        String stringValidated = string.replace("'", "''");
+        String stringValidated = string.replace("'", "''")
+                .replace("(", "")
+                .replace(")", "")
+                .replace("/", "")
+                .replace("%", "")
+                .replace("`", "");
         return stringValidated;
     }
 
