@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TabHost;
 import com.yourRoute.Preferences;
@@ -97,7 +98,7 @@ public class MainActivityController {
 
     private void initializeTabHost() {
 
-        TabHost main_tabhost = activity.getMainTabhost();
+        final TabHost main_tabhost = activity.getMainTabhost();
         main_tabhost.setup();
         Resources res = activity.getResources();
 
@@ -119,10 +120,26 @@ public class MainActivityController {
         tspec.setContent(R.id.favorites);
         main_tabhost.addTab(tspec);
 
+        main_tabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                if (tabId.equals("Tab 3")) {
+                    hideKeyboard();
+                }
+            }
+        });
+
 //        TabWidget tabs = (TabWidget)main_tabhost.getTabWidget();
 //        for (int i = 0; i<tabs.getChildCount(); i++) {
 //            LinearLayout tab = (LinearLayout) tabs.getChildAt(i);
 //            tab.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.tab_indicator));
 //        }
     }
+
+    private void hideKeyboard() {
+
+        InputMethodManager mgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
 }

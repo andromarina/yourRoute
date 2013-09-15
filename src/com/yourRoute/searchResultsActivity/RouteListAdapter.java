@@ -47,5 +47,4 @@ public class RouteListAdapter extends ArrayAdapter<Route> {
 
         return item;
     }
-
 }
