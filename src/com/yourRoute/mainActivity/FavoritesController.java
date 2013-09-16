@@ -33,11 +33,12 @@ public class FavoritesController implements FavoritesChangedListener {
     public void refreshFavoritesList() {
 
         final ArrayList<Route> routes = getAllFavoriteRoutes();
+        TextView noResults = activity.getNoFavorites();
         if (routes.isEmpty()) {
             Log.d(LOG_TAG, "favorites array is empty");
-            TextView noResults = activity.getNoFavorites();
             noResults.setVisibility(View.VISIBLE);
-            return;
+        } else {
+           noResults.setVisibility(View.GONE);
         }
 
         ListView favoritesListView = this.activity.getFavoritesListView();

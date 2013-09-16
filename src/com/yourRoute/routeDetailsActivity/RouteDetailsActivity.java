@@ -1,5 +1,6 @@
 package com.yourRoute.routeDetailsActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -65,6 +66,10 @@ public class RouteDetailsActivity extends FragmentActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.report:
+                Report report = new Report(this);
+                report.sendReport();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -6,6 +6,7 @@
     <string name="operation_time">"Время работы: "</string>
     <string name="length">"Длина маршрута: "</string>
     <string name="interval">"Интервал: "</string>
+    <string name="report">"Уточнить маршрут"</string>
     <string name="km">"км"</string>
     <string name="min">"мин"</string>
     <string name="street_name_hint">"Остановка отправления * "</string>
@@ -20,9 +21,7 @@
     <string name="favorites">"Избранное"</string>
     <string name="no_favorites">"Нет избранного"</string>
     <string name="find_button">"Поиск"</string>
-    <string name="need_to_fill_main_search_field">"Название остановки отправления должно содержать не менее 3
-        символов"
-    </string>
+    <string name="need_to_fill_main_search_field">"Название остановки отправления должно содержать более 3 символов"</string>
     <string name="need_to_fill_route_search_field">"Введите номер маршрута"</string>
 
 </resources>

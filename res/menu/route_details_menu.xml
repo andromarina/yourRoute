@@ -5,8 +5,15 @@
     <item
             android:id="@+id/favorite_button"
             android:icon="@drawable/favorite_button_big"
-            android:showAsAction="ifRoom"
+            android:showAsAction="always"
             android:title="@string/favorites">
     </item>
+
+    <item
+            android:id="@+id/report"
+            android:showAsAction="never"
+            android:title="@string/report">
+    </item>
+
 
 </menu>

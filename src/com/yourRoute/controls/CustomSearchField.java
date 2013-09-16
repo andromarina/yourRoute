@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.mainActivity.SearchProvider;
@@ -116,12 +117,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     }
 
     private String validateString(String string) {
-        String stringValidated = string.replace("'", "''")
-                .replace("(", "")
-                .replace(")", "")
-                .replace("/", "")
-                .replace("%", "")
-                .replace("`", "");
+        String stringValidated = string.replace("'", "''");
         return stringValidated;
     }
 

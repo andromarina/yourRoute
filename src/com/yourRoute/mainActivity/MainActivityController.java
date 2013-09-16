@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TabHost;
@@ -124,6 +125,7 @@ public class MainActivityController {
             @Override
             public void onTabChanged(String tabId) {
                 if (tabId.equals("Tab 3")) {
+                    activity.getStopSearchMain().clearFocus();
                     hideKeyboard();
                 }
             }
@@ -138,8 +140,8 @@ public class MainActivityController {
 
     private void hideKeyboard() {
 
-        InputMethodManager mgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mgr.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        InputMethodManager imm = (InputMethodManager)  context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getStopSearchMain().getWindowToken(), 0);
     }
 
 }
