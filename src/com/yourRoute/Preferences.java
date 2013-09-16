@@ -58,7 +58,7 @@ public class Preferences {
         favoritesSet.add(String.valueOf(routeId));
         ed.putStringSet(FAVORITES, favoritesSet);
         boolean result = ed.commit();
-        listener.onChange();
+        listener.onFavoritesChanged();
         Log.d(LOG_TAG, "Route id " + routeId + " was saved to Preferences (" + result + ")");
     }
 
@@ -70,7 +70,7 @@ public class Preferences {
         favoritesSet.remove(String.valueOf(routeId));
         ed.putStringSet(FAVORITES, favoritesSet);
         ed.commit();
-        listener.onChange();
+        listener.onFavoritesChanged();
         Log.d(LOG_TAG, "Route id " + routeId + " was deleted from Preferences");
     }
 

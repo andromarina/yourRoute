@@ -9,5 +9,5 @@ package com.yourRoute.mainActivity;
  */
 public interface FavoritesChangedListener {
 
-    public void onChange();
+    public void onFavoritesChanged();
 }

@@ -59,7 +59,7 @@ public class FavoritesController implements FavoritesChangedListener {
     private ArrayList<Route> getAllFavoriteRoutes() {
         ArrayList<Integer> favoriteIds = Preferences.getAllFavoritesId();
         ArrayList<Route> routesArray = new ArrayList<>();
-        if (favoriteIds.size() == 0) {
+        if (favoriteIds.isEmpty()) {
             return routesArray;
         }
 
@@ -71,7 +71,7 @@ public class FavoritesController implements FavoritesChangedListener {
     }
 
     @Override
-    public void onChange() {
+    public void onFavoritesChanged() {
         refreshFavoritesList();
     }
 }
