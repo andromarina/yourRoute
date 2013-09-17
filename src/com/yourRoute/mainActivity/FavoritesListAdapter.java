@@ -89,6 +89,12 @@ public class FavoritesListAdapter extends ArrayAdapter<Route> {
         int cityId = route.getCityId();
         String cityName = citiesRepository.getCity(cityId).getName();
         textSeparator.setText(cityName);
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return item;
     }
 
@@ -101,4 +107,5 @@ public class FavoritesListAdapter extends ArrayAdapter<Route> {
         }
      return routeNext;
     }
+
 }
