@@ -20,6 +20,7 @@ public class RoutesRepository {
     private final static String ROUTE_WORK_TIME_COLUMN_NAME = Routes.ROUTE_WORK_TIME_COLUMN_NAME;
     private final static String START_END_COLUMN_NAME = Routes.START_END_COLUMN_NAME;
     private final static String CAR_TYPE_ID_COLUMN_NAME = Routes.CAR_TYPE_ID_COLUMN_NAME;
+    private final static String CITY_ID_COLUMN_NAME = Routes.CITY_ID_COLUMN_NAME;
     public final static String ROUTE_NAME_COLUMN_NAME = Routes.ROUTE_NAME_COLUMN_NAME;
     private final static String STOP_NAME_FOR_SEARCH = Routes.STOP_NAME_FOR_SEARCH;
     private String LOG_TAG = this.getClass().getSimpleName();
@@ -132,7 +133,10 @@ public class RoutesRepository {
         int workTimeColumnIndex = routesCursor.getColumnIndex(ROUTE_WORK_TIME_COLUMN_NAME);
         String startTime = routesCursor.getString(workTimeColumnIndex);
 
-        Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime);
+        int cityIdColumnIndex = routesCursor.getColumnIndex(CITY_ID_COLUMN_NAME);
+        int cityId = routesCursor.getInt(cityIdColumnIndex);
+
+        Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime, cityId);
         return route;
     }
 

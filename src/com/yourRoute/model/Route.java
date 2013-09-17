@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 
-public class Route {
+public class Route implements Comparable<Route> {
     private final int id;
     private String name;
     private final int carType;
@@ -23,10 +23,11 @@ public class Route {
     private final String workTime;
     private StopsCollection forwardStops;
     private StopsCollection backwardStops;
+    private int cityId;
 
 
     public Route(int id, String name, int carType, String startEnd,
-                 String length, String interval, String workTime) {
+                 String length, String interval, String workTime, int cityId) {
         this.id = id;
         this.name = (name == null) ? "" : name;
         this.carType = carType;
@@ -34,6 +35,7 @@ public class Route {
         this.length = (length == null) ? "" : length;
         this.interval = (interval == null || interval.equals("00:00")) ? "" : interval;
         this.workTime = (workTime == null) ? "" : workTime;
+        this.cityId = cityId;
     }
 
     public int getId() {
@@ -103,10 +105,20 @@ public class Route {
         return this.backwardStops;
     }
 
+    public int getCityId() {
+        return this.cityId;
+    }
+
     @Override
     public String toString() {
         return String.format("[%d] %s %s %s", this.id, this.name, this.getCarType(), this.startEnd);
     }
 
+    public int compareTo(Route route) {
 
+        int routeId = route.getId();
+
+        //ascending order
+        return this.id - routeId;
+    }
 }

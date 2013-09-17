@@ -98,7 +98,7 @@ public class SearchController {
 
         String stopSearchMainKey = stopSearchMain.getValidatedString();
         int length = stopSearchMainKey.length();
-        if (!StringUtils.isNotBlank(stopSearchMainKey) || length <= 3) {
+        if (!StringUtils.isNotBlank(stopSearchMainKey) || length < 3) {
             Toast emptyStartStopField = Toast.makeText(context, R.string.need_to_fill_main_search_field, 3 * 1000);
             emptyStartStopField.show();
             return;

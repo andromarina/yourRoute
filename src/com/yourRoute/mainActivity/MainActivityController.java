@@ -51,7 +51,7 @@ public class MainActivityController {
         searchController.initialize();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
-        FavoritesController favoritesController = new FavoritesController(context, activity, routesRepository);
+        FavoritesController favoritesController = new FavoritesController(context, activity, routesRepository, citiesRepository);
         favoritesController.refreshFavoritesList();
         Preferences.setListener(favoritesController);
     }
