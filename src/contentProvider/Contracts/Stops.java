@@ -19,6 +19,7 @@ public class Stops implements BaseColumns {
     public static final String STOP_NAME_FOR_SEARCH = "StopNameForSearch";
     public static final String STOP_INDEX_COLUMN_NAME = "StopIndex";
     public static final String ROUTE_ID_COLUMN_NAME = "RouteId";
+    public static final String CITY_ID_COLUMN_NAME = "CityId";
 
     // paths
     public static final String STOPS_PATH = "Stops";

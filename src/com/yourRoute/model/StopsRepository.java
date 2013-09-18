@@ -26,6 +26,7 @@ public class StopsRepository {
     public final static String STOP_NAME_FOR_SEARCH = Stops.STOP_NAME_FOR_SEARCH;
     private final static String STOP_INDEX_COLUMN_NAME = Stops.STOP_INDEX_COLUMN_NAME;
     private final static String ROUTE_ID_COLUMN_NAME = Stops.ROUTE_ID_COLUMN_NAME;
+    private final static String CITY_ID_COLUMN_NAME = Stops.CITY_ID_COLUMN_NAME;
 
 
     public StopsRepository(ContentResolver contentResolver) {
@@ -71,8 +72,11 @@ public class StopsRepository {
 
         int stopIndexColumnIndex = stopsCursor.getColumnIndex(STOP_INDEX_COLUMN_NAME);
         int stopIndex = stopsCursor.getInt(stopIndexColumnIndex);
+
+        int cityIdColumnIndex = stopsCursor.getColumnIndex(CITY_ID_COLUMN_NAME);
+        int cityId = stopsCursor.getInt(cityIdColumnIndex);
         Log.i(LOG_TAG, "Stop index = " + stopIndex + " Stop name " + name);
-        Stop stop = new Stop(id, name, stopIndex);
+        Stop stop = new Stop(id, name, stopIndex, cityId);
         return stop;
     }
 

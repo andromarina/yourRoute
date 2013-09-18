@@ -90,11 +90,11 @@ public class SearchResultsActivityController {
     private void doSearchByStreetName() {
         String searchKeyMain = getStopNameKey();
         String searchKeyOptional = getOptionalStopNameKey();
-        int savedCityId = Preferences.getSavedCityId();
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(searchKeyMain, savedCityId);
+        int stopCityId = getCityId();
+        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(searchKeyMain, stopCityId);
         if (searchKeyOptional != null && !searchKeyOptional.isEmpty()) {
             Log.d(LOG_TAG, "Optional street search name: " + searchKeyOptional);
-            final ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(searchKeyOptional, savedCityId);
+            final ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(searchKeyOptional, stopCityId);
             ArrayList<Route> unitedArray = this.routesRepository.uniteRoutes(routes, routesOptional);
             refreshUnitedSearchResults(unitedArray);
         } else {
@@ -130,6 +130,12 @@ public class SearchResultsActivityController {
     private int getSearchMode() {
         Intent intent = this.activity.getIntent();
         int searchMode = intent.getIntExtra("SearchMode", 1);
+        return searchMode;
+    }
+
+    private int getCityId() {
+        Intent intent = this.activity.getIntent();
+        int searchMode = intent.getIntExtra("CityId", 24);
         return searchMode;
     }
 

@@ -2,6 +2,7 @@ package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -48,6 +49,7 @@ public class SearchController {
         this.stopSearchMain.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
                     stopSearchOptional.requestFocus();
                     return true;
@@ -55,7 +57,17 @@ public class SearchController {
                 return false;
             }
         });
+        this.stopSearchOptional.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    startActivityForSearchByStopName();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         Button stopNameSearchButton = this.activity.getStopNameSearchButton();
         stopNameSearchButton.setOnClickListener(new Button.OnClickListener() {
@@ -71,6 +83,17 @@ public class SearchController {
         RouteNumberSuggestionsProvider routeNumberSuggestionsProvider = new RouteNumberSuggestionsProvider();
         this.routeNumbersSearch = this.activity.getRouteNumberSearch();
         this.routeNumbersSearch.initialize(routeNumberSuggestionsProvider);
+        this.routeNumbersSearch.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    startActivityForSearchByRouteNumber();
+                    return true;
+                }
+                return false;
+            }
+        });
         Button routeNumberSearchButton = this.activity.getRouteNumberSearchButton();
         routeNumberSearchButton.setOnClickListener(new Button.OnClickListener() {
             @Override

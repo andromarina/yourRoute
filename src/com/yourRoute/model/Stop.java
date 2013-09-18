@@ -11,11 +11,13 @@ public class Stop {
     private final int id;
     private final String name;
     private final int stopIndex;
+    private final int cityId;
 
-    public Stop(int id, String name, int stopIndex) {
+    public Stop(int id, String name, int stopIndex, int cityId) {
         this.id = id;
         this.name = name;
         this.stopIndex = stopIndex;
+        this.cityId = cityId;
     }
 
     public int getStopId() {
@@ -30,5 +32,8 @@ public class Stop {
         return this.stopIndex;
     }
 
+    public int getCityId() {
+        return this.cityId;
+    }
 }
 

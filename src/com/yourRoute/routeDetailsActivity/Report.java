@@ -21,7 +21,7 @@ public class Report {
 
         Intent Email = new Intent(Intent.ACTION_SEND);
         Email.setType("text/email");
-        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "m.chuguy@gmail.com" });
+        Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "andromarina25@gmail.com" });
         Email.putExtra(Intent.EXTRA_SUBJECT, "Неточности в маршруте");
         Email.putExtra(Intent.EXTRA_TEXT, "Номер маршрута:" +
                 System.getProperty("line.separator") +

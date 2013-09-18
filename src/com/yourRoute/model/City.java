@@ -10,7 +10,6 @@ package com.yourRoute.model;
 public class City {
     private final int id;
     private final String name;
-
     public City(int id, String name) {
         this.id = id;
         this.name = name;
