@@ -135,7 +135,8 @@ public class SearchResultsActivityController {
 
     private int getCityId() {
         Intent intent = this.activity.getIntent();
-        int searchMode = intent.getIntExtra("CityId", 24);
+        int savedCityId = Preferences.getSavedCityId();
+        int searchMode = intent.getIntExtra("CityId", savedCityId);
         return searchMode;
     }
 
