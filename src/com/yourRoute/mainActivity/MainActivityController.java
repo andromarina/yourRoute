@@ -42,6 +42,7 @@ public class MainActivityController {
         this.activity = activity;
         this.citiesRepository = citiesRepository;
         this.routesRepository = routesRepository;
+
     }
 
     public void initialize() {
