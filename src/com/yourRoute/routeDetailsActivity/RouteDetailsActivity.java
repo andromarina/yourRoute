@@ -6,14 +6,21 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
+import com.yourRoute.Preferences;
 import com.yourRoute.R;
-import com.yourRoute.model.RoutesRepository;
-import com.yourRoute.model.StopsRepository;
+import com.yourRoute.YourRouteApp;
+import com.yourRoute.model.*;
+
+import java.util.ArrayList;
 
 
 public class RouteDetailsActivity extends FragmentActivity {
+    private RoutesHolder routesHolder;
     private TabHost direction_tabhost;
+    private int routeId;
+    private Route route;
     private TextView startEndView;
     private ImageView carTypeIcon;
     private TextView operationHoursView;
@@ -25,14 +32,13 @@ public class RouteDetailsActivity extends FragmentActivity {
     private ListView forwardStopsList;
     private ListView backwardStopsList;
     private MenuItem favoriteButton;
-    private RouteDetailsActivityController controller;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.route_details_menu, menu);
         this.favoriteButton = menu.getItem(0);
-        controller.initializeFavoriteButton();
+        initializeFavoriteButton();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -41,19 +47,8 @@ public class RouteDetailsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_card);
-        this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
-        this.startEndView = (TextView) findViewById(R.id.start_end);
-        this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
-        this.operationHoursView = (TextView) findViewById(R.id.operation_time);
-        this.operationHoursLayout = (LinearLayout) findViewById(R.id.operation_time_layout);
-        this.intervalView = (TextView) findViewById(R.id.interval);
-        this.intervalLayout = (LinearLayout) findViewById(R.id.interval_layout);
-        this.lengthView = (TextView) findViewById(R.id.length);
-        this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
-        this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
-        this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
-        this.controller = new RouteDetailsActivityController(this);
-        this.controller.initialize();
+        findViews();
+        initialize();
         configureActionBar();
     }
 
@@ -73,61 +68,161 @@ public class RouteDetailsActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void configureActionBar() {
+    private void configureActionBar() {
 
         getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setTitle(controller.getRouteName());
+        getActionBar().setTitle(getRouteName());
     }
 
-    public TabHost getDirection_tabhost() {
-        return this.direction_tabhost;
+    private void initialize() {
+        this.routesHolder = YourRouteApp.getRoutesHolder();
+        initializeTabHost();
+        initializeRoute();
+        setCarTypeIcon();
+        setStartEnd();
+        setOperationHours();
+        setInterval();
+        setLength();
+        setStopsList();
     }
 
-    public TextView getStartEndView() {
-        return this.startEndView;
+    private void findViews() {
+        this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
+        this.startEndView = (TextView) findViewById(R.id.start_end);
+        this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
+        this.operationHoursView = (TextView) findViewById(R.id.operation_time);
+        this.operationHoursLayout = (LinearLayout) findViewById(R.id.operation_time_layout);
+        this.intervalView = (TextView) findViewById(R.id.interval);
+        this.intervalLayout = (LinearLayout) findViewById(R.id.interval_layout);
+        this.lengthView = (TextView) findViewById(R.id.length);
+        this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
+        this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
+        this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
     }
 
-    public ImageView getCarTypeIcon() {
-        return this.carTypeIcon;
+    private void initializeTabHost() {
+
+        this.direction_tabhost.setup();
+
+        //Forward tab
+        String forward = getResources().getString(R.string.forward);
+        TabHost.TabSpec tspec = this.direction_tabhost.newTabSpec("ForwardTab");
+        tspec.setIndicator(forward);
+        tspec.setContent(R.id.forward_stops_list);
+        this.direction_tabhost.addTab(tspec);
+
+        //Backward tab
+        String backward = getResources().getString(R.string.backward);
+        tspec = this.direction_tabhost.newTabSpec("BackwardTab");
+        tspec.setIndicator(backward);
+        tspec.setContent(R.id.backward_stops_list);
+        this.direction_tabhost.addTab(tspec);
+
+        TabWidget tabs = this.direction_tabhost.getTabWidget();
+
+        for (int i = 0; i < tabs.getChildCount(); i++) {
+            View tab = tabs.getChildAt(i);
+            TextView tv = (TextView) tab.findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColorStateList(R.color.tab_text));
+        }
     }
 
-    public TextView getOperationHoursView() {
-        return this.operationHoursView;
+    private void initializeRoute() {
+        Intent intent = getIntent();
+        this.routeId = intent.getIntExtra("routeID", 1);
+        this.route = this.routesHolder.findRouteById(this.routeId);
+        ArrayList<Stop> stops = this.routesHolder.findStopsByRouteId(this.routeId);
+        this.route.initializeStops(stops);
     }
 
-    public LinearLayout getOperationHoursLayout() {
-        return this.operationHoursLayout;
+    private String getRouteName() {
+
+        String routeName = this.route.getName();
+        return routeName;
     }
 
-    public TextView getIntervalView() {
-        return this.intervalView;
+    private void initializeFavoriteButton() {
+        MenuItem favoriteButton = this.favoriteButton;
+
+        if (Preferences.isRouteIdPresentInPreferences(this.routeId)) {
+            favoriteButton.setIcon(R.drawable.ic_star_filled_big);
+        }
+
+        favoriteButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) { return onRouteDetailsMenuItemClick(item); }
+        });
     }
 
-    public LinearLayout getIntervalLayout() {
-        return this.intervalLayout;
+    private boolean onRouteDetailsMenuItemClick(MenuItem item) {
+        if (Preferences.isRouteIdPresentInPreferences(routeId)) {
+            Preferences.deleteFavoriteRouteId(routeId);
+            item.setIcon(R.drawable.ic_star_empty_big);
+            return true;
+        } else {
+            Preferences.saveFavoriteRouteId(routeId);
+            item.setIcon(R.drawable.ic_star_filled_big);
+            return true;
+        }
     }
 
-    public TextView getLengthView() {
-        return this.lengthView;
+    private void setCarTypeIcon() {
+
+        int carTypeId = this.route.getCarType();
+        int resourceId = this.route.getIconResource(carTypeId);
+        this.carTypeIcon.setImageResource(resourceId);
     }
 
-    public LinearLayout getLengthLayout() {
-        return this.lengthLayout;
+    private void setStartEnd() {
+
+        String startEnd = this.route.getStartEnd();
+        this.startEndView.setText(startEnd);
     }
 
-    public ListView getForwardStopsList() {
-        return this.forwardStopsList;
+    private void setOperationHours() {
+
+        if (this.route.getWorkTime().isEmpty()) {
+            this.operationHoursLayout.setVisibility(View.GONE);
+        } else {
+            this.operationHoursView.setText(route.getWorkTime());
+        }
     }
 
-    public ListView getBackwardStopsList() {
-        return this.backwardStopsList;
+    private void setInterval() {
+
+        String interval = this.route.getInterval();
+        if (interval.isEmpty()) {
+            this.intervalLayout.setVisibility(View.GONE);
+        } else {
+            this.intervalView.setText(interval);
+        }
     }
 
-    public MenuItem getFavoriteButton() {
-        return this.favoriteButton;
+    private void setLength() {
+
+        if (route.getLength().isEmpty()) {
+            this.lengthLayout.setVisibility(View.GONE);
+        } else {
+            this.lengthView.setText(this.route.getLength());
+        }
     }
 
+    private void setStopsList() {
+
+        final ArrayList<Stop> forwardStops = this.route.getForwardStops();
+
+        StopsListAdapter adapterForward = new StopsListAdapter(this, R.layout.stop_item, forwardStops);
+        this.forwardStopsList.setAdapter(adapterForward);
+        StopsListListener forwardStopsListListener = new StopsListListener(this, forwardStops);
+        this.forwardStopsList.setOnItemClickListener(forwardStopsListListener);
+
+        final ArrayList<Stop> backwardStops = this.route.getBackwardStops();
+        StopsListListener backwardStopsListListener = new StopsListListener(this, backwardStops);
+        this.backwardStopsList.setOnItemClickListener(backwardStopsListListener);
+        StopsListAdapter adapterBackward = new StopsListAdapter(this, R.layout.stop_item, backwardStops);
+        this.backwardStopsList.setAdapter(adapterBackward);
+    }
 }
 
 

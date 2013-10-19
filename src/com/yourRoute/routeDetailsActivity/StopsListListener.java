@@ -16,8 +16,8 @@ public class StopsListListener implements ListView.OnItemClickListener {
     private RouteDetailsActivity activity;
     private ArrayList<Stop> stops;
 
-    public StopsListListener(Context context, RouteDetailsActivity activity, ArrayList<Stop> stops) {
-        this.context = context;
+    public StopsListListener(RouteDetailsActivity activity, ArrayList<Stop> stops) {
+        this.context = activity;
         this.activity = activity;
         this.stops = stops;
     }

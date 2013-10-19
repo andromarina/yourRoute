@@ -19,10 +19,8 @@ import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
-import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.RoutesRepository;
 
 import java.util.ArrayList;
 
@@ -63,11 +61,7 @@ public class MainActivity extends FragmentActivity {
 
         configureActionBar();
         configureSearch();
-
-        this.cityNameButton = (Button) findViewById(R.id.city_name_button);
-        this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
-        this.noFavorites = (TextView) findViewById(R.id.no_favorites);
-        this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
+        findViews();
         initialize();
 
     }
@@ -94,7 +88,7 @@ public class MainActivity extends FragmentActivity {
         setIntent(intent);
     }
 
-    public void initialize() {
+    private void initialize() {
 
         this.routesHolder = YourRouteApp.getRoutesHolder();
         initializeTabHost();
@@ -105,6 +99,14 @@ public class MainActivity extends FragmentActivity {
         FavoritesController favoritesController = new FavoritesController(this);
         favoritesController.refreshFavoritesList();
         Preferences.setListener(favoritesController);
+    }
+
+    private void findViews() {
+
+        this.cityNameButton = (Button) findViewById(R.id.city_name_button);
+        this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
+        this.noFavorites = (TextView) findViewById(R.id.no_favorites);
+        this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
     }
 
     private void showCityChoiceDialog() {
@@ -173,12 +175,17 @@ public class MainActivity extends FragmentActivity {
         this.mainTabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                if (tabId.equals("Tab 3")) {
-                    stopSearchMain.clearFocus();
-                    hideKeyboard();
-                }
+                  mOnTabChanged(tabId);
             }
         });
+
+    }
+
+    private void mOnTabChanged(String tabId) {
+        if (tabId.equals("Tab 3")) {
+            stopSearchMain.clearFocus();
+            hideKeyboard();
+        }
     }
 
     private void hideKeyboard() {
@@ -211,7 +218,6 @@ public class MainActivity extends FragmentActivity {
     public ListView getFavoritesListView() {
         return favoritesListView;
     }
-
 
     public CustomSearchField getStopSearchMain() {
         return stopSearchMain;
