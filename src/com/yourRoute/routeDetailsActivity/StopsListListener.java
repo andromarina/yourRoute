@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.yourRoute.YourRouteApp;
+import com.yourRoute.model.SearchPhraseSelection;
 import com.yourRoute.model.Stop;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 
@@ -29,7 +30,8 @@ public class StopsListListener implements ListView.OnItemClickListener {
 
         String searchKeyMain = stop.getName();
         intent.putExtra("StopName", searchKeyMain);
-        YourRouteApp.saveSearchPhrase(searchKeyMain);
+        SearchPhraseSelection searchPhraseSelection = YourRouteApp.getSearchPhraseSelection();
+        searchPhraseSelection.saveSearchPhrase(searchKeyMain);
 
         int cityId = stop.getCityId();
         intent.putExtra("CityId", cityId);

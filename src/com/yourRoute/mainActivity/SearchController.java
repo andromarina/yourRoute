@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
+import com.yourRoute.model.SearchPhraseSelection;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -129,10 +130,11 @@ public class SearchController {
         Intent intent = new Intent(context, SearchResultsActivity.class);
         intent.putExtra("SearchMode", 1);
         intent.putExtra("StopName", stopSearchMainKey);
-        YourRouteApp.saveSearchPhrase(stopSearchMainKey);
+        SearchPhraseSelection searchPhraseSelection = YourRouteApp.getSearchPhraseSelection();
+        searchPhraseSelection.saveSearchPhrase(stopSearchMainKey);
         String stopNameOptional = stopSearchOptional.getValidatedString();
         intent.putExtra("OptionalStopName", stopNameOptional);
-        YourRouteApp.saveOptionalSearchPhrase(stopNameOptional);
+        searchPhraseSelection.saveOptionalSearchPhrase(stopNameOptional);
         activity.startActivity(intent);
     }
 

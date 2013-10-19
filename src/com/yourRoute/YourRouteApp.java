@@ -3,6 +3,7 @@ package com.yourRoute;
 import android.app.Application;
 import android.util.Log;
 import com.yourRoute.model.RoutesHolder;
+import com.yourRoute.model.SearchPhraseSelection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,9 +14,8 @@ import com.yourRoute.model.RoutesHolder;
  */
 public class YourRouteApp extends Application {
     private final String LOG_TAG = "YourRouteApp";
-    private static String searchPhrase = "";
-    private static String optionalSearchPhrase = "";
     private static RoutesHolder routesHolder;
+    private static SearchPhraseSelection searchPhraseSelection;
 
     @Override
     public void onCreate() {
@@ -24,28 +24,16 @@ public class YourRouteApp extends Application {
         super.onCreate();
         Preferences.initialize(this);
         routesHolder = new RoutesHolder(getContentResolver());
-    }
+        searchPhraseSelection = new SearchPhraseSelection();
 
-    public static void saveSearchPhrase(String string) {
-        searchPhrase = string;
-        Log.d("YourRouteApp", "search phrase: " + searchPhrase);
-    }
-
-    public static void saveOptionalSearchPhrase(String string) {
-        optionalSearchPhrase = string;
-        Log.d("YourRouteApp", "search phrase optional: " + optionalSearchPhrase);
-    }
-
-    public static String getSearchPhrase() {
-        return searchPhrase;
-    }
-
-    public static String getOptionalSearchPhrase() {
-        return optionalSearchPhrase;
     }
 
     public  static RoutesHolder getRoutesHolder() {
         return routesHolder;
+    }
+
+    public static SearchPhraseSelection getSearchPhraseSelection() {
+        return searchPhraseSelection;
     }
 
 }
