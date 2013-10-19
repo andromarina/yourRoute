@@ -8,20 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.yourRoute.R;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
 import com.yourRoute.model.Route;
+import com.yourRoute.model.RoutesHolder;
 
 import java.util.ArrayList;
 
 public class FavoritesListAdapter extends ArrayAdapter<Route> {
 
     private String LOG_TAG = this.getClass().getSimpleName();
-    private CitiesRepository citiesRepository;
 
-    public FavoritesListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes, CitiesRepository citiesRepository) {
+
+    public FavoritesListAdapter(Context context, int textViewResourceId, ArrayList<Route> routes) {
         super(context, textViewResourceId, addSeparators(routes));
-        this.citiesRepository = citiesRepository;
     }
 
     @Override
@@ -87,7 +88,8 @@ public class FavoritesListAdapter extends ArrayAdapter<Route> {
 
         TextView textSeparator = (TextView) item.findViewById(R.id.textSeparator);
         int cityId = route.getCityId();
-        String cityName = citiesRepository.getCity(cityId).getName();
+        RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+        String cityName = routesHolder.findCityById(cityId).getName();
         textSeparator.setText(cityName);
         item.setOnClickListener(new View.OnClickListener() {
             @Override

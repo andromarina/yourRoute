@@ -9,8 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.Route;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
 import com.yourRoute.searchResultsActivity.RouteListAdapter;
@@ -25,14 +27,12 @@ public class FavoritesController implements FavoritesChangedListener {
     private MainActivity activity;
     private Context context;
     private FavoritesListAdapter adapter;
-    private RoutesRepository routesRepository;
-    private CitiesRepository citiesRepository;
+    private RoutesHolder routesHolder;
 
-    public FavoritesController(Context context, MainActivity activity, RoutesRepository routesRepository, CitiesRepository citiesRepository) {
+    public FavoritesController(MainActivity activity) {
         this.activity = activity;
-        this.context = context;
-        this.routesRepository = routesRepository;
-        this.citiesRepository = citiesRepository;
+        this.context = activity;
+        this.routesHolder = YourRouteApp.getRoutesHolder();
     }
 
     public void refreshFavoritesList() {
@@ -47,7 +47,7 @@ public class FavoritesController implements FavoritesChangedListener {
         }
 
         ListView favoritesListView = this.activity.getFavoritesListView();
-        this.adapter = new FavoritesListAdapter(this.context, R.layout.route_list_item, routes, citiesRepository);
+        this.adapter = new FavoritesListAdapter(this.context, R.layout.route_list_item, routes);
 
         favoritesListView.setAdapter(this.adapter);
 
@@ -70,7 +70,7 @@ public class FavoritesController implements FavoritesChangedListener {
         }
 
         for (int favoriteId : favoriteIds) {
-            Route route = routesRepository.getRoute(favoriteId);
+            Route route = this.routesHolder.findRouteById(favoriteId);
             routesArray.add(route);
         }
         Collections.sort(routesArray);

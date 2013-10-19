@@ -41,8 +41,6 @@ public class RouteDetailsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_card);
-        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        StopsRepository stopsRepository = new StopsRepository(getContentResolver());
         this.direction_tabhost = (TabHost) findViewById(R.id.direction_tabhost);
         this.startEndView = (TextView) findViewById(R.id.start_end);
         this.carTypeIcon = (ImageView) findViewById(R.id.ic_car_type);
@@ -54,7 +52,7 @@ public class RouteDetailsActivity extends FragmentActivity {
         this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
         this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
         this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
-        this.controller = new RouteDetailsActivityController(this, routesRepository, stopsRepository);
+        this.controller = new RouteDetailsActivityController(this);
         this.controller.initialize();
         configureActionBar();
     }

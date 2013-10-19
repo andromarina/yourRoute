@@ -50,10 +50,7 @@ public class MainActivity extends FragmentActivity {
         this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
         this.noFavorites = (TextView) findViewById(R.id.no_favorites);
         this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
-
-        CitiesRepository citiesRepository = new CitiesRepository(getContentResolver());
-        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        this.mainActivityController = new MainActivityController(this, this, citiesRepository, routesRepository);
+        this.mainActivityController = new MainActivityController(this);
         this.mainActivityController.initialize();
 
     }

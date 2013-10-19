@@ -6,26 +6,21 @@ import android.view.View;
 import android.widget.*;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
-import com.yourRoute.model.Route;
-import com.yourRoute.model.RoutesRepository;
-import com.yourRoute.model.Stop;
-import com.yourRoute.model.StopsRepository;
+import com.yourRoute.YourRouteApp;
+import com.yourRoute.model.*;
 
 import java.util.ArrayList;
 
 
 public class RouteDetailsActivityController {
     private RouteDetailsActivity activity;
-    private RoutesRepository routesRepository;
-    private StopsRepository stopsRepository;
     private Route route;
     private int routeId;
+    private RoutesHolder routesHolder;
 
-    public RouteDetailsActivityController(RouteDetailsActivity activity, RoutesRepository routesRepository,
-                                          StopsRepository stopsRepository) {
+    public RouteDetailsActivityController(RouteDetailsActivity activity) {
         this.activity = activity;
-        this.routesRepository = routesRepository;
-        this.stopsRepository = stopsRepository;
+        this.routesHolder = YourRouteApp.getRoutesHolder();
     }
 
     public void initialize() {
@@ -70,8 +65,8 @@ public class RouteDetailsActivityController {
     private void initializeRoute() {
         Intent intent = this.activity.getIntent();
         this.routeId = intent.getIntExtra("routeID", 1);
-        this.route = this.routesRepository.getRoute(this.routeId);
-        ArrayList<Stop> stops = this.stopsRepository.getStopsByRouteId(this.routeId);
+        this.route = this.routesHolder.findRouteById(this.routeId);
+        ArrayList<Stop> stops = this.routesHolder.findStopsByRouteId(this.routeId);
         this.route.initializeStops(stops);
     }
 

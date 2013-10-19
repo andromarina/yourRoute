@@ -28,8 +28,7 @@ public class SearchResultsActivity extends Activity {
         this.searchResultsListView = (ListView) findViewById(R.id.search_results);
         this.noSearchResults = (TextView) findViewById(R.id.no_search_results);
 
-        RoutesRepository routesRepository = new RoutesRepository(getContentResolver());
-        SearchResultsActivityController controller = new SearchResultsActivityController(this, this, routesRepository);
+        SearchResultsActivityController controller = new SearchResultsActivityController(this);
         controller.initialize();
 
     }

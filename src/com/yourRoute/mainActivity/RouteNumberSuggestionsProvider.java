@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.SimpleCursorAdapter;
 import com.yourRoute.Preferences;
+import com.yourRoute.YourRouteApp;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.RoutesRepository;
 
 /**
@@ -19,8 +21,8 @@ public class RouteNumberSuggestionsProvider implements SearchProvider {
     public SimpleCursorAdapter getSuggestions(Context context, String searchKey) {
 
         int savedCityId = Preferences.getSavedCityId();
-        RoutesRepository routesRepository = new RoutesRepository(context.getContentResolver());
-        Cursor cursor = routesRepository.getRouteSuggestionsCursor(searchKey, savedCityId);
+        RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+        Cursor cursor = routesHolder.createRouteSuggestionsCursor(searchKey, savedCityId);
         String[] columns = new String[]{RoutesRepository.ROUTE_NAME_COLUMN_NAME};
         int[] columnTextId = new int[]{android.R.id.text1};
         SimpleCursorAdapter simple = new SimpleCursorAdapter(context,

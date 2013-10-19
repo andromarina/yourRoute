@@ -29,9 +29,9 @@ public class SearchController {
     private CustomSearchField stopSearchOptional;
     private CustomSearchField routeNumbersSearch;
 
-    public SearchController(Context context, MainActivity activity) {
+    public SearchController(MainActivity activity) {
         this.activity = activity;
-        this.context = context;
+        this.context = activity;
     }
 
     public void initialize() {

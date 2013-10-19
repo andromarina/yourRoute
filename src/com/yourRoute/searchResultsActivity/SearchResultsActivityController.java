@@ -9,7 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.Route;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
 
@@ -21,12 +23,12 @@ public class SearchResultsActivityController {
     private SearchResultsActivity activity;
     private Context context;
     private RouteListAdapter adapter;
-    private RoutesRepository routesRepository;
+    private RoutesHolder routesHolder;
 
-    public SearchResultsActivityController(Context context, SearchResultsActivity activity, RoutesRepository routesRepository) {
+    public SearchResultsActivityController(SearchResultsActivity activity) {
         this.activity = activity;
-        this.context = context;
-        this.routesRepository = routesRepository;
+        this.context = activity;
+        this.routesHolder = YourRouteApp.getRoutesHolder();
     }
 
     public void initialize() {
@@ -64,48 +66,19 @@ public class SearchResultsActivityController {
         });
     }
 
-    private void refreshUnitedSearchResults(final ArrayList<Route> unitedArray) {
-
-        if (unitedArray.isEmpty()) {
-            Log.d(LOG_TAG, "united routes array is empty");
-            TextView noResults = activity.getNoSearchResultsTextView();
-            noResults.setVisibility(View.VISIBLE);
-            return;
-        }
-        ListView searchResultsListView = this.activity.getSearchResultsListView();
-        this.adapter = new RouteListAdapter(this.context, R.layout.route_list_item, unitedArray);
-        searchResultsListView.setAdapter(this.adapter);
-
-        searchResultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, RouteDetailsActivity.class);
-                int routeID = unitedArray.get(position).getId();
-                intent.putExtra("routeID", routeID);
-                activity.startActivity(intent);
-            }
-        });
-    }
-
     private void doSearchByStreetName() {
         String searchKeyMain = getStopNameKey();
         String searchKeyOptional = getOptionalStopNameKey();
+        Log.d(LOG_TAG, "Optional street search name: " + searchKeyOptional);
         int stopCityId = getCityId();
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(searchKeyMain, stopCityId);
-        if (searchKeyOptional != null && !searchKeyOptional.isEmpty()) {
-            Log.d(LOG_TAG, "Optional street search name: " + searchKeyOptional);
-            final ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(searchKeyOptional, stopCityId);
-            ArrayList<Route> unitedArray = this.routesRepository.uniteRoutes(routes, routesOptional);
-            refreshUnitedSearchResults(unitedArray);
-        } else {
-            refreshSearchResults(routes);
-        }
+        final ArrayList<Route> routes = this.routesHolder.findRoutesByStopName(searchKeyMain, searchKeyOptional, stopCityId);
+        refreshSearchResults(routes);
     }
 
     private void doSearchByRouteName() {
         String searchKey = getRouteNumberKey();
         int savedCityId = Preferences.getSavedCityId();
-        final ArrayList<Route> routes = this.routesRepository.getRoutesByRouteName(searchKey, savedCityId);
+        final ArrayList<Route> routes = this.routesHolder.findRoutesByRouteName(searchKey, savedCityId);
         refreshSearchResults(routes);
     }
 

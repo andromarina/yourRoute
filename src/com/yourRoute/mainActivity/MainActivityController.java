@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.TabHost;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.City;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.RoutesRepository;
 
 import java.util.ArrayList;
@@ -30,29 +32,25 @@ public class MainActivityController {
     private final String LOG_TAG = this.getClass().getSimpleName();
     private Context context;
     private MainActivity activity;
-    private CitiesRepository citiesRepository;
-    private RoutesRepository routesRepository;
+    private RoutesHolder routesHolder;
     private ArrayList<City> cities;
     private SearchController searchController;
     private TabHost.TabSpec tspec;
 
-    public MainActivityController(Context context, MainActivity activity, CitiesRepository citiesRepository,
-                                  RoutesRepository routesRepository) {
-        this.context = context;
+    public MainActivityController(MainActivity activity) {
         this.activity = activity;
-        this.citiesRepository = citiesRepository;
-        this.routesRepository = routesRepository;
-
+        this.context = activity;
+        this.routesHolder = YourRouteApp.getRoutesHolder();
     }
 
     public void initialize() {
 
         initializeTabHost();
-        this.searchController = new SearchController(context, activity);
+        this.searchController = new SearchController(activity);
         searchController.initialize();
         int savedCityId = Preferences.getSavedCityId();
         initializeCityNameButton(savedCityId);
-        FavoritesController favoritesController = new FavoritesController(context, activity, routesRepository, citiesRepository);
+        FavoritesController favoritesController = new FavoritesController(activity);
         favoritesController.refreshFavoritesList();
         Preferences.setListener(favoritesController);
     }
@@ -60,7 +58,7 @@ public class MainActivityController {
     private void showCityChoiceDialog() {
 
         FragmentManager fm = this.activity.getSupportFragmentManager();
-        this.cities = this.citiesRepository.getCities();
+        this.cities = this.routesHolder.getAllCities();
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -86,7 +84,7 @@ public class MainActivityController {
 
     private void initializeCityNameButton(int savedCityId) {
 
-        String savedCityName = this.citiesRepository.getCity(savedCityId).getName();
+        String savedCityName = routesHolder.findCityById(savedCityId).getName();
         Button cityNameButton = this.activity.getCityNameButton();
         cityNameButton.setText(savedCityName);
         View.OnClickListener oclCityNameBtn = new View.OnClickListener() {
@@ -131,12 +129,6 @@ public class MainActivityController {
                 }
             }
         });
-
-//        TabWidget tabs = (TabWidget)main_tabhost.getTabWidget();
-//        for (int i = 0; i<tabs.getChildCount(); i++) {
-//            LinearLayout tab = (LinearLayout) tabs.getChildAt(i);
-//            tab.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.tab_indicator));
-//        }
     }
 
     private void hideKeyboard() {
