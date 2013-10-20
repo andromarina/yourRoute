@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
+import com.yourRoute.model.Favorites;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
@@ -24,11 +24,15 @@ public class FavoritesController implements FavoritesChangedListener {
     private Context context;
     private FavoritesListAdapter adapter;
     private RoutesHolder routesHolder;
+    private Favorites favorites;
 
     public FavoritesController(MainActivity activity) {
         this.activity = activity;
         this.context = activity;
         this.routesHolder = YourRouteApp.getRoutesHolder();
+        this.favorites = YourRouteApp.getFavorites();
+        refreshFavoritesList();
+        YourRouteApp.getFavorites().setListener(this);
     }
 
     public void refreshFavoritesList() {
@@ -59,7 +63,7 @@ public class FavoritesController implements FavoritesChangedListener {
     }
 
     private ArrayList<Route> getAllFavoriteRoutes() {
-        ArrayList<Integer> favoriteIds = Preferences.getAllFavoritesId();
+        ArrayList<Integer> favoriteIds = this.favorites.getAllFavoritesId();
         ArrayList<Route> routesArray = new ArrayList<>();
         if (favoriteIds.isEmpty()) {
             return routesArray;

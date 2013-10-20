@@ -2,6 +2,7 @@ package com.yourRoute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import com.yourRoute.Preferences;
 
 import java.util.ArrayList;
 
@@ -70,5 +71,13 @@ public class RoutesHolder {
     public Cursor createStopsSuggestionsCursor(String text, int cityId) {
         Cursor stopsSuggestionsCursor = this.stopsRepository.getStopsSuggestionsCursor(text, cityId);
         return stopsSuggestionsCursor;
+    }
+
+    public void saveCityId(int cityId) {
+        Preferences.saveCityId(cityId);
+    }
+
+    public int getSavedCityId() {
+        return Preferences.getSavedCityId();
     }
 }

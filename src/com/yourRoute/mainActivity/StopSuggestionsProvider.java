@@ -3,7 +3,6 @@ package com.yourRoute.mainActivity;
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.SimpleCursorAdapter;
-import com.yourRoute.Preferences;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.StopsRepository;
@@ -20,8 +19,8 @@ public class StopSuggestionsProvider implements SearchProvider {
     @Override
     public SimpleCursorAdapter getSuggestions(Context context, String searchKey) {
 
-        int savedCityId = Preferences.getSavedCityId();
         RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+        int savedCityId = routesHolder.getSavedCityId();
         Cursor cursor = routesHolder.createStopsSuggestionsCursor(searchKey, savedCityId);
         String[] columns = new String[]{StopsRepository.STOP_NAME_COLUMN_NAME};
         int[] columnTextId = new int[]{android.R.id.text1};

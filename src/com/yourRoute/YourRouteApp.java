@@ -2,6 +2,7 @@ package com.yourRoute;
 
 import android.app.Application;
 import android.util.Log;
+import com.yourRoute.model.Favorites;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.SelectedStops;
 
@@ -16,6 +17,7 @@ public class YourRouteApp extends Application {
     private final String LOG_TAG = "YourRouteApp";
     private static RoutesHolder routesHolder;
     private static SelectedStops selectedStops;
+    private static Favorites favorites;
 
     @Override
     public void onCreate() {
@@ -25,7 +27,7 @@ public class YourRouteApp extends Application {
         Preferences.initialize(this);
         routesHolder = new RoutesHolder(getContentResolver());
         selectedStops = new SelectedStops();
-
+        favorites = new Favorites();
     }
 
     public  static RoutesHolder getRoutesHolder() {
@@ -34,6 +36,10 @@ public class YourRouteApp extends Application {
 
     public static SelectedStops getSelectedStops() {
         return selectedStops;
+    }
+
+    public static Favorites getFavorites() {
+        return favorites;
     }
 
 }

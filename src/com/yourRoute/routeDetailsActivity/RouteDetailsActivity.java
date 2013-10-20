@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.*;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 
 public class RouteDetailsActivity extends FragmentActivity {
     private RoutesHolder routesHolder;
+    private Favorites favorites;
     private TabHost direction_tabhost;
     private int routeId;
     private Route route;
@@ -77,6 +77,7 @@ public class RouteDetailsActivity extends FragmentActivity {
 
     private void initialize() {
         this.routesHolder = YourRouteApp.getRoutesHolder();
+        this.favorites = YourRouteApp.getFavorites();
         initializeTabHost();
         initializeRoute();
         setCarTypeIcon();
@@ -145,8 +146,10 @@ public class RouteDetailsActivity extends FragmentActivity {
     private void initializeFavoriteButton() {
         MenuItem favoriteButton = this.favoriteButton;
 
-        if (Preferences.isRouteIdPresentInPreferences(this.routeId)) {
+        if (this.favorites.isFavorite(this.routeId)) {
             favoriteButton.setIcon(R.drawable.ic_star_filled_big);
+        } else {
+            favoriteButton.setIcon(R.drawable.ic_star_empty_big);
         }
 
         favoriteButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -156,15 +159,13 @@ public class RouteDetailsActivity extends FragmentActivity {
     }
 
     private boolean onRouteDetailsMenuItemClick(MenuItem item) {
-        if (Preferences.isRouteIdPresentInPreferences(routeId)) {
-            Preferences.deleteFavoriteRouteId(routeId);
-            item.setIcon(R.drawable.ic_star_empty_big);
-            return true;
-        } else {
-            Preferences.saveFavoriteRouteId(routeId);
+        if (this.favorites.toggle(routeId)) {
             item.setIcon(R.drawable.ic_star_filled_big);
-            return true;
+        } else {
+            item.setIcon(R.drawable.ic_star_empty_big);
         }
+
+        return true;
     }
 
     private void setCarTypeIcon() {

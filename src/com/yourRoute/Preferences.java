@@ -20,17 +20,12 @@ public class Preferences {
 
     private static final String CITY_ID = "CityId";
     private static final String FAVORITES = "Favorites";
-    private static FavoritesChangedListener listener;
     private static SharedPreferences sPref;
     private static Context context;
     private static String LOG_TAG = "Preferences";
 
     public static void initialize(Context context) {
         Preferences.context = context;
-    }
-
-    public static void setListener(FavoritesChangedListener favoritesChangedListener) {
-        listener = favoritesChangedListener;
     }
 
     public static void saveCityId(int cityId) {
@@ -50,57 +45,56 @@ public class Preferences {
         return savedCityId;
     }
 
-    public static void saveFavoriteRouteId(int routeId) {
+    public static void saveFavoriteRouteId(Integer routeId) {
 
         sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        Set<String> favoritesSet = getAllFavoritesSet();
-        favoritesSet.add(String.valueOf(routeId));
-        ed.putStringSet(FAVORITES, favoritesSet);
+        ArrayList<Integer> favoritesSetInt = getAllFavorites();
+        favoritesSetInt.add(routeId);
+
+        Set<String> favoritesSetString = convertIntToString(favoritesSetInt);
+        ed.putStringSet(FAVORITES, new HashSet<>(favoritesSetString));
         boolean result = ed.commit();
-        listener.onFavoritesChanged();
         Log.d(LOG_TAG, "Route id " + routeId + " was saved to Preferences (" + result + ")");
     }
 
-    public static void deleteFavoriteRouteId(int routeId) {
+    public static void deleteFavoriteRouteId(Integer routeId) {
 
         sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
-        Set<String> favoritesSet = getAllFavoritesSet();
-        favoritesSet.remove(String.valueOf(routeId));
-        ed.putStringSet(FAVORITES, favoritesSet);
+        ArrayList<Integer> favoritesSetInt = getAllFavorites();
+        favoritesSetInt.remove(routeId);
+        Set<String> favoritesSetString = convertIntToString(favoritesSetInt);
+        ed.putStringSet(FAVORITES, favoritesSetString);
         ed.commit();
-        listener.onFavoritesChanged();
         Log.d(LOG_TAG, "Route id " + routeId + " was deleted from Preferences");
     }
 
-    public static boolean isRouteIdPresentInPreferences(int routeId) {
-
-        if (getAllFavoritesSet().contains(String.valueOf(routeId))) {
-            return true;
-        } else return false;
-    }
-
-    private static Set<String> getAllFavoritesSet() {
+    public static ArrayList<Integer> getAllFavorites() {
         sPref = context.getSharedPreferences(FAVORITES, Context.MODE_PRIVATE);
         Set<String> favoritesSet = sPref.getStringSet(FAVORITES, new HashSet<String>());
 
         // TODO: android bug: https://code.google.com/p/android/issues/detail?id=27801
-        Set<String> result = new HashSet<>();
-        for (String favorite : favoritesSet) {
-            result.add(favorite);
-        }
-
-        return result;
+        ArrayList<Integer> favoritesId = convertStringSetToInt(favoritesSet);
+        return favoritesId;
     }
 
-    public static ArrayList<Integer> getAllFavoritesId() {
+    private static Set<String> convertIntToString(ArrayList<Integer> favoritesSetInt) {
+        Set<String> favoritesSetString = new HashSet<>();
+
+        for (Integer favorite : favoritesSetInt) {
+            String id = String.valueOf(favorite);
+            favoritesSetString.add(id);
+        }
+        return favoritesSetString;
+    }
+
+    private static ArrayList<Integer> convertStringSetToInt(Set<String> favoritesSet) {
         ArrayList<Integer> favoritesId = new ArrayList<>();
-        for (String favorite : getAllFavoritesSet()) {
+        for (String favorite : favoritesSet) {
             int id = Integer.parseInt(favorite);
             favoritesId.add(id);
         }
         return favoritesId;
     }
-
 }

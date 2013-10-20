@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
@@ -94,11 +93,9 @@ public class MainActivity extends FragmentActivity {
         initializeTabHost();
         this.searchController = new SearchController(this);
         searchController.initialize();
-        int savedCityId = Preferences.getSavedCityId();
+        int savedCityId = this.routesHolder.getSavedCityId();
         initializeCityNameButton(savedCityId);
         FavoritesController favoritesController = new FavoritesController(this);
-        favoritesController.refreshFavoritesList();
-        Preferences.setListener(favoritesController);
     }
 
     private void findViews() {
@@ -132,7 +129,7 @@ public class MainActivity extends FragmentActivity {
         Log.i(LOG_TAG, "chosen city " + name);
         this.cityNameButton.setText(name);
         int cityId = this.cities.get(which).getId();
-        Preferences.saveCityId(cityId);
+        this.routesHolder.saveCityId(cityId);
         this.searchController.clearAllSearchFields();
     }
 

@@ -8,12 +8,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
 
 import java.util.ArrayList;
@@ -101,7 +99,7 @@ public class SearchResultsActivity extends Activity {
 
     private void doSearchByRouteName() {
         String searchKey = getRouteNumberKey();
-        int savedCityId = Preferences.getSavedCityId();
+        int savedCityId = this.routesHolder.getSavedCityId();
         final ArrayList<Route> routes = this.routesHolder.findRoutesByRouteName(searchKey, savedCityId);
         refreshSearchResults(routes);
     }
@@ -129,7 +127,7 @@ public class SearchResultsActivity extends Activity {
 
     private int getCityId() {
 
-        int savedCityId = Preferences.getSavedCityId();
+        int savedCityId = this.routesHolder.getSavedCityId();
         int searchMode = getIntent().getIntExtra("CityId", savedCityId);
         return searchMode;
     }
