@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
-import com.yourRoute.model.SearchPhraseSelection;
+import com.yourRoute.model.SelectedStops;
 import com.yourRoute.model.Stop;
 
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ public class StopsListAdapter extends ArrayAdapter<Stop> {
         }
         Stop stop = super.getItem(position);
         TextView name = (TextView) item.findViewById(R.id.stop_name);
-        SearchPhraseSelection searchPhraseSelection = YourRouteApp.getSearchPhraseSelection();
-        String searchKey = searchPhraseSelection.getSearchPhrase().toLowerCase();
-        String optionalSearchKey = searchPhraseSelection.getOptionalSearchPhrase().toLowerCase();
+        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
+        String searchKey = selectedStops.getSelectedStop().toLowerCase();
+        String optionalSearchKey = selectedStops.getOptionalSelectedStop().toLowerCase();
         String stopName = stop.getName();
         name.setText(stopName);
         if (stopName.toLowerCase().contains(searchKey) && !searchKey.isEmpty()) {

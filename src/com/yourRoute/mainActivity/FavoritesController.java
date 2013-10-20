@@ -10,13 +10,9 @@ import android.widget.TextView;
 import com.yourRoute.Preferences;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
-import com.yourRoute.model.CitiesRepository;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
-import com.yourRoute.searchResultsActivity.RouteListAdapter;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

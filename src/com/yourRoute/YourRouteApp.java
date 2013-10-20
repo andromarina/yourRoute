@@ -3,7 +3,7 @@ package com.yourRoute;
 import android.app.Application;
 import android.util.Log;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.SearchPhraseSelection;
+import com.yourRoute.model.SelectedStops;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +15,7 @@ import com.yourRoute.model.SearchPhraseSelection;
 public class YourRouteApp extends Application {
     private final String LOG_TAG = "YourRouteApp";
     private static RoutesHolder routesHolder;
-    private static SearchPhraseSelection searchPhraseSelection;
+    private static SelectedStops selectedStops;
 
     @Override
     public void onCreate() {
@@ -24,7 +24,7 @@ public class YourRouteApp extends Application {
         super.onCreate();
         Preferences.initialize(this);
         routesHolder = new RoutesHolder(getContentResolver());
-        searchPhraseSelection = new SearchPhraseSelection();
+        selectedStops = new SelectedStops();
 
     }
 
@@ -32,8 +32,8 @@ public class YourRouteApp extends Application {
         return routesHolder;
     }
 
-    public static SearchPhraseSelection getSearchPhraseSelection() {
-        return searchPhraseSelection;
+    public static SelectedStops getSelectedStops() {
+        return selectedStops;
     }
 
 }

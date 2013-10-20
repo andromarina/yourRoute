@@ -2,7 +2,6 @@ package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
-import com.yourRoute.model.SearchPhraseSelection;
+import com.yourRoute.model.SelectedStops;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -130,11 +129,11 @@ public class SearchController {
         Intent intent = new Intent(context, SearchResultsActivity.class);
         intent.putExtra("SearchMode", 1);
         intent.putExtra("StopName", stopSearchMainKey);
-        SearchPhraseSelection searchPhraseSelection = YourRouteApp.getSearchPhraseSelection();
-        searchPhraseSelection.saveSearchPhrase(stopSearchMainKey);
+        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
+        selectedStops.saveSelectedStop(stopSearchMainKey);
         String stopNameOptional = stopSearchOptional.getValidatedString();
         intent.putExtra("OptionalStopName", stopNameOptional);
-        searchPhraseSelection.saveOptionalSearchPhrase(stopNameOptional);
+        selectedStops.saveOptionalSelectedStop(stopNameOptional);
         activity.startActivity(intent);
     }
 
