@@ -1,4 +1,4 @@
-yourRoute
+Your Route
 =========
 
 Offline application for transport search by stop name and by route number. 
