@@ -1,2 +1,8 @@
 bin/
 libs/
+out/
+gen/
+assets/
+proguard_logs/
+*.apk
+.idea/
