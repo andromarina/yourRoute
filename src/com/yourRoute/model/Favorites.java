@@ -1,9 +1,11 @@
 package com.yourRoute.model;
 
 import com.yourRoute.Preferences;
+import com.yourRoute.YourRouteApp;
 import com.yourRoute.mainActivity.FavoritesChangedListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -47,4 +49,21 @@ public class Favorites {
             return true;
         }
     }
+
+    public ArrayList<Route> getAllFavoriteRoutes() {
+        ArrayList<Integer> favoriteIds = getAllFavoritesId();
+        ArrayList<Route> routesArray = new ArrayList<>();
+        if (favoriteIds.isEmpty()) {
+            return routesArray;
+        }
+
+        for (int favoriteId : favoriteIds) {
+            RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+            Route route = routesHolder.findRouteById(favoriteId);
+            routesArray.add(route);
+        }
+        Collections.sort(routesArray);
+        return routesArray;
+    }
+
 }

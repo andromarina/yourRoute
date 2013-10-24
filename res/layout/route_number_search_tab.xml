@@ -15,6 +15,7 @@
           customSearchField:hint="@string/route_number_hint"
           android:layout_marginTop="10dp"
           android:layout_gravity="top"/>
+
     <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

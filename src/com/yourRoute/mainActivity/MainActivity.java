@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
+import com.yourRoute.controls.SearchByRouteNumberControl;
+import com.yourRoute.controls.SearchByStopsControl;
 import com.yourRoute.model.City;
 import com.yourRoute.model.RoutesHolder;
 
@@ -29,16 +31,11 @@ public class MainActivity extends FragmentActivity {
     private Button cityNameButton;
     private TabHost mainTabhost;
     private RoutesHolder routesHolder;
-    private SearchController searchController;
     private ArrayList<City> cities;
     private CustomSearchField stopSearchMain;
     private TabHost.TabSpec tspec;
-    private CustomSearchField stopSearchOptional;
-    private CustomSearchField routeNumberSearch;
-    private Button stopNameSearchButton;
-    private Button routeNumberSearchButton;
-    private TextView noFavorites;
-    private ListView favoritesListView;
+    private SearchByStopsControl searchByStopsControl;
+    private SearchByRouteNumberControl searchByRouteNumberControl;
 
 
     @Override
@@ -75,10 +72,8 @@ public class MainActivity extends FragmentActivity {
     private void configureSearch() {
 
         this.stopSearchMain = (CustomSearchField) findViewById(R.id.stop_search_field);
-        this.stopSearchOptional = (CustomSearchField) findViewById(R.id.search_by_stop_optional);
-        this.stopNameSearchButton = (Button) findViewById(R.id.stop_name_search_button);
-        this.routeNumberSearch = (CustomSearchField) findViewById(R.id.route_number_search_field);
-        this.routeNumberSearchButton = (Button) findViewById(R.id.route_number_search_button);
+        this.searchByStopsControl = (SearchByStopsControl) findViewById(R.id.search_by_stops_control);
+        this.searchByRouteNumberControl = (SearchByRouteNumberControl) findViewById(R.id.search_by_route_number_control);
     }
 
     @Override
@@ -91,19 +86,14 @@ public class MainActivity extends FragmentActivity {
 
         this.routesHolder = YourRouteApp.getRoutesHolder();
         initializeTabHost();
-        this.searchController = new SearchController(this);
-        searchController.initialize();
         int savedCityId = this.routesHolder.getSavedCityId();
         initializeCityNameButton(savedCityId);
-        FavoritesController favoritesController = new FavoritesController(this);
     }
 
     private void findViews() {
 
         this.cityNameButton = (Button) findViewById(R.id.city_name_button);
         this.mainTabhost = (TabHost) findViewById(R.id.main_tabhost);
-        this.noFavorites = (TextView) findViewById(R.id.no_favorites);
-        this.favoritesListView = (ListView) findViewById(R.id.favorites_list);
     }
 
     private void showCityChoiceDialog() {
@@ -130,7 +120,8 @@ public class MainActivity extends FragmentActivity {
         this.cityNameButton.setText(name);
         int cityId = this.cities.get(which).getId();
         this.routesHolder.saveCityId(cityId);
-        this.searchController.clearAllSearchFields();
+        this.searchByStopsControl.clearStopSearchFields();
+        this.searchByRouteNumberControl.clearRouteNumberSearchField();
     }
 
     private void initializeCityNameButton(int savedCityId) {
@@ -189,34 +180,5 @@ public class MainActivity extends FragmentActivity {
 
         InputMethodManager imm = (InputMethodManager)  getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.stopSearchMain.getWindowToken(), 0);
-    }
-
-
-    public CustomSearchField getStopSearchOptional() {
-        return stopSearchOptional;
-    }
-
-    public CustomSearchField getRouteNumberSearch() {
-        return routeNumberSearch;
-    }
-
-    public Button getStopNameSearchButton() {
-        return stopNameSearchButton;
-    }
-
-    public Button getRouteNumberSearchButton() {
-        return routeNumberSearchButton;
-    }
-
-    public TextView getNoFavorites() {
-        return noFavorites;
-    }
-
-    public ListView getFavoritesListView() {
-        return favoritesListView;
-    }
-
-    public CustomSearchField getStopSearchMain() {
-        return stopSearchMain;
     }
 }
