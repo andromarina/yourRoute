@@ -1,7 +1,8 @@
-package com.yourRoute.controls;
+package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,8 +11,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
-import com.yourRoute.mainActivity.StopSuggestionsProvider;
+import com.yourRoute.controls.CustomSearchField;
+import com.yourRoute.mainActivity.ISearchProvider;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.SelectedStops;
+import com.yourRoute.model.StopsRepository;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,7 +26,7 @@ import org.apache.commons.lang3.StringUtils;
  * Time: 7:20 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchByStopsControl extends LinearLayout {
+public class SearchByStopsControl extends LinearLayout implements ISearchProvider {
     private Context context;
     private LinearLayout layout;
     private CustomSearchField stopSearchMain;
@@ -38,11 +42,10 @@ public class SearchByStopsControl extends LinearLayout {
 
     private void initializeSearchByStopName() {
 
-        StopSuggestionsProvider stopSuggestionsProvider = new StopSuggestionsProvider();
         this.stopSearchMain = (CustomSearchField) this.layout.findViewById(R.id.stop_search_field);
-        this.stopSearchMain.initialize(stopSuggestionsProvider);
+        this.stopSearchMain.initialize(this);
         this.stopSearchOptional = (CustomSearchField) this.layout.findViewById(R.id.search_by_stop_optional);
-        this.stopSearchOptional.initialize(stopSuggestionsProvider);
+        this.stopSearchOptional.initialize(this);
         this.stopSearchMain.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -98,5 +101,17 @@ public class SearchByStopsControl extends LinearLayout {
     public void clearStopSearchFields() {
         this.stopSearchMain.getAutoCompleteTextView().setText("");
         this.stopSearchOptional.getAutoCompleteTextView().setText("");
+    }
+
+    @Override
+    public SimpleCursorAdapter getSuggestions(Context context, String searchKey) {
+        RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+        int savedCityId = routesHolder.getSavedCityId();
+        Cursor cursor = routesHolder.createStopsSuggestionsCursor(searchKey, savedCityId);
+        String[] columns = new String[]{StopsRepository.STOP_NAME_COLUMN_NAME};
+        int[] columnTextId = new int[]{android.R.id.text1};
+        SimpleCursorAdapter simple = new SimpleCursorAdapter(context,
+                android.R.layout.simple_list_item_1, cursor, columns, columnTextId, 0);
+        return simple;
     }
 }

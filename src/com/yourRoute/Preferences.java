@@ -3,7 +3,6 @@ package com.yourRoute;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import com.yourRoute.mainActivity.FavoritesChangedListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -7,7 +7,7 @@ package com.yourRoute.mainActivity;
  * Time: 7:19 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface FavoritesChangedListener {
+public interface IFavoritesChangedListener {
 
     public void onFavoritesChanged();
 }

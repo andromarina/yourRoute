@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.SelectedStops;
 import com.yourRoute.model.Stop;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
@@ -16,11 +15,13 @@ public class StopsListListener implements ListView.OnItemClickListener {
     private Context context;
     private RouteDetailsActivity activity;
     private ArrayList<Stop> stops;
+    private SelectedStops selectedStops;
 
-    public StopsListListener(RouteDetailsActivity activity, ArrayList<Stop> stops) {
+    public StopsListListener(RouteDetailsActivity activity, ArrayList<Stop> stops, SelectedStops selectedStops) {
         this.context = activity;
         this.activity = activity;
         this.stops = stops;
+        this.selectedStops = selectedStops;
     }
 
     @Override
@@ -30,8 +31,7 @@ public class StopsListListener implements ListView.OnItemClickListener {
 
         String searchKeyMain = stop.getName();
         intent.putExtra("StopName", searchKeyMain);
-        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
-        selectedStops.saveSelectedStop(searchKeyMain);
+        this.selectedStops.saveSelectedStop(searchKeyMain);
 
         int cityId = stop.getCityId();
         intent.putExtra("CityId", cityId);

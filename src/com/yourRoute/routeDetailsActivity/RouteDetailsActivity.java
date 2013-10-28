@@ -11,11 +11,12 @@ import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.*;
+import com.yourRoute.utils.Report;
 
 import java.util.ArrayList;
 
 
-public class RouteDetailsActivity extends FragmentActivity {
+public class RouteDetailsActivity extends FragmentActivity implements MenuItem.OnMenuItemClickListener {
     private RoutesHolder routesHolder;
     private Favorites favorites;
     private TabHost direction_tabhost;
@@ -152,13 +153,12 @@ public class RouteDetailsActivity extends FragmentActivity {
             favoriteButton.setIcon(R.drawable.ic_star_empty_big);
         }
 
-        favoriteButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) { return onRouteDetailsMenuItemClick(item); }
-        });
+        favoriteButton.setOnMenuItemClickListener(this);
     }
 
-    private boolean onRouteDetailsMenuItemClick(MenuItem item) {
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
         if (this.favorites.toggle(routeId)) {
             item.setIcon(R.drawable.ic_star_filled_big);
         } else {
@@ -167,6 +167,7 @@ public class RouteDetailsActivity extends FragmentActivity {
 
         return true;
     }
+
 
     private void setCarTypeIcon() {
 
@@ -212,18 +213,20 @@ public class RouteDetailsActivity extends FragmentActivity {
     private void setStopsList() {
 
         final ArrayList<Stop> forwardStops = this.route.getForwardStops();
+        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
 
-        StopsListAdapter adapterForward = new StopsListAdapter(this, R.layout.stop_item, forwardStops);
+        StopsListAdapter adapterForward = new StopsListAdapter(this, R.layout.stop_item, forwardStops, selectedStops);
         this.forwardStopsList.setAdapter(adapterForward);
-        StopsListListener forwardStopsListListener = new StopsListListener(this, forwardStops);
+        StopsListListener forwardStopsListListener = new StopsListListener(this, forwardStops, selectedStops);
         this.forwardStopsList.setOnItemClickListener(forwardStopsListListener);
 
         final ArrayList<Stop> backwardStops = this.route.getBackwardStops();
-        StopsListListener backwardStopsListListener = new StopsListListener(this, backwardStops);
+        StopsListListener backwardStopsListListener = new StopsListListener(this, backwardStops, selectedStops);
         this.backwardStopsList.setOnItemClickListener(backwardStopsListListener);
-        StopsListAdapter adapterBackward = new StopsListAdapter(this, R.layout.stop_item, backwardStops);
+        StopsListAdapter adapterBackward = new StopsListAdapter(this, R.layout.stop_item, backwardStops, selectedStops);
         this.backwardStopsList.setAdapter(adapterBackward);
     }
+
 }
 
 

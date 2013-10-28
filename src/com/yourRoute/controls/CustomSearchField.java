@@ -7,10 +7,9 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.yourRoute.R;
-import com.yourRoute.mainActivity.SearchProvider;
+import com.yourRoute.mainActivity.ISearchProvider;
 
 public class CustomSearchField extends RelativeLayout implements TextWatcher {
 
@@ -19,7 +18,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
     private OnClickListener clearText;
     private Context context;
     private AttributeSet attr;
-    private SearchProvider searchProvider;
+    private ISearchProvider searchProvider;
 
     public CustomSearchField(Context context, AttributeSet attr) {
         super(context, attr);
@@ -66,7 +65,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
         return this.autoCompleteTextView;
     }
 
-    public void initialize(SearchProvider searchProvider) {
+    public void initialize(ISearchProvider searchProvider) {
         this.searchProvider = searchProvider;
     }
 
@@ -111,7 +110,7 @@ public class CustomSearchField extends RelativeLayout implements TextWatcher {
         });
     }
 
-    private void setSearchProvider(SearchProvider searchProvider, String searchKey) {
+    private void setSearchProvider(ISearchProvider searchProvider, String searchKey) {
         SimpleCursorAdapter adapter = searchProvider.getSuggestions(context, searchKey);
         this.autoCompleteTextView.setAdapter(adapter);
     }

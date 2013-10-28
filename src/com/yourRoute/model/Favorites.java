@@ -2,11 +2,10 @@ package com.yourRoute.model;
 
 import com.yourRoute.Preferences;
 import com.yourRoute.YourRouteApp;
-import com.yourRoute.mainActivity.FavoritesChangedListener;
+import com.yourRoute.mainActivity.IFavoritesChangedListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,10 +16,10 @@ import java.util.Set;
  */
 public class Favorites {
 
-    private FavoritesChangedListener listener;
+    private IFavoritesChangedListener listener;
 
 
-    public void setListener(FavoritesChangedListener favoritesChangedListener) {
+    public void setListener(IFavoritesChangedListener favoritesChangedListener) {
         this.listener = favoritesChangedListener;
     }
 

@@ -1,4 +1,4 @@
-package com.yourRoute.routeDetailsActivity;
+package com.yourRoute.utils;
 
 import android.app.Activity;
 import android.content.Intent;

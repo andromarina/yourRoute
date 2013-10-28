@@ -1,4 +1,4 @@
-package com.yourRoute.controls;
+package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
-import com.yourRoute.mainActivity.FavoritesChangedListener;
+import com.yourRoute.mainActivity.IFavoritesChangedListener;
 import com.yourRoute.mainActivity.FavoritesListAdapter;
 import com.yourRoute.model.Favorites;
 import com.yourRoute.model.Route;
+import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
 
 import java.util.ArrayList;
@@ -27,10 +28,11 @@ import java.util.ArrayList;
  * Time: 5:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class FavoritesControl extends RelativeLayout implements FavoritesChangedListener {
+public class FavoritesControl extends RelativeLayout implements IFavoritesChangedListener {
     private Context context;
     private final String LOG_TAG = this.getClass().getSimpleName();
     private Favorites favorites;
+    private RoutesHolder routesHolder;
     private FavoritesListAdapter adapter;
     private RelativeLayout layout;
 
@@ -38,6 +40,7 @@ public class FavoritesControl extends RelativeLayout implements FavoritesChanged
         super(context, attr);
         this.context = context;
         this.favorites = YourRouteApp.getFavorites();
+        this.routesHolder = YourRouteApp.getRoutesHolder();
         YourRouteApp.getFavorites().setListener(this);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layout = (RelativeLayout) inflater.inflate(R.layout.favorites_tab, this);
@@ -58,7 +61,7 @@ public class FavoritesControl extends RelativeLayout implements FavoritesChanged
         }
 
         ListView favoritesListView = (ListView) layout.findViewById(R.id.favorites_list);
-        this.adapter = new FavoritesListAdapter(this.context, R.layout.route_list_item, routes);
+        this.adapter = new FavoritesListAdapter(this.context, R.layout.route_list_item, routes, this.routesHolder);
 
         favoritesListView.setAdapter(this.adapter);
 

@@ -1,18 +1,20 @@
-package com.yourRoute.controls;
+package com.yourRoute.mainActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.yourRoute.R;
-import com.yourRoute.mainActivity.RouteNumberSuggestionsProvider;
+import com.yourRoute.YourRouteApp;
+import com.yourRoute.controls.CustomSearchField;
+import com.yourRoute.mainActivity.ISearchProvider;
+import com.yourRoute.model.RoutesHolder;
+import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
  * Time: 7:48 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchByRouteNumberControl extends LinearLayout {
+public class SearchByRouteNumberControl extends LinearLayout implements ISearchProvider {
     private Context context;
     private LinearLayout layout;
     private CustomSearchField routeNumbersSearch;
@@ -38,9 +40,8 @@ public class SearchByRouteNumberControl extends LinearLayout {
 
     private void initializeRouteNumbersSearch() {
 
-        RouteNumberSuggestionsProvider routeNumberSuggestionsProvider = new RouteNumberSuggestionsProvider();
         this.routeNumbersSearch = (CustomSearchField) this.layout.findViewById(R.id.route_number_search_field);
-        this.routeNumbersSearch.initialize(routeNumberSuggestionsProvider);
+        this.routeNumbersSearch.initialize(this);
         this.routeNumbersSearch.getAutoCompleteTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -79,4 +80,15 @@ public class SearchByRouteNumberControl extends LinearLayout {
         this.routeNumbersSearch.getAutoCompleteTextView().setText("");
     }
 
+    @Override
+    public SimpleCursorAdapter getSuggestions(Context context, String searchKey) {
+        RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
+        int savedCityId = routesHolder.getSavedCityId();
+        Cursor cursor = routesHolder.createRouteSuggestionsCursor(searchKey, savedCityId);
+        String[] columns = new String[]{RoutesRepository.ROUTE_NAME_COLUMN_NAME};
+        int[] columnTextId = new int[]{android.R.id.text1};
+        SimpleCursorAdapter simple = new SimpleCursorAdapter(context,
+                android.R.layout.simple_list_item_1, cursor, columns, columnTextId, 0);
+        return simple;
+    }
 }

@@ -10,7 +10,7 @@ import android.widget.SimpleCursorAdapter;
  * Time: 4:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface SearchProvider {
+public interface ISearchProvider {
 
     public SimpleCursorAdapter getSuggestions(Context context, String searchKey);
 }

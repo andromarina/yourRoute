@@ -12,14 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
-import com.yourRoute.controls.SearchByRouteNumberControl;
-import com.yourRoute.controls.SearchByStopsControl;
 import com.yourRoute.model.City;
 import com.yourRoute.model.RoutesHolder;
 

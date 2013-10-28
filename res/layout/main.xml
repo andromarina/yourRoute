@@ -19,17 +19,17 @@
                      android:addStatesFromChildren="true">
             <view android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  class="com.yourRoute.controls.SearchByStopsControl"
+                  class="com.yourRoute.mainActivity.SearchByStopsControl"
                   android:id="@+id/search_by_stops_control"></view>
 
             <view android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  class="com.yourRoute.controls.SearchByRouteNumberControl"
+                  class="com.yourRoute.mainActivity.SearchByRouteNumberControl"
                   android:id="@+id/search_by_route_number_control"></view>
 
             <view android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  class="com.yourRoute.controls.FavoritesControl"
+                  class="com.yourRoute.mainActivity.FavoritesControl"
                   android:id="@+id/favorites_control"></view>
         </FrameLayout>
 

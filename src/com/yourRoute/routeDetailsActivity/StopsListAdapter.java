@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.yourRoute.R;
-import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.SelectedStops;
 import com.yourRoute.model.Stop;
 
 import java.util.ArrayList;
 
 public class StopsListAdapter extends ArrayAdapter<Stop> {
+    private SelectedStops selectedStops;
 
-    public StopsListAdapter(Context context, int textViewResourceId, ArrayList<Stop> objects) {
+    public StopsListAdapter(Context context, int textViewResourceId, ArrayList<Stop> objects, SelectedStops selectedStops) {
         super(context, textViewResourceId, objects);
+        this.selectedStops = selectedStops;
     }
 
     @Override
@@ -29,9 +30,9 @@ public class StopsListAdapter extends ArrayAdapter<Stop> {
         }
         Stop stop = super.getItem(position);
         TextView name = (TextView) item.findViewById(R.id.stop_name);
-        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
-        String searchKey = selectedStops.getSelectedStop().toLowerCase();
-        String optionalSearchKey = selectedStops.getOptionalSelectedStop().toLowerCase();
+
+        String searchKey = this.selectedStops.getSelectedStop().toLowerCase();
+        String optionalSearchKey = this.selectedStops.getOptionalSelectedStop().toLowerCase();
         String stopName = stop.getName();
         name.setText(stopName);
         if (stopName.toLowerCase().contains(searchKey) && !searchKey.isEmpty()) {
