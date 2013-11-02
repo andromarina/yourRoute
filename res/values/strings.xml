@@ -9,6 +9,8 @@
     <string name="report">"Уточнить маршрут"</string>
     <string name="km">"км"</string>
     <string name="min">"мин"</string>
+    <string name="uah">"грн"</string>
+    <string name="price">"Стоимость проезда: "</string>
     <string name="street_name_hint">"Остановка отправления * "</string>
     <string name="second_street_name_hint">"Остановка прибытия"</string>
     <string name="route_number_hint">"Номер маршрута"</string>

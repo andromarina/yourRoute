@@ -30,6 +30,8 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
     private LinearLayout intervalLayout;
     private TextView lengthView;
     private LinearLayout lengthLayout;
+    private TextView priceView;
+    private LinearLayout priceLayout;
     private ListView forwardStopsList;
     private ListView backwardStopsList;
     private MenuItem favoriteButton;
@@ -86,6 +88,7 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
         setOperationHours();
         setInterval();
         setLength();
+        setPrice();
         setStopsList();
     }
 
@@ -99,6 +102,8 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
         this.intervalLayout = (LinearLayout) findViewById(R.id.interval_layout);
         this.lengthView = (TextView) findViewById(R.id.length);
         this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
+        this.priceView = (TextView) findViewById(R.id.price);
+        this.priceLayout = (LinearLayout) findViewById(R.id.price_layout);
         this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
         this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
     }
@@ -208,6 +213,12 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
         } else {
             this.lengthView.setText(this.route.getLength());
         }
+    }
+
+    private void setPrice() {
+
+       this.priceView.setText(this.route.getPrice().toString());
+
     }
 
     private void setStopsList() {

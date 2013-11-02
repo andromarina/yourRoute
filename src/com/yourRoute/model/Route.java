@@ -126,7 +126,7 @@ public class Route implements Comparable<Route> {
         return this.workTime;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
