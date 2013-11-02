@@ -39,7 +39,7 @@ public class Preferences {
     public static int getSavedCityId() {
 
         sPref = context.getSharedPreferences(CITY_ID, Context.MODE_PRIVATE);
-        int savedCityId = sPref.getInt(CITY_ID, 24);
+        int savedCityId = sPref.getInt(CITY_ID, 2);
         Log.i(LOG_TAG, savedCityId + "City id loaded");
         return savedCityId;
     }

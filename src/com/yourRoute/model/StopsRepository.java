@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import contentProvider.Contracts.Cities;
 import contentProvider.Contracts.Stops;
 import contentProvider.RoutesContentProvider;
 
@@ -27,6 +28,8 @@ public class StopsRepository {
     private final static String STOP_INDEX_COLUMN_NAME = Stops.STOP_INDEX_COLUMN_NAME;
     private final static String ROUTE_ID_COLUMN_NAME = Stops.ROUTE_ID_COLUMN_NAME;
     private final static String CITY_ID_COLUMN_NAME = Stops.CITY_ID_COLUMN_NAME;
+    private final String LAT_COLUMN_NAME = Stops.LAT;
+    private final String LNG_COLUMN_NAME = Stops.LNG;
 
 
     public StopsRepository(ContentResolver contentResolver) {
@@ -75,8 +78,15 @@ public class StopsRepository {
 
         int cityIdColumnIndex = stopsCursor.getColumnIndex(CITY_ID_COLUMN_NAME);
         int cityId = stopsCursor.getInt(cityIdColumnIndex);
+
+        int latColumnIndex = stopsCursor.getColumnIndex(LAT_COLUMN_NAME);
+        float lat = stopsCursor.getFloat(latColumnIndex);
+
+        int lngColumnIndex = stopsCursor.getColumnIndex(LNG_COLUMN_NAME);
+        float lng = stopsCursor.getFloat(lngColumnIndex);
+
         Log.i(LOG_TAG, "Stop index = " + stopIndex + " Stop name " + name);
-        Stop stop = new Stop(id, name, stopIndex, cityId);
+        Stop stop = new Stop(id, name, stopIndex, cityId, lat, lng);
         return stop;
     }
 

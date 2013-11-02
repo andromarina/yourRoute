@@ -11,6 +11,7 @@ import com.yourRoute.R;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesHolder;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class FavoritesListAdapter extends ArrayAdapter<Route> {
@@ -51,7 +52,8 @@ public class FavoritesListAdapter extends ArrayAdapter<Route> {
     }
 
     private static void addSeparator(int index, ArrayList<Route> routes) {
-        Route separator = new Route(-1, "Fake", 1, "StartEnd", "Length", "Interval", "WorkTime", 24);
+
+        Route separator = Route.createFakeRouteForSeparator();
         routes.add(index, separator);
     }
 

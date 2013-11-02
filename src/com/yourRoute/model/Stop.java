@@ -12,12 +12,16 @@ public class Stop {
     private final String name;
     private final int stopIndex;
     private final int cityId;
+    private final float lat;
+    private final float lng;
 
-    public Stop(int id, String name, int stopIndex, int cityId) {
+    public Stop(int id, String name, int stopIndex, int cityId, float lat, float lng) {
         this.id = id;
         this.name = name;
         this.stopIndex = stopIndex;
         this.cityId = cityId;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public int getStopId() {
@@ -34,6 +38,14 @@ public class Stop {
 
     public int getCityId() {
         return this.cityId;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public float getLng() {
+        return lng;
     }
 }
 

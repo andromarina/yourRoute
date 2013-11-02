@@ -10,9 +10,14 @@ package com.yourRoute.model;
 public class City {
     private final int id;
     private final String name;
-    public City(int id, String name) {
+    private final float lat;
+    private final float lng;
+
+    public City(int id, String name, float lat, float lng) {
         this.id = id;
         this.name = name;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public int getId() {
@@ -21,6 +26,14 @@ public class City {
 
     public String getName() {
         return this.name;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public float getLng() {
+        return lng;
     }
 
     @Override

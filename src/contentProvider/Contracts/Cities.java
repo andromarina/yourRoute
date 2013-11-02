@@ -17,6 +17,8 @@ public class Cities implements BaseColumns {
 
     // columns
     public static final String NAME = "Name";
+    public static final String LAT = "Lat";
+    public static final String LNG = "Lng";
 
     // paths
     public static final String CITIES_PATH = "Cities";

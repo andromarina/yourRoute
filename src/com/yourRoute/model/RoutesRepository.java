@@ -7,6 +7,8 @@ import android.util.Log;
 import contentProvider.Contracts.Routes;
 import contentProvider.RoutesContentProvider;
 
+import java.nio.ByteBuffer;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 public class RoutesRepository {
@@ -15,14 +17,21 @@ public class RoutesRepository {
     private final Uri ROUTES_BY_STOP_NAME_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Routes.ROUTES_BY_STOP_NAME_PATH);
     private final Uri ROUTES_BY_ROUTE_NAME_URI = Uri.parse("content://" + RoutesContentProvider.AUTHORITY + "/" + Routes.ROUTES_BY_ROUTE_NAME_PATH);
     private final ContentResolver contentResolver;
-    private final static String ROUTE_LENGTH_COLUMN_NAME = Routes.ROUTE_LENGTH_COLUMN_NAME;
+    private final static String ROUTE_LENGTH_COLUMN_NAME = Routes.ROUTE_DISTANCE_COLUMN_NAME;
     private final static String ROUTE_INTERVAL_COLUMN_NAME = Routes.ROUTE_INTERVAL_COLUMN_NAME;
     private final static String ROUTE_WORK_TIME_COLUMN_NAME = Routes.ROUTE_WORK_TIME_COLUMN_NAME;
     private final static String START_END_COLUMN_NAME = Routes.START_END_COLUMN_NAME;
-    private final static String CAR_TYPE_ID_COLUMN_NAME = Routes.CAR_TYPE_ID_COLUMN_NAME;
+    private final static String CAR_TYPE_ID_COLUMN_NAME = Routes.TRANSPORT_TYPE_ID_COLUMN_NAME;
     private final static String CITY_ID_COLUMN_NAME = Routes.CITY_ID_COLUMN_NAME;
-    public final static String ROUTE_NAME_COLUMN_NAME = Routes.ROUTE_NAME_COLUMN_NAME;
+    public final static String ROUTE_NAME_COLUMN_NAME = Routes.NAME;
+    public final static String ROUTE_NAME_FULL_COLUMN_NAME = Routes.FULL_NAME;
     private final static String STOP_NAME_FOR_SEARCH = Routes.STOP_NAME_FOR_SEARCH;
+    private final static String PRICE = Routes.PRICE_COLUMN_NAME;
+    private final static String EXTREME_STOP_FIRST_ID_COLUMN_NAME = Routes.EXTREME_STOP_FIRST_ID_COLUMN_NAME;
+    private final static String EXTREME_STOP_SECOND_ID_COLUMN_NAME = Routes.EXTREME_STOP_SECOND_ID_COLUMN_NAME;
+    private final static String GEOMETRY_FORWARD_COLUMN_NAME = Routes.GEOMETRY_FORWARD_COLUMN_NAME;
+    private final static String GEOMETRY_BACKWARD_COLUMN_NAME = Routes.GEOMETRY_BACKWARD_COLUMN_NAME;
+
     private String LOG_TAG = this.getClass().getSimpleName();
 
     public RoutesRepository(ContentResolver contentResolver) {
@@ -115,7 +124,7 @@ public class RoutesRepository {
         // TODO refactor contracts. Column index was hardcoded
 
         int id = routesCursor.getInt(1);
-        int routeNameColumnIndex = routesCursor.getColumnIndex(ROUTE_NAME_COLUMN_NAME);
+        int routeNameColumnIndex = routesCursor.getColumnIndex(ROUTE_NAME_FULL_COLUMN_NAME);
         String name = routesCursor.getString(routeNameColumnIndex);
 
         int startEndColumnIndex = routesCursor.getColumnIndex(START_END_COLUMN_NAME);
@@ -136,7 +145,25 @@ public class RoutesRepository {
         int cityIdColumnIndex = routesCursor.getColumnIndex(CITY_ID_COLUMN_NAME);
         int cityId = routesCursor.getInt(cityIdColumnIndex);
 
-        Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime, cityId);
+        int priceColumnIndex = routesCursor.getColumnIndex(PRICE);
+        float price = routesCursor.getInt(priceColumnIndex);
+
+        int extremeStopFirstIdColumnIndex = routesCursor.getColumnIndex(EXTREME_STOP_FIRST_ID_COLUMN_NAME);
+        int extremeStopFirstId = routesCursor.getInt(extremeStopFirstIdColumnIndex);
+
+        int extremeStopSecondIdColumnIndex = routesCursor.getColumnIndex(EXTREME_STOP_SECOND_ID_COLUMN_NAME);
+        int extremeStopSecondId = routesCursor.getInt(extremeStopSecondIdColumnIndex);
+
+        int geometryForwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_FORWARD_COLUMN_NAME);
+        byte[] geometryForward = routesCursor.getBlob(geometryForwardColumnIndex);
+        ByteBuffer geometryForwardWrapped = ByteBuffer.wrap(geometryForward);
+
+        int geometryBackwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_BACKWARD_COLUMN_NAME);
+        byte[] geometryBackward = routesCursor.getBlob(geometryBackwardColumnIndex);
+        ByteBuffer geometryBackwardWrapped = ByteBuffer.wrap(geometryBackward);
+
+        Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime, cityId, price,
+                extremeStopFirstId, extremeStopSecondId, geometryForwardWrapped, geometryBackwardWrapped);
         return route;
     }
 
