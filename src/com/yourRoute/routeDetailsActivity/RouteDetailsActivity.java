@@ -12,11 +12,14 @@ import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.*;
 import com.yourRoute.utils.Report;
+import maps.download.Items.StopsCollectionGraphicItem;
+import maps.download.Map;
+import maps.download.RouteOnMapActivity;
 
 import java.util.ArrayList;
 
 
-public class RouteDetailsActivity extends FragmentActivity implements MenuItem.OnMenuItemClickListener {
+public class RouteDetailsActivity extends FragmentActivity {
     private RoutesHolder routesHolder;
     private Favorites favorites;
     private TabHost direction_tabhost;
@@ -31,20 +34,21 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
     private TextView lengthView;
     private LinearLayout lengthLayout;
     private TextView priceView;
-    private LinearLayout priceLayout;
     private ListView forwardStopsList;
     private ListView backwardStopsList;
     private MenuItem favoriteButton;
+    private MenuItem mapButton;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.route_details_menu, menu);
         this.favoriteButton = menu.getItem(0);
+        this.mapButton = menu.getItem(1);
         initializeFavoriteButton();
+        initializeMapButton();
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +107,6 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
         this.lengthView = (TextView) findViewById(R.id.length);
         this.lengthLayout = (LinearLayout) findViewById(R.id.length_layout);
         this.priceView = (TextView) findViewById(R.id.price);
-        this.priceLayout = (LinearLayout) findViewById(R.id.price_layout);
         this.forwardStopsList = (ListView) findViewById(R.id.forward_stops_list);
         this.backwardStopsList = (ListView) findViewById(R.id.backward_stops_list);
     }
@@ -139,6 +142,7 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
         Intent intent = getIntent();
         this.routeId = intent.getIntExtra("routeID", 1);
         this.route = this.routesHolder.findRouteById(this.routeId);
+        YourRouteApp.getSelections().saveSelectedRoute(this.route);
         ArrayList<Stop> stops = this.routesHolder.findStopsByRouteId(this.routeId);
         this.route.initializeStops(stops);
     }
@@ -158,21 +162,43 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
             favoriteButton.setIcon(R.drawable.ic_star_empty_big);
         }
 
-        favoriteButton.setOnMenuItemClickListener(this);
+        favoriteButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+               return onFavoriteClick(item);
+            }
+        });
     }
 
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public boolean onFavoriteClick(MenuItem item) {
         if (this.favorites.toggle(routeId)) {
             item.setIcon(R.drawable.ic_star_filled_big);
         } else {
             item.setIcon(R.drawable.ic_star_empty_big);
         }
-
         return true;
     }
 
+
+    private void initializeMapButton() {
+        MenuItem mapButton = this.mapButton;
+        mapButton.setIcon(R.drawable.ic_map);
+        mapButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return onMapClick();
+            }
+        });
+    }
+
+    public boolean onMapClick() {
+        Map map = YourRouteApp.getMap();
+        StopsCollectionGraphicItem graphicItem = new StopsCollectionGraphicItem(this, this.route.getForwardStops());
+        map.getGraphicItems().add(graphicItem);
+        Intent intent = new Intent(this, RouteOnMapActivity.class);
+        this.startActivity(intent);
+        return true;
+    }
 
     private void setCarTypeIcon() {
 
@@ -224,17 +250,17 @@ public class RouteDetailsActivity extends FragmentActivity implements MenuItem.O
     private void setStopsList() {
 
         final ArrayList<Stop> forwardStops = this.route.getForwardStops();
-        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
+        Selections selections = YourRouteApp.getSelections();
 
-        StopsListAdapter adapterForward = new StopsListAdapter(this, R.layout.stop_item, forwardStops, selectedStops);
+        StopsListAdapter adapterForward = new StopsListAdapter(this, R.layout.stop_item, forwardStops, selections);
         this.forwardStopsList.setAdapter(adapterForward);
-        StopsListListener forwardStopsListListener = new StopsListListener(this, forwardStops, selectedStops);
+        StopsListListener forwardStopsListListener = new StopsListListener(this, forwardStops, selections);
         this.forwardStopsList.setOnItemClickListener(forwardStopsListListener);
 
         final ArrayList<Stop> backwardStops = this.route.getBackwardStops();
-        StopsListListener backwardStopsListListener = new StopsListListener(this, backwardStops, selectedStops);
+        StopsListListener backwardStopsListListener = new StopsListListener(this, backwardStops, selections);
         this.backwardStopsList.setOnItemClickListener(backwardStopsListListener);
-        StopsListAdapter adapterBackward = new StopsListAdapter(this, R.layout.stop_item, backwardStops, selectedStops);
+        StopsListAdapter adapterBackward = new StopsListAdapter(this, R.layout.stop_item, backwardStops, selections);
         this.backwardStopsList.setAdapter(adapterBackward);
     }
 

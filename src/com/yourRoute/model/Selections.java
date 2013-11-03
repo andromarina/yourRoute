@@ -9,9 +9,10 @@ import android.util.Log;
  * Time: 8:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SelectedStops {
+public class Selections {
     private String selectedStop = "";
     private String optionalSelectedStop = "";
+    private Route selectedRoute;
     private final String LOG_TAG = this.getClass().getSimpleName();
 
     public void saveSelectedStop(String string) {
@@ -30,5 +31,13 @@ public class SelectedStops {
 
     public String getOptionalSelectedStop() {
         return optionalSelectedStop;
+    }
+
+    public void saveSelectedRoute(Route route) {
+        this.selectedRoute = route;
+    }
+
+    public Route getSelectedRoute() {
+        return selectedRoute;
     }
 }

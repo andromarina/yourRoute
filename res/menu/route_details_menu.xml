@@ -10,6 +10,13 @@
     </item>
 
     <item
+            android:id="@+id/map_button"
+            android:icon="@drawable/ic_map"
+            android:showAsAction="always"
+            android:title="@string/map">
+    </item>
+
+    <item
             android:id="@+id/report"
             android:showAsAction="never"
             android:title="@string/report">

@@ -7,6 +7,8 @@
 
     <uses-sdk
             android:minSdkVersion="14"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
             android:name=".YourRouteApp"
@@ -47,6 +49,15 @@
         </activity>
         <activity
                 android:name=".searchResultsActivity.SearchResultsActivity"
+                android:screenOrientation="portrait"
+                android:parentActivityName=".mainActivity.MainActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".mainActivity.MainActivity"/>
+        </activity>
+
+        <activity
+                android:name="maps.download.RouteOnMapActivity"
                 android:screenOrientation="portrait"
                 android:parentActivityName=".mainActivity.MainActivity">
             <meta-data

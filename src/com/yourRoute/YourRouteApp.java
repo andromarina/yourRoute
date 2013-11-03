@@ -4,7 +4,8 @@ import android.app.Application;
 import android.util.Log;
 import com.yourRoute.model.Favorites;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.SelectedStops;
+import com.yourRoute.model.Selections;
+import maps.download.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,8 +17,9 @@ import com.yourRoute.model.SelectedStops;
 public class YourRouteApp extends Application {
     private final String LOG_TAG = "YourRouteApp";
     private static RoutesHolder routesHolder;
-    private static SelectedStops selectedStops;
+    private static Selections selections;
     private static Favorites favorites;
+    private static Map map;
 
     @Override
     public void onCreate() {
@@ -26,20 +28,24 @@ public class YourRouteApp extends Application {
         super.onCreate();
         Preferences.initialize(this);
         routesHolder = new RoutesHolder(getContentResolver());
-        selectedStops = new SelectedStops();
+        selections = new Selections();
         favorites = new Favorites();
+        map = new Map();
     }
 
     public  static RoutesHolder getRoutesHolder() {
         return routesHolder;
     }
 
-    public static SelectedStops getSelectedStops() {
-        return selectedStops;
+    public static Selections getSelections() {
+        return selections;
     }
 
     public static Favorites getFavorites() {
         return favorites;
     }
 
+    public static Map getMap() {
+        return map;
+    }
 }

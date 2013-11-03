@@ -12,9 +12,8 @@ import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
-import com.yourRoute.mainActivity.ISearchProvider;
 import com.yourRoute.model.RoutesHolder;
-import com.yourRoute.model.SelectedStops;
+import com.yourRoute.model.Selections;
 import com.yourRoute.model.StopsRepository;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;
 import org.apache.commons.lang3.StringUtils;
@@ -90,11 +89,11 @@ public class SearchByStopsControl extends LinearLayout implements ISearchProvide
         Intent intent = new Intent(this.context, SearchResultsActivity.class);
         intent.putExtra("SearchMode", 1);
         intent.putExtra("StopName", stopSearchMainKey);
-        SelectedStops selectedStops = YourRouteApp.getSelectedStops();
-        selectedStops.saveSelectedStop(stopSearchMainKey);
+        Selections selections = YourRouteApp.getSelections();
+        selections.saveSelectedStop(stopSearchMainKey);
         String stopNameOptional = this.stopSearchOptional.getValidatedString();
         intent.putExtra("OptionalStopName", stopNameOptional);
-        selectedStops.saveOptionalSelectedStop(stopNameOptional);
+        selections.saveOptionalSelectedStop(stopNameOptional);
         this.context.startActivity(intent);
     }
 

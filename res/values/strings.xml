@@ -21,6 +21,7 @@
     <string name="stop_name">"По остановкам"</string>
     <string name="route_number">"По номеру"</string>
     <string name="favorites">"Избранное"</string>
+    <string name="map">"Карта"</string>
     <string name="no_favorites">"Нет избранного"</string>
     <string name="find_button">"Поиск"</string>
     <string name="need_to_fill_main_search_field">"Название остановки отправления должно содержать не менее 3 символов"</string>
