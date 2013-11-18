@@ -1,11 +1,12 @@
 package com.yourRoute;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import com.yourRoute.model.Favorites;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.Selections;
-import maps.download.Map;
+import maps.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +21,7 @@ public class YourRouteApp extends Application {
     private static Selections selections;
     private static Favorites favorites;
     private static Map map;
+    public static Context context;
 
     @Override
     public void onCreate() {
@@ -27,6 +29,7 @@ public class YourRouteApp extends Application {
         Log.d(LOG_TAG, "Application was created");
         super.onCreate();
         Preferences.initialize(this);
+        context = this;
         routesHolder = new RoutesHolder(getContentResolver());
         selections = new Selections();
         favorites = new Favorites();
@@ -47,5 +50,9 @@ public class YourRouteApp extends Application {
 
     public static Map getMap() {
         return map;
+    }
+
+    public static Context getYourRouteAppContext() {
+        return context;
     }
 }

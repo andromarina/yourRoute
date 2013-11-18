@@ -1,4 +1,4 @@
-package maps.download.Items;
+package maps.item;
 
 import org.mapsforge.android.maps.MapView;
 

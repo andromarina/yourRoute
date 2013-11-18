@@ -57,7 +57,7 @@
         </activity>
 
         <activity
-                android:name="maps.download.RouteOnMapActivity"
+                android:name="maps.RouteOnMapActivity"
                 android:screenOrientation="portrait"
                 android:parentActivityName=".mainActivity.MainActivity">
             <meta-data

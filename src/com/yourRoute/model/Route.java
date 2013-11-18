@@ -3,7 +3,6 @@ package com.yourRoute.model;
 import com.yourRoute.R;
 
 import java.nio.ByteBuffer;
-import java.sql.Blob;
 import java.util.ArrayList;
 
 /**
@@ -170,5 +169,38 @@ public class Route implements Comparable<Route> {
 
     public static Route createFakeRouteForSeparator() {
         return new Route();
+    }
+
+
+    private static ArrayList<Float> byteBufferToFloatArray(ByteBuffer byteBuffer) {
+        ArrayList<Float> result = new ArrayList<>();
+        while (byteBuffer.hasRemaining()) {
+            float i = byteBuffer.getFloat();
+            result.add(i);
+        }
+        return result;
+    }
+
+    private static ArrayList<Point> createPointsArray(ByteBuffer byteBuffer) {
+
+        ArrayList<Point> result = new ArrayList<>();
+        ArrayList<Float> floats = byteBufferToFloatArray(byteBuffer);
+        for (int i = 0; i < floats.size(); i += 2) {
+            Float lat = floats.get(i);
+            Float lng = floats.get(i + 1);
+            Point point = new Point(lat, lng);
+            result.add(point);
+        }
+        return result;
+    }
+
+    public ArrayList<Point> getForwardRoutePoints() {
+        ArrayList<Point> points = createPointsArray(this.geometryForward);
+        return points;
+    }
+
+    public ArrayList<Point> getBackwardRoutePoints() {
+        ArrayList<Point> points = createPointsArray(this.geometryBackward);
+        return points;
     }
 }

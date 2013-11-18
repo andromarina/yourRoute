@@ -12,9 +12,11 @@ import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.*;
 import com.yourRoute.utils.Report;
-import maps.download.Items.StopsCollectionGraphicItem;
-import maps.download.Map;
-import maps.download.RouteOnMapActivity;
+import maps.item.RouteLineGraphicItem;
+import maps.item.StopsCollectionGraphicItem;
+import maps.Map;
+import maps.RouteOnMapActivity;
+import android.app.FragmentManager;
 
 import java.util.ArrayList;
 
@@ -182,7 +184,7 @@ public class RouteDetailsActivity extends FragmentActivity {
 
     private void initializeMapButton() {
         MenuItem mapButton = this.mapButton;
-        mapButton.setIcon(R.drawable.ic_map);
+        mapButton.setIcon(R.drawable.ic_action_location_map);
         mapButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -193,11 +195,27 @@ public class RouteDetailsActivity extends FragmentActivity {
 
     public boolean onMapClick() {
         Map map = YourRouteApp.getMap();
-        StopsCollectionGraphicItem graphicItem = new StopsCollectionGraphicItem(this, this.route.getForwardStops());
-        map.getGraphicItems().add(graphicItem);
-        Intent intent = new Intent(this, RouteOnMapActivity.class);
-        this.startActivity(intent);
+        FragmentManager fragmentManager = getFragmentManager();
+        if(map.prepareMap(this, fragmentManager)) {
+            addGraphicItems(map);
+            Intent intent = new Intent(this, RouteOnMapActivity.class);
+            this.startActivity(intent);
+        }
         return true;
+    }
+
+    private void addGraphicItems(Map map) {
+        StopsCollectionGraphicItem graphicItemForward = new StopsCollectionGraphicItem(this.route.getForwardStops(), 0);
+        map.getGraphicItems().add(graphicItemForward);
+
+        StopsCollectionGraphicItem graphicItemBackward = new StopsCollectionGraphicItem(this.route.getBackwardStops(), 1);
+        map.getGraphicItems().add(graphicItemBackward);
+
+        RouteLineGraphicItem routeForwardLineGraphicItem = new RouteLineGraphicItem(this.route.getForwardRoutePoints(), 0);
+        map.getGraphicItems().add(routeForwardLineGraphicItem);
+
+        RouteLineGraphicItem routeBackwardLineGraphicItem = new RouteLineGraphicItem(this.route.getBackwardRoutePoints(), 1);
+        map.getGraphicItems().add(routeBackwardLineGraphicItem);
     }
 
     private void setCarTypeIcon() {

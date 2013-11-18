@@ -1,0 +1,19 @@
+CREATE TABLE Cities (_id NUMERIC UNIQUE, Name TEXT, Lat NUMERIC, Lng NUMERIC);
+CREATE TABLE Stops (_id NUMERIC UNIQUE, StopNameForSearch TEXT, StopName TEXT, CityId NUMERIC, Lat NUMERIC, Lng NUMERIC);
+CREATE TABLE StopsOnRoutes (StopId NUMERIC, RouteId NUMERIC, StopIndex NUMERIC, PRIMARY KEY(StopId, RouteId, StopIndex));
+CREATE TABLE Routes (_id NUMERIC UNIQUE, CityId NUMERIC, Number TEXT, TransportTypeId NUMERIC, Interval TEXT, StartEnd TEXT, WorkTime TEXT, Distance NUMERIC, NumberString TEXT, ExtremeStopFirstId NUMERIC, ExtremeStopSecondId NUMERIC, Price NUMERIC, GeometryForward BLOB, GeometryBackward BLOB);
+CREATE TABLE android_metadata (locale TEXT);
+CREATE TABLE metainfo (LastUpdate TEXT);
+
+
+INSERT INTO android_metadata VALUES('en_US');
+
+===CHECK====
+select * from StopsOnRoutes where StopId=0
+
+SELECT * From Routes WHERE TransportTypeId = 1004
+
+SELECT DISTINCT TransportTypeId FROM Routes ORDER BY  (TransportTypeId )
+
+UPDATE  Routes 
+SET TransportTypeId = 8 WHERE  TransportTypeId=1008

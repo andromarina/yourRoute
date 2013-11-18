@@ -27,5 +27,8 @@
     <string name="need_to_fill_main_search_field">"Название остановки отправления должно содержать не менее 3 символов"</string>
     <string name="need_to_fill_route_search_field">"Введите номер маршрута"</string>
     <string name="note">"Результаты поиска включают только прямые маршруты"</string>
+    <string name="load_map_title">"Загрузить карту?"</string>
+    <string name="map_loading">"Загрузка карты"</string>
+    <string name="load_map_body">"Размер карты составляет 100 Мб. Хотите загрузить её сейчас?"</string>
 
 </resources>

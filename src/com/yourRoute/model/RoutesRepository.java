@@ -8,6 +8,7 @@ import contentProvider.Contracts.Routes;
 import contentProvider.RoutesContentProvider;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.sql.Blob;
 import java.util.ArrayList;
 
@@ -156,11 +157,11 @@ public class RoutesRepository {
 
         int geometryForwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_FORWARD_COLUMN_NAME);
         byte[] geometryForward = routesCursor.getBlob(geometryForwardColumnIndex);
-        ByteBuffer geometryForwardWrapped = ByteBuffer.wrap(geometryForward);
+        ByteBuffer geometryForwardWrapped = ByteBuffer.wrap(geometryForward).order(ByteOrder.LITTLE_ENDIAN);
 
         int geometryBackwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_BACKWARD_COLUMN_NAME);
         byte[] geometryBackward = routesCursor.getBlob(geometryBackwardColumnIndex);
-        ByteBuffer geometryBackwardWrapped = ByteBuffer.wrap(geometryBackward);
+        ByteBuffer geometryBackwardWrapped = ByteBuffer.wrap(geometryBackward).order(ByteOrder.LITTLE_ENDIAN);
 
         Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime, cityId, price,
                 extremeStopFirstId, extremeStopSecondId, geometryForwardWrapped, geometryBackwardWrapped);
