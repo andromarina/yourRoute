@@ -1,11 +1,10 @@
 package maps.item;
 
-import android.R;
 import android.graphics.drawable.Drawable;
+import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.Stop;
 import org.mapsforge.android.maps.MapView;
-import org.mapsforge.android.maps.MapViewPosition;
 import org.mapsforge.android.maps.overlay.ListOverlay;
 import org.mapsforge.android.maps.overlay.Marker;
 import org.mapsforge.android.maps.overlay.Overlay;
@@ -25,11 +24,9 @@ import java.util.List;
 public class StopsCollectionGraphicItem implements IGraphicItem {
     private Overlay overlay;
     private GeoPoint centerGeoPoint;
-    private int direction;
 
     public StopsCollectionGraphicItem(ArrayList<Stop> stopsCollection, int direction) {
         this.overlay = createStopsCollectionSymbols(stopsCollection, direction);
-        this.direction = direction;
     }
 
 
@@ -40,19 +37,19 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
         return geoPoint;
     }
 
-    private Marker createMarker(GeoPoint geoPoint) {
+    private Marker createMarker(GeoPoint geoPoint, int direction) {
 
-        return new Marker(geoPoint, Marker.boundCenterBottom(getDrawableForMarker()));
+        return new Marker(geoPoint, Marker.boundCenterBottom(getDrawableForMarker(direction)));
     }
 
-    private Drawable getDrawableForMarker() {
+    private Drawable getDrawableForMarker(int direction) {
         Drawable itemDefaultMarker;
-        switch (this.direction) {
+        switch (direction) {
             case 0:
-                itemDefaultMarker = YourRouteApp.getYourRouteAppContext().getResources().getDrawable(R.drawable.star_on);
+                itemDefaultMarker = YourRouteApp.getYourRouteAppContext().getResources().getDrawable(R.drawable.point_red);
                 return itemDefaultMarker;
             case 1:
-                itemDefaultMarker = YourRouteApp.getYourRouteAppContext().getResources().getDrawable(R.drawable.star_off);
+                itemDefaultMarker = YourRouteApp.getYourRouteAppContext().getResources().getDrawable(R.drawable.point_blue);
                 return itemDefaultMarker;
            }
          return null;
@@ -64,7 +61,7 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
 
         for (int i = 0; i < stopsCollection.size(); ++i) {
             Stop stop = stopsCollection.get(i);
-            Marker marker = createMarker(createGeoPoint(stop));
+            Marker marker = createMarker(createGeoPoint(stop), direction);
             overlayItems.add(marker);
         }
         if (direction == 0) {

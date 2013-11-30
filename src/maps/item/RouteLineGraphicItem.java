@@ -3,6 +3,7 @@ package maps.item;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import com.yourRoute.R;
 import com.yourRoute.model.Point;
 import org.mapsforge.android.maps.MapView;
 import org.mapsforge.android.maps.overlay.*;
@@ -22,10 +23,12 @@ import java.util.List;
 public class RouteLineGraphicItem implements IGraphicItem {
     private int direction;
     private ArrayList<Point> points;
+    private Overlay overlay;
 
     public RouteLineGraphicItem(ArrayList<Point> points, int direction) {
          this.direction = direction;
          this.points = points;
+         this.overlay = createPolyline();
     }
 
     private ArrayList<GeoPoint> createGeoPointsArray(ArrayList<Point> points) {
@@ -42,7 +45,10 @@ public class RouteLineGraphicItem implements IGraphicItem {
         return result;
     }
 
-    private Polyline createPolyline() {
+    private Overlay createPolyline() {
+
+        ListOverlay listOverlay = new ListOverlay();
+        List<OverlayItem> overlayItems = listOverlay.getOverlayItems();
 
         ArrayList<GeoPoint> geoPoints = createGeoPointsArray(this.points);
         PolygonalChain polygonalChain = new PolygonalChain(geoPoints);
@@ -50,22 +56,20 @@ public class RouteLineGraphicItem implements IGraphicItem {
         Paint paintStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintStroke.setStyle(Paint.Style.STROKE);
         if (this.direction == 0) {
-            paintStroke.setColor(Color.MAGENTA);
+            paintStroke.setColor(Color.RED);
         } else {
             paintStroke.setColor(Color.BLUE);
         }
 
         paintStroke.setAlpha(128);
         paintStroke.setStrokeWidth(7);
-        paintStroke.setPathEffect(new DashPathEffect(new float[] { 25, 15 }, 0));
+   //     paintStroke.setPathEffect(new DashPathEffect(new float[] { 25, 15 }, 0));
+        overlayItems.add(new Polyline(polygonalChain, paintStroke));
 
-        return new Polyline(polygonalChain, paintStroke);
+        return listOverlay;
     }
     @Override
     public void draw(MapView mapView) {
-        ListOverlay listOverlay = new ListOverlay();
-        List<OverlayItem> overlayItems = listOverlay.getOverlayItems();
-        overlayItems.add(createPolyline());
-        mapView.getOverlays().add(listOverlay);
+        mapView.getOverlays().add(this.overlay);
     }
 }

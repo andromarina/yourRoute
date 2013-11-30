@@ -1,5 +1,6 @@
 package com.yourRoute.model;
 
+import android.util.Log;
 import com.yourRoute.Preferences;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.mainActivity.IFavoritesChangedListener;
@@ -17,6 +18,7 @@ import java.util.Collections;
 public class Favorites {
 
     private IFavoritesChangedListener listener;
+    private final String LOG_TAG = getClass().getSimpleName();
 
 
     public void setListener(IFavoritesChangedListener favoritesChangedListener) {
@@ -53,15 +55,23 @@ public class Favorites {
         ArrayList<Integer> favoriteIds = getAllFavoritesId();
         ArrayList<Route> routesArray = new ArrayList<>();
         if (favoriteIds.isEmpty()) {
+            Log.d(LOG_TAG, "getAllFavoriteRoutes: favotiteIds is empty");
             return routesArray;
         }
 
         for (int favoriteId : favoriteIds) {
             RoutesHolder routesHolder = YourRouteApp.getRoutesHolder();
             Route route = routesHolder.findRouteById(favoriteId);
-            routesArray.add(route);
+            if (route != null) {
+                routesArray.add(route);
+                Log.d(LOG_TAG, "getAllFavoriteRoutes: route added");
+            } else {
+                Preferences.deleteFavoriteRouteId(favoriteId);
+                Log.d(LOG_TAG, "getAllFavoriteRoutes: route " + favoriteId + "deleted");
+            }
         }
         Collections.sort(routesArray);
+        Log.d(LOG_TAG, "getAllFavorites: routes array size: " + routesArray.size());
         return routesArray;
     }
 

@@ -3,6 +3,7 @@ package com.yourRoute.model;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Debug;
 import android.util.Log;
 import contentProvider.Contracts.Routes;
 import contentProvider.RoutesContentProvider;
@@ -41,15 +42,24 @@ public class RoutesRepository {
 
     public Route getRoute(int routeId) {
         String query = String.format("%s/%d", ROUTES_URI.toString(), routeId);
-        Log.i("Test", "getRoute query" + query);
+        Log.d(LOG_TAG, "getRoute query " + query);
         Cursor routesCursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
-        routesCursor.moveToFirst();
-        Route route = createRoute(routesCursor);
-        routesCursor.close();
-        return route;
+
+        try {
+            routesCursor.moveToFirst();
+            Route route = createRoute(routesCursor);
+            routesCursor.close();
+            return route;
+        }
+        catch (Exception ex) {
+            Log.d(LOG_TAG, "Can't get this route. Ex: " + ex.getMessage());
+        }
+
+        return null;
     }
 
     public ArrayList<Route> getRoutesByStopName(String query, int cityId) {
+
         ArrayList<Route> routes = new ArrayList<Route>();
         Cursor routesCursor;
         String selection;
@@ -66,6 +76,7 @@ public class RoutesRepository {
         }
         routesCursor.close();
         return routes;
+
     }
 
     public ArrayList<Route> getRoutesByRouteName(String query, int cityId) {
@@ -124,7 +135,9 @@ public class RoutesRepository {
 
         // TODO refactor contracts. Column index was hardcoded
 
-        int id = routesCursor.getInt(1);
+        int idColumnIndex = routesCursor.getColumnIndex(Routes._ID);
+        int id = routesCursor.getInt(idColumnIndex);
+
         int routeNameColumnIndex = routesCursor.getColumnIndex(ROUTE_NAME_FULL_COLUMN_NAME);
         String name = routesCursor.getString(routeNameColumnIndex);
 
@@ -157,14 +170,13 @@ public class RoutesRepository {
 
         int geometryForwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_FORWARD_COLUMN_NAME);
         byte[] geometryForward = routesCursor.getBlob(geometryForwardColumnIndex);
-        ByteBuffer geometryForwardWrapped = ByteBuffer.wrap(geometryForward).order(ByteOrder.LITTLE_ENDIAN);
 
         int geometryBackwardColumnIndex = routesCursor.getColumnIndex(GEOMETRY_BACKWARD_COLUMN_NAME);
         byte[] geometryBackward = routesCursor.getBlob(geometryBackwardColumnIndex);
-        ByteBuffer geometryBackwardWrapped = ByteBuffer.wrap(geometryBackward).order(ByteOrder.LITTLE_ENDIAN);
+
 
         Route route = new Route(id, name, carTypeId, startEnd, length, interval, startTime, cityId, price,
-                extremeStopFirstId, extremeStopSecondId, geometryForwardWrapped, geometryBackwardWrapped);
+                extremeStopFirstId, extremeStopSecondId, geometryForward, geometryBackward);
         return route;
     }
 

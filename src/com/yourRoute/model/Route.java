@@ -3,6 +3,7 @@ package com.yourRoute.model;
 import com.yourRoute.R;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 /**
@@ -28,13 +29,13 @@ public class Route implements Comparable<Route> {
     private final float price;
     private final int extremeStopFirstId;
     private final int extremeStopSecondId;
-    private final ByteBuffer geometryForward;
-    private final ByteBuffer geometryBackward;
+    private final byte[] geometryForward;
+    private final byte[] geometryBackward;
 
 
     public Route(int id, String name, int carType, String startEnd,
                  String length, String interval, String workTime, int cityId, float price, int extremeStopFirstId,
-                 int extremeStopSecondId, ByteBuffer geometryForward, ByteBuffer geometryBackward) {
+                 int extremeStopSecondId, byte[] geometryForward, byte[] geometryBackward) {
         this.id = id;
         this.name = (name == null) ? "" : name;
         this.carType = carType;
@@ -172,25 +173,17 @@ public class Route implements Comparable<Route> {
     }
 
 
-    private static ArrayList<Float> byteBufferToFloatArray(ByteBuffer byteBuffer) {
-        ArrayList<Float> result = new ArrayList<>();
-        while (byteBuffer.hasRemaining()) {
-            float i = byteBuffer.getFloat();
-            result.add(i);
-        }
-        return result;
-    }
-
-    private static ArrayList<Point> createPointsArray(ByteBuffer byteBuffer) {
-
+    private static ArrayList<Point> createPointsArray(byte[] geometry) {
+        ByteBuffer geometryWrapped = ByteBuffer.wrap(geometry).order(ByteOrder.LITTLE_ENDIAN);
         ArrayList<Point> result = new ArrayList<>();
-        ArrayList<Float> floats = byteBufferToFloatArray(byteBuffer);
-        for (int i = 0; i < floats.size(); i += 2) {
-            Float lat = floats.get(i);
-            Float lng = floats.get(i + 1);
+
+        while (geometryWrapped.hasRemaining()) {
+            Float lat = geometryWrapped.getFloat();
+            Float lng = geometryWrapped.getFloat();
             Point point = new Point(lat, lng);
             result.add(point);
         }
+
         return result;
     }
 

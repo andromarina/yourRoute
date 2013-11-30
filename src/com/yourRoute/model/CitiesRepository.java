@@ -24,6 +24,7 @@ public class CitiesRepository {
     private final String NAME_COLUMN_NAME = Cities.NAME;
     private final String LAT_COLUMN_NAME = Cities.LAT;
     private final String LNG_COLUMN_NAME = Cities.LNG;
+    private final String LOG_TAG = this.getClass().getSimpleName();
 
     public CitiesRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
@@ -57,7 +58,7 @@ public class CitiesRepository {
 
     public City getCity(int cityId) {
         String query = String.format("%s/%d", CITIES_URI.toString(), cityId);
-        Log.i("Test", "getCity query" + query);
+        Log.d(LOG_TAG, "getCity query: " + query);
         Cursor cursor = this.contentResolver.query(Uri.parse(query), null, null, null, null);
         cursor.moveToFirst();
         int nameColumnIndex = cursor.getColumnIndex(NAME_COLUMN_NAME);

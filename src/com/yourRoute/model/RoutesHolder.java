@@ -2,6 +2,7 @@ package com.yourRoute.model;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.os.Debug;
 import com.yourRoute.Preferences;
 
 import java.util.ArrayList;
@@ -38,14 +39,16 @@ public class RoutesHolder {
         return city;
     }
 
-    public Route findRouteById(int cityId) {
-        Route route = this.routesRepository.getRoute(cityId);
+    public Route findRouteById(int routeId) {
+        Route route = this.routesRepository.getRoute(routeId);
         return route;
     }
 
     public ArrayList<Route> findRoutesByStopName(String stopName, String optionalStopName, int cityId) {
+
         ArrayList<Route> routes = this.routesRepository.getRoutesByStopName(stopName, cityId);
         if(optionalStopName == null || optionalStopName.isEmpty()) {
+            Debug.stopMethodTracing();
             return routes;
         }
         ArrayList<Route> routesOptional = this.routesRepository.getRoutesByStopName(optionalStopName,cityId);

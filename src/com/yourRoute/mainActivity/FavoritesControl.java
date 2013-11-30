@@ -38,19 +38,24 @@ public class FavoritesControl extends RelativeLayout implements IFavoritesChange
 
     public FavoritesControl(Context context, AttributeSet attr){
         super(context, attr);
+        Log.d(LOG_TAG, "enter constructor");
         this.context = context;
         this.favorites = YourRouteApp.getFavorites();
         this.routesHolder = YourRouteApp.getRoutesHolder();
         YourRouteApp.getFavorites().setListener(this);
+        Log.d(LOG_TAG, "setled favorites listener");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layout = (RelativeLayout) inflater.inflate(R.layout.favorites_tab, this);
+        Log.d(LOG_TAG, "inflated");
         refreshFavoritesList();
+
     }
 
 
     private void refreshFavoritesList() {
 
         final ArrayList<Route> routes = this.favorites.getAllFavoriteRoutes();
+        Log.d(LOG_TAG, "Refresh favorites: routes array size: " + routes.size());
         TextView noResults = (TextView) layout.findViewById(R.id.no_favorites);
 
         if (routes.isEmpty()) {

@@ -16,7 +16,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //public static final String DB_PATH = "/data/data/contentProvider/databases/";
 
     public static final String DB_NAME = "db.sqlite";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
     private SQLiteDatabase myDataBase;
     private final Context myContext;
     final private String LOG_TAG = this.getClass().getSimpleName();
@@ -30,6 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context) {
 
         super(context, DB_NAME, null, DATABASE_VERSION);
+        Log.d(LOG_TAG, "CurrentDB version: " + DATABASE_VERSION);
         this.myContext = context;
     }
 
@@ -41,8 +42,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         boolean dbExist = checkDataBase();
 
         if (dbExist) {
-
-            Log.d(LOG_TAG, "DB exists");
+            int currentVersion = getWritableDatabase().getVersion();
+            Log.d(LOG_TAG, "DB already exists, version: " + currentVersion);
         } else {
 
             //By calling this method and empty database will be created into the default system path
@@ -68,26 +69,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * @return true if it exists, false if it doesn't
      */
     private boolean checkDataBase() {
-
-        SQLiteDatabase checkDB = null;
+        Log.d(LOG_TAG, "enter to checkDataBase");
+        SQLiteDatabase checkDB;
 
         try {
-
             checkDB = SQLiteDatabase.openDatabase(myContext.getDatabasePath(DB_NAME).getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
-
+            Log.d(LOG_TAG, "check DB finished");
         } catch (SQLiteException e) {
-            Log.d(LOG_TAG, "DB doesn't exist yet");
-            //database does't exist yet.
-
+            Log.d(LOG_TAG, "Can't open DB: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            Log.d(LOG_TAG, "Exception: " + e.getMessage());
+            return false;
         }
 
-        if (checkDB != null) {
+        checkDB.close();
+        Log.d(LOG_TAG, "DB was closed");
 
-            checkDB.close();
-            Log.d(LOG_TAG, "DB was closed");
-        }
-
-        return (checkDB != null);
+        return true;
     }
 
     /**
@@ -101,7 +100,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             AssetManager am = myContext.getAssets();
             InputStream myInput = am.open(DB_NAME);
             Log.d(LOG_TAG, "DB was opened for copying");
-
 
             //Open the empty db as the output stream
             isDirectoryExists();
@@ -147,6 +145,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d(LOG_TAG, "OnCreate DB helper");
         myDataBase = db;
     }
 
@@ -159,6 +158,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             try {
                 myContext.deleteDatabase(DB_NAME);
                 copyDataBase();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

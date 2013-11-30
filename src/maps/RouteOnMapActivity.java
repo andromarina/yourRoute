@@ -27,7 +27,7 @@ public class RouteOnMapActivity extends MapActivity {
     private void configureMapView() {
         this.mapView.setClickable(true);
         this.mapView.setBuiltInZoomControls(true);
-        byte zoomLevel = (byte)12;
+        byte zoomLevel = (byte)13;
         this.mapView.getMapViewPosition().setZoomLevel(zoomLevel);
         FileOpenResult fileOpenResult = mapView.setMapFile(new File(Map.PATH_TO_THE_MAP));
         if (!fileOpenResult.isSuccess()) {
