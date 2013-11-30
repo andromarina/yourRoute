@@ -16,7 +16,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //public static final String DB_PATH = "/data/data/contentProvider/databases/";
 
     public static final String DB_NAME = "db.sqlite";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 3;
     private SQLiteDatabase myDataBase;
     private final Context myContext;
     final private String LOG_TAG = this.getClass().getSimpleName();
