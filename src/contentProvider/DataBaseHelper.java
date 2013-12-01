@@ -48,16 +48,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
-            this.getWritableDatabase();
+            SQLiteDatabase db = this.getWritableDatabase();
             Log.d(LOG_TAG, "get writable DB was called");
             try {
-
-                copyDataBase();
+                copyDataBase(db);
 
             } catch (IOException e) {
                 Log.d(LOG_TAG, "Error copying DB");
                 throw new Error("Error copying database");
-
             }
         }
 
@@ -76,10 +74,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             checkDB = SQLiteDatabase.openDatabase(myContext.getDatabasePath(DB_NAME).getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
             Log.d(LOG_TAG, "check DB finished");
         } catch (SQLiteException e) {
-            Log.d(LOG_TAG, "Can't open DB: " + e.getMessage());
+            Log.d(LOG_TAG, "Can't open DB");
             return false;
         } catch (Exception e) {
-            Log.d(LOG_TAG, "Exception: " + e.getMessage());
+            Log.d(LOG_TAG, "Exception: ");
             return false;
         }
 
@@ -94,15 +92,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * system folder, from where it can be accessed and handled.
      * This is done by transfering bytestream.
      */
-    private void copyDataBase() throws IOException {
+    private void copyDataBase(SQLiteDatabase db) throws IOException {
+
         try {
             //Open your local db as the input stream
             AssetManager am = myContext.getAssets();
             InputStream myInput = am.open(DB_NAME);
             Log.d(LOG_TAG, "DB was opened for copying");
-
             //Open the empty db as the output stream
-            isDirectoryExists();
             OutputStream myOutput = new FileOutputStream(myContext.getDatabasePath(DB_NAME));
             Log.d(LOG_TAG, "file output stream was opened");
             //transfer bytes from the inputfile to the outputfile
@@ -116,20 +113,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             myOutput.flush();
             myOutput.close();
             myInput.close();
+            //since we copy database, reset version manually
+            db.setVersion(DATABASE_VERSION);
         } catch (Throwable ex) {
             Log.d(LOG_TAG, "error copying: " + ex);
-        }
-    }
-
-
-    public void isDirectoryExists() {
-        String dbpath = myContext.getDatabasePath(DB_NAME).getAbsolutePath();
-        Log.d(LOG_TAG, "dbpath " + dbpath);
-        File dir = new File(dbpath + "/databases/");
-        if (dir.exists() && dir.isDirectory()) {
-            Log.d(LOG_TAG, "directory exists");
-        } else {
-            Log.d(LOG_TAG, "Directory doesn't exist");
         }
     }
 
@@ -149,15 +136,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         myDataBase = db;
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(LOG_TAG, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         if (newVersion > oldVersion) {
-            Log.d(LOG_TAG, "create DB was called");
+
             try {
                 myContext.deleteDatabase(DB_NAME);
-                copyDataBase();
+                Log.d(LOG_TAG, "delete DB was called");
+                copyDataBase(db);
 
             } catch (IOException e) {
                 e.printStackTrace();

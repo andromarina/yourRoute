@@ -52,7 +52,7 @@ public class RoutesContentProvider extends BaseContentProvider {
     DataBaseHelper dbHelper;
 
     public RoutesContentProvider() {
-        Log.d("DBHelper", "My provider called");
+        Log.d(LOG_TAG, "My provider called");
     }
 
     @Override
@@ -78,7 +78,6 @@ public class RoutesContentProvider extends BaseContentProvider {
             Toast.makeText(getContext(), "Error DB creation", 5).show();
             return false;
         }
-
         this.queryBuilders = initializeQueryBuilders(dbHelper);
         return true;
     }

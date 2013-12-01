@@ -21,7 +21,7 @@ public class Preferences {
     private static final String FAVORITES = "Favorites";
     private static SharedPreferences sPref;
     private static Context context;
-    private static String LOG_TAG = "Preferences";
+    private final static String LOG_TAG = "Preferences";
 
     public static void initialize(Context context) {
         Preferences.context = context;
@@ -33,7 +33,7 @@ public class Preferences {
         SharedPreferences.Editor ed = sPref.edit();
         ed.putInt(CITY_ID, cityId);
         ed.commit();
-        Log.d(LOG_TAG, cityId + "City id saved");
+        Log.d(LOG_TAG, cityId + " city id saved");
     }
 
     public static int getSavedCityId() {
