@@ -16,9 +16,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //public static final String DB_PATH = "/data/data/contentProvider/databases/";
 
     public static final String DB_NAME = "db.sqlite";
-    private static final int DATABASE_VERSION = 3;
-    private SQLiteDatabase myDataBase;
+   private static final int DATABASE_VERSION = 3;
     private final Context myContext;
+    private int oldVersion = -1;
     final private String LOG_TAG = this.getClass().getSimpleName();
 
     /**
@@ -42,16 +42,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         boolean dbExist = checkDataBase();
 
         if (dbExist) {
-            int currentVersion = getWritableDatabase().getVersion();
-            Log.d(LOG_TAG, "DB already exists, version: " + currentVersion);
+            SQLiteDatabase db = this.getWritableDatabase();
+            if (oldVersion == 0) {
+                Log.d(LOG_TAG, "DB version is 0");
+                db.close();
+                copyDataBase();
+                //reopen after copy
+                this.getWritableDatabase();
+            }
+
         } else {
 
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             SQLiteDatabase db = this.getWritableDatabase();
+            db.close();
             Log.d(LOG_TAG, "get writable DB was called");
             try {
-                copyDataBase(db);
+                copyDataBase();
+                //reopen after copy
+                this.getWritableDatabase();
 
             } catch (IOException e) {
                 Log.d(LOG_TAG, "Error copying DB");
@@ -92,7 +102,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * system folder, from where it can be accessed and handled.
      * This is done by transfering bytestream.
      */
-    private void copyDataBase(SQLiteDatabase db) throws IOException {
+    private void copyDataBase() throws IOException {
 
         try {
             //Open your local db as the input stream
@@ -113,27 +123,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             myOutput.flush();
             myOutput.close();
             myInput.close();
-            //since we copy database, reset version manually
-            db.setVersion(DATABASE_VERSION);
         } catch (Throwable ex) {
             Log.d(LOG_TAG, "error copying: " + ex);
         }
     }
 
     @Override
-    public synchronized void close() {
-
-        if (myDataBase != null)
-            myDataBase.close();
-
-        super.close();
-
-    }
-
-    @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(LOG_TAG, "OnCreate DB helper");
-        myDataBase = db;
+        oldVersion = db.getVersion();
     }
 
 
@@ -146,7 +144,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             try {
                 myContext.deleteDatabase(DB_NAME);
                 Log.d(LOG_TAG, "delete DB was called");
-                copyDataBase(db);
+                copyDataBase();
 
             } catch (IOException e) {
                 e.printStackTrace();
