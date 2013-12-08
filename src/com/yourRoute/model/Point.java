@@ -26,4 +26,5 @@ public class Point {
     public float getLng() {
         return lng;
     }
+
 }

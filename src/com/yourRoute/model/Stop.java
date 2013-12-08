@@ -1,5 +1,7 @@
 package com.yourRoute.model;
 
+import android.util.Log;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mara
@@ -14,6 +16,7 @@ public class Stop {
     private final int cityId;
     private final float lat;
     private final float lng;
+    private final String LOG_TAG = getClass().getSimpleName();
 
     public Stop(int id, String name, int stopIndex, int cityId, float lat, float lng) {
         this.id = id;
@@ -41,10 +44,12 @@ public class Stop {
     }
 
     public float getLat() {
+        Log.d(LOG_TAG, this.name + " lat: " + lat);
         return lat;
     }
 
     public float getLng() {
+        Log.d(LOG_TAG, this.name + " lng: " + lng);
         return lng;
     }
 }

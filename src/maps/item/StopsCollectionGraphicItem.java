@@ -1,17 +1,17 @@
 package maps.item;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.model.Stop;
 import org.mapsforge.android.maps.MapView;
-import org.mapsforge.android.maps.overlay.ListOverlay;
-import org.mapsforge.android.maps.overlay.Marker;
-import org.mapsforge.android.maps.overlay.Overlay;
-import org.mapsforge.android.maps.overlay.OverlayItem;
+import org.mapsforge.android.maps.overlay.*;
 import org.mapsforge.core.model.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,8 +38,31 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
     }
 
     private Marker createMarker(GeoPoint geoPoint, int direction) {
+        Marker marker = new Marker(geoPoint, Marker.boundCenterBottom(getDrawableForMarker(direction)));
+        return marker;
+    }
 
-        return new Marker(geoPoint, Marker.boundCenterBottom(getDrawableForMarker(direction)));
+    private Polyline createRectangular(GeoPoint geoPoint) {
+        PolygonalChain chain = new PolygonalChain(createPointsForRectangular(geoPoint));
+        Paint paintStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintStroke.setStyle(Paint.Style.STROKE);
+        paintStroke.setColor(Color.BLACK);
+
+        paintStroke.setAlpha(128);
+        paintStroke.setStrokeWidth(3);
+        return new Polyline(chain, paintStroke);
+    }
+
+    private Collection<GeoPoint> createPointsForRectangular(GeoPoint geoPoint) {
+        float delta = 0.001f;
+
+        Collection<GeoPoint> collection = new ArrayList<GeoPoint>();
+        collection.add(new GeoPoint(geoPoint.latitude - delta, geoPoint.longitude - delta));
+        collection.add(new GeoPoint(geoPoint.latitude - delta, geoPoint.longitude + delta));
+        collection.add(new GeoPoint(geoPoint.latitude + delta, geoPoint.longitude + delta));
+        collection.add(new GeoPoint(geoPoint.latitude + delta, geoPoint.longitude - delta));
+        collection.add(new GeoPoint(geoPoint.latitude - delta, geoPoint.longitude - delta));
+        return collection;
     }
 
     private Drawable getDrawableForMarker(int direction) {
@@ -62,7 +85,9 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
         for (int i = 0; i < stopsCollection.size(); ++i) {
             Stop stop = stopsCollection.get(i);
             Marker marker = createMarker(createGeoPoint(stop), direction);
+            Polyline rectangular = createRectangular(createGeoPoint(stop));
             overlayItems.add(marker);
+            overlayItems.add(rectangular);
         }
         if (direction == 0) {
            this.centerGeoPoint = createCenterGeoPoint(stopsCollection);

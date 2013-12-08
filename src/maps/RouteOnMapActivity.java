@@ -29,6 +29,8 @@ public class RouteOnMapActivity extends MapActivity {
         this.mapView.setBuiltInZoomControls(true);
         byte zoomLevel = (byte)13;
         this.mapView.getMapViewPosition().setZoomLevel(zoomLevel);
+        OnMapViewListener listener = new OnMapViewListener(YourRouteApp.getMap().getHandler());
+        this.mapView.setOnTouchListener(listener);
         FileOpenResult fileOpenResult = mapView.setMapFile(new File(Map.PATH_TO_THE_MAP));
         if (!fileOpenResult.isSuccess()) {
             Toast.makeText(this, fileOpenResult.getErrorMessage(), Toast.LENGTH_LONG).show();
@@ -62,6 +64,5 @@ public class RouteOnMapActivity extends MapActivity {
     protected void onDestroy() {
         super.onDestroy();
         YourRouteApp.getMap().clearGraphicItems();
-        this.mapView.getOverlays().clear();
     }
 }

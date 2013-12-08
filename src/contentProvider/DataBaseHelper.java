@@ -87,7 +87,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Log.d(LOG_TAG, "Can't open DB");
             return false;
         } catch (Exception e) {
-            Log.d(LOG_TAG, "Exception: ");
+            Log.d(LOG_TAG, "Exception");
             return false;
         }
 

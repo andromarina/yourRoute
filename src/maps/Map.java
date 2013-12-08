@@ -22,10 +22,12 @@ public class Map {
     public static final String PATH_TO_THE_FOLDER = Environment.getExternalStorageDirectory() + File.separator + FOLDER_NAME;
     public static final String PATH_TO_THE_MAP = PATH_TO_THE_FOLDER + File.separator + FILE_NAME;
     private ArrayList<IGraphicItem> items;
+    private ITouchHandler handler;
 
 
     public Map() {
         this.items = new ArrayList<>();
+        this.handler = new StopTouchHandler();
     }
 
     public ArrayList<IGraphicItem> getGraphicItems() {
@@ -53,6 +55,10 @@ public class Map {
         mapDownloadManager.showDownloadDialog(fragmentManager);
 
         return false;
+    }
+
+    public ITouchHandler getHandler() {
+        return this.handler;
     }
 
 
