@@ -6,8 +6,10 @@
     <solid
             android:color="#33b5e5"/>
 
+    <stroke android:width="3dp" android:color="#ffffff"></stroke>
+
     <size
-            android:width="10dp"
-            android:height="10dp"/>
+            android:width="15dp"
+            android:height="15dp"/>
 
 </shape>

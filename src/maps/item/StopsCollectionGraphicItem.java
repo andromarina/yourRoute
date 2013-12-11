@@ -37,8 +37,9 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
         return geoPoint;
     }
 
-    private Marker createMarker(GeoPoint geoPoint, int direction) {
-        Marker marker = new Marker(geoPoint, Marker.boundCenterBottom(getDrawableForMarker(direction)));
+    private MarkerWithText createMarker(GeoPoint geoPoint, int direction, String text) {
+        MarkerWithText marker = new MarkerWithText(geoPoint, Marker.boundCenterBottom(getDrawableForMarker(direction)),
+                text);
         return marker;
     }
 
@@ -84,10 +85,10 @@ public class StopsCollectionGraphicItem implements IGraphicItem {
 
         for (int i = 0; i < stopsCollection.size(); ++i) {
             Stop stop = stopsCollection.get(i);
-            Marker marker = createMarker(createGeoPoint(stop), direction);
-            Polyline rectangular = createRectangular(createGeoPoint(stop));
+            MarkerWithText marker = createMarker(createGeoPoint(stop), direction, stop.getName());
+        //    Polyline rectangular = createRectangular(createGeoPoint(stop));
             overlayItems.add(marker);
-            overlayItems.add(rectangular);
+        //   overlayItems.add(rectangular);
         }
         if (direction == 0) {
            this.centerGeoPoint = createCenterGeoPoint(stopsCollection);
