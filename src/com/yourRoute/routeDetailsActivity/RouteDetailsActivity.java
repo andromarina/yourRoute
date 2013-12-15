@@ -196,6 +196,7 @@ public class RouteDetailsActivity extends FragmentActivity {
     public boolean onMapClick() {
         Map map = YourRouteApp.getMap();
         FragmentManager fragmentManager = getFragmentManager();
+
         if(map.prepareMap(this, fragmentManager)) {
             addGraphicItems(map);
             Intent intent = new Intent(this, RouteOnMapActivity.class);

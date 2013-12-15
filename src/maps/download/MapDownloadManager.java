@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 import com.yourRoute.R;
 import maps.Map;
+import org.w3c.dom.DOMError;
 
 import java.io.File;
 import java.util.List;
@@ -87,8 +89,8 @@ public class MapDownloadManager {
         request.setDestinationInExternalPublicDir(Map.FOLDER_NAME, Map.FILE_NAME);
 
        // get download service and enqueue file
-        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
         return true;
     }
 
@@ -97,7 +99,6 @@ public class MapDownloadManager {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 startDownload();
                 dialog.dismiss();
             }

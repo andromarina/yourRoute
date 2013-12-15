@@ -31,8 +31,8 @@ public class MapDownloadDialog extends DialogFragment implements DialogInterface
         builder.setTitle(R.string.load_map_title);
         builder.setMessage(R.string.load_map_body);
 
-        builder.setPositiveButton(android.R.string.ok, listener);
-        builder.setNegativeButton(android.R.string.cancel, this);
+        builder.setPositiveButton(android.R.string.yes, listener);
+        builder.setNegativeButton(android.R.string.no, this);
         return builder.create();
     }
 

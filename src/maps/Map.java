@@ -23,6 +23,7 @@ public class Map {
     public static final String PATH_TO_THE_MAP = PATH_TO_THE_FOLDER + File.separator + FILE_NAME;
     private ArrayList<IGraphicItem> items;
     private ITouchHandler handler;
+    private MapDownloadManager mapDownloadManager;
 
 
     public Map() {
@@ -51,7 +52,7 @@ public class Map {
             return true;
         }
 
-        MapDownloadManager mapDownloadManager = new MapDownloadManager(activityContext, PATH_TO_THE_FOLDER);
+        this.mapDownloadManager = new MapDownloadManager(activityContext, PATH_TO_THE_FOLDER);
         mapDownloadManager.showDownloadDialog(fragmentManager);
 
         return false;

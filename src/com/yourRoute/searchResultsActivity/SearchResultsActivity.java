@@ -1,8 +1,9 @@
 package com.yourRoute.searchResultsActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
  * Time: 9:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchResultsActivity extends Activity {
+public class SearchResultsActivity extends FragmentActivity {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     ListView searchResultsListView;
@@ -48,6 +49,9 @@ public class SearchResultsActivity extends Activity {
         this.routesHolder = YourRouteApp.getRoutesHolder();
         switch (getSearchMode()) {
             case 1:
+                FragmentManager fm = getSupportFragmentManager();
+                MySpinner mySpinner = new MySpinner();
+                mySpinner.show(fm, "Spinner dialog");
                 doSearchByStreetName();
                 break;
             case 2:

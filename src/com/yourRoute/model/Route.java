@@ -89,21 +89,18 @@ public class Route implements Comparable<Route> {
                 iconResource = R.drawable.ic_metro;
                 return iconResource;
             case 2:
-            case 5:
                 iconResource = R.drawable.ic_trolley;
                 return iconResource;
             case 3:
-            case 7:
                 iconResource = R.drawable.ic_tram;
                 return iconResource;
             case 4:
-            case 8:
                 iconResource = R.drawable.ic_bus;
                 return iconResource;
             case 6:
                 iconResource = R.drawable.ic_electro_train;
                 return iconResource;
-            case 9:
+            case 5:
                 iconResource = R.drawable.ic_boat;
                 return iconResource;
         }

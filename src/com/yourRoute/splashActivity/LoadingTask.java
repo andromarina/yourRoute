@@ -3,6 +3,8 @@ package com.yourRoute.splashActivity;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+import contentProvider.RoutesContentProvider;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +13,7 @@ import android.widget.ProgressBar;
  * Time: 9:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoadingTask extends AsyncTask<String, Integer, Integer> {
+public class LoadingTask extends AsyncTask<String, Integer, Boolean> {
     private final String LOG_TAG = getClass().getSimpleName();
 
     public interface LoadingTaskFinishedListener {
@@ -32,35 +34,16 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String... params) {
-        Log.d(LOG_TAG, "Starting task with url: " + params[0]);
-        if(resourcesDontAlreadyExist()){
-            downloadResources();
+    protected Boolean doInBackground(String... params) {
+        Log.d(LOG_TAG, "Starting do in background");
+        if(RoutesContentProvider.instance().initializeDB()){
+            Log.d(LOG_TAG, "do in background true");
+            return true;
         }
-        // Perhaps you want to return something to your post execute
-        return 1234;
+        Log.d(LOG_TAG, "do in background false");
+        return false;
     }
 
-    private boolean resourcesDontAlreadyExist() {
-        // Here you would query your app's internal state to see if this download had been performed before
-        // Perhaps once checked save this in a shared preference for speed of access next time
-        return true; // returning true so we show the splash every time
-    }
-
-
-    private void downloadResources() {
-        // We are just imitating some process thats takes a bit of time (loading of resources / downloading)
-        int count = 10;
-        for (int i = 0; i < count; i++) {
-
-            // Update the progress bar after every step
-            int progress = (int) ((i / (float) count) * 100);
-            publishProgress(progress);
-
-            // Do some long loading things
-            try { Thread.sleep(1000); } catch (InterruptedException ignore) {}
-        }
-    }
 //
 //    @Override
 //    protected void onProgressUpdate(Integer... values) {
@@ -69,8 +52,8 @@ public class LoadingTask extends AsyncTask<String, Integer, Integer> {
 //    }
 
     @Override
-    protected void onPostExecute(Integer result) {
+    protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
-        finishedListener.onTaskFinished(); // Tell whoever was listening we have finished
+        finishedListener.onTaskFinished();
     }
 }

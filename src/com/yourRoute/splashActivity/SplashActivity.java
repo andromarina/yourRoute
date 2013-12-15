@@ -21,7 +21,7 @@ public class SplashActivity extends Activity implements LoadingTask.LoadingTaskF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.activity_splash_progress_bar);
-        new LoadingTask(progressBar, this).execute("www.google.co.uk"); // Pass in whatever you need a url is just an example we don't use it in this tutorial
+        new LoadingTask(progressBar, this).execute();
     }
 
     // This is the callback for when your async task has finished
