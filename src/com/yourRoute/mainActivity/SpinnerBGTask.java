@@ -1,10 +1,9 @@
 package com.yourRoute.mainActivity;
 
-import android.R;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import com.yourRoute.YourRouteApp;
+import com.yourRoute.R;
 import com.yourRoute.searchResultsActivity.IBackgroundMaker;
 
 /**
@@ -30,7 +29,7 @@ public class SpinnerBGTask extends AsyncTask{
         super.onPreExecute();
         this.progressDialog = ProgressDialog.show(context, "test", "wait");
         progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(R.style.Widget_Holo_ProgressBar);
+        progressDialog.setContentView(R.layout.loading_spinner);
     }
 
     @Override
