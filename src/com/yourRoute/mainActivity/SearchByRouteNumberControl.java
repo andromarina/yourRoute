@@ -12,7 +12,6 @@ import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
 import com.yourRoute.controls.CustomSearchField;
-import com.yourRoute.mainActivity.ISearchProvider;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.model.RoutesRepository;
 import com.yourRoute.searchResultsActivity.SearchResultsActivity;

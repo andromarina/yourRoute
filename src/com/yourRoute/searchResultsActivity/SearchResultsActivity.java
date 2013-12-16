@@ -1,5 +1,6 @@
 package com.yourRoute.searchResultsActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
+import com.yourRoute.mainActivity.SpinnerBGTask;
 import com.yourRoute.model.Route;
 import com.yourRoute.model.RoutesHolder;
 import com.yourRoute.routeDetailsActivity.RouteDetailsActivity;
@@ -24,13 +27,13 @@ import java.util.ArrayList;
  * Time: 9:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchResultsActivity extends FragmentActivity {
+public class SearchResultsActivity extends FragmentActivity implements IBackgroundMaker {
 
     private final String LOG_TAG = this.getClass().getSimpleName();
     ListView searchResultsListView;
     TextView noSearchResults;
     private RoutesHolder routesHolder;
-
+    ArrayList<Route> routes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +41,9 @@ public class SearchResultsActivity extends FragmentActivity {
         setContentView(R.layout.search_results_activity);
         getActionBar().setDisplayShowTitleEnabled(true);
         getActionBar().setTitle(R.string.search_results);
-
         findViews();
-        initialize();
-
+        SpinnerBGTask loading = new SpinnerBGTask(this, this);
+        loading.execute();
     }
 
     private void initialize() {
@@ -49,9 +51,6 @@ public class SearchResultsActivity extends FragmentActivity {
         this.routesHolder = YourRouteApp.getRoutesHolder();
         switch (getSearchMode()) {
             case 1:
-                FragmentManager fm = getSupportFragmentManager();
-                MySpinner mySpinner = new MySpinner();
-                mySpinner.show(fm, "Spinner dialog");
                 doSearchByStreetName();
                 break;
             case 2:
@@ -97,15 +96,15 @@ public class SearchResultsActivity extends FragmentActivity {
         String searchKeyOptional = getOptionalStopNameKey();
         Log.d(LOG_TAG, "Optional street search name: " + searchKeyOptional);
         int stopCityId = getCityId();
-        final ArrayList<Route> routes = this.routesHolder.findRoutesByStopName(searchKeyMain, searchKeyOptional, stopCityId);
-        refreshSearchResults(routes);
+        this.routes = this.routesHolder.findRoutesByStopName(searchKeyMain, searchKeyOptional, stopCityId);
+
     }
 
     private void doSearchByRouteName() {
         String searchKey = getRouteNumberKey();
         int savedCityId = this.routesHolder.getSavedCityId();
-        final ArrayList<Route> routes = this.routesHolder.findRoutesByRouteName(searchKey, savedCityId);
-        refreshSearchResults(routes);
+        this.routes = this.routesHolder.findRoutesByRouteName(searchKey, savedCityId);
+
     }
 
     private String getStopNameKey() {
@@ -136,4 +135,14 @@ public class SearchResultsActivity extends FragmentActivity {
         return searchMode;
     }
 
+    @Override
+    public boolean doInBackground() {
+        initialize();
+        return true;
+    }
+
+    @Override
+    public void onFinished() {
+        refreshSearchResults(this.routes);
+    }
 }

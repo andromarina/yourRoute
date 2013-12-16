@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.yourRoute.R;
 import com.yourRoute.YourRouteApp;
@@ -72,9 +73,17 @@ public class SearchByStopsControl extends LinearLayout implements ISearchProvide
         stopNameSearchButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
                 startActivityForSearchByStopName();
             }
         });
+    }
+
+    private void hideKeyboard() {
+
+        InputMethodManager imm = (InputMethodManager)  this.context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.stopSearchMain.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(this.stopSearchOptional.getWindowToken(), 0);
     }
 
     private void startActivityForSearchByStopName() {
