@@ -12,7 +12,7 @@
 
     <application
             android:name=".YourRouteApp"
-            android:debuggable="true"
+            android:debuggable="false"
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
