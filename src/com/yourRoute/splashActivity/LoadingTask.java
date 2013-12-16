@@ -17,7 +17,8 @@ public class LoadingTask extends AsyncTask<String, Integer, Boolean> {
     private final String LOG_TAG = getClass().getSimpleName();
 
     public interface LoadingTaskFinishedListener {
-        void onTaskFinished(); // If you want to pass something back to the listener add a param to this method
+        void onTaskFinished();
+
     }
 
     private final ProgressBar progressBar;
@@ -35,7 +36,8 @@ public class LoadingTask extends AsyncTask<String, Integer, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-        Log.d(LOG_TAG, "Starting do in background");
+        Log.d(LOG_TAG, "Starting do in background" + Thread.currentThread().getName());
+
         if(RoutesContentProvider.instance().initializeDB()){
             Log.d(LOG_TAG, "do in background true");
             return true;
@@ -54,6 +56,7 @@ public class LoadingTask extends AsyncTask<String, Integer, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
+        Log.d(LOG_TAG, "onPostExecute called " + Thread.currentThread().getName());
         finishedListener.onTaskFinished();
     }
 }

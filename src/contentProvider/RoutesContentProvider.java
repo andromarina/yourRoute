@@ -85,9 +85,8 @@ public class RoutesContentProvider extends BaseContentProvider {
 //            Toast.makeText(getContext(), "Error DB creation", 5).show();
 //            return false;
 //        }
-        if(dbHelper == null) {
-           initializeDB();
-        }
+
+        dbHelper = new DataBaseHelper(getContext());
         this.queryBuilders = initializeQueryBuilders(dbHelper);
 //
         return true;
@@ -108,7 +107,7 @@ public class RoutesContentProvider extends BaseContentProvider {
     }
 
     public boolean initializeDB() {
-        dbHelper = new DataBaseHelper(getContext());
+
         try {
             dbHelper.createDataBase();
         } catch (Throwable ex) {
