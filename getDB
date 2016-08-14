@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# fill these values in
+PACKAGE=com.yourRoute
+DB=db.sqlite
+
+# copy db to sdcard using package permission (using cat because no cp    command)
+adb shell "run-as $PACKAGE cat /data/data/$PACKAGE/databases/$DB >   /sdcard/$DB"
+
+# pull file from sd card
+adb pull /sdcard/$DB
+
+# do something with it (need to install sqlitebrowser obviously)
+sqlite3 $DB
